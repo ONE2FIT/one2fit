@@ -1,91 +1,713 @@
 <!DOCTYPE html>
 <html lang="zh-HK">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>One2Fit 諮詢流程</title>
-<style>
-    .consult-container {
-        font-family: 'Helvetica Neue', Arial, sans-serif;
-        max-width: 500px;
-        margin: 20px auto;
-        padding: 30px;
-        border: 2px solid #4CAF50;
-        border-radius: 20px;
-        background-color: #ffffff;
-        box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-    }
-    .consult-header {
-        color: #1B4D3E; /* 森林深綠，專業感 */
-        text-align: center;
-        margin-bottom: 25px;
-    }
-    .consult-desc {
-        text-align: center;
-        color: #555;
-        margin-bottom: 25px;
-        line-height: 1.5;
-    }
-    .consult-link {
-        display: block;
-        padding: 18px;
-        margin-bottom: 15px;
-        border-radius: 12px;
-        text-decoration: none;
-        font-weight: bold;
-        transition: all 0.3s ease;
-        border-left: 6px solid;
-    }
-    /* 階段一與二：綠色系 (木) */
-    .link-green {
-        background: #F1F8E9;
-        color: #2E7D32;
-        border-color: #4CAF50;
-    }
-    /* 階段三：大地金色系 (土) */
-    .link-gold {
-        background: #FFFBF0;
-        color: #B8860B;
-        border-color: #D4AF37;
-    }
-    .consult-link:hover {
-        transform: scale(1.02);
-        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    }
-    .footer-text {
-        font-size: 0.85em;
-        text-align: center;
-        color: #888;
-        margin-top: 30px;
-    }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ONE2FIT｜運動康復服務總覽暨顧問地圖</title>
+    <style>
+        /* ── 全域重設與基底 ── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Noto Sans TC', 'PingFang HK', system-ui, sans-serif;
+            background: #f7f9f5;
+            color: #1e2e1e;
+            padding: 24px 16px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 32px;
+            box-shadow: 0 20px 50px rgba(30, 46, 30, 0.08);
+            padding: 32px 28px;
+        }
+
+        /* ── 品牌標頭 ── */
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        .brand-icon {
+            font-size: 28px;
+            font-weight: 800;
+            color: #1B5E20;
+            letter-spacing: 1px;
+        }
+        .brand-icon span {
+            color: #F9A825;
+        }
+        .brand-tag {
+            background: #E8F5E9;
+            color: #2E7D32;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 2px 14px;
+            border-radius: 30px;
+            letter-spacing: 0.5px;
+        }
+
+        /* ── 標語 ── */
+        .tagline {
+            border-left: 5px solid #F9A825;
+            padding-left: 18px;
+            margin: 16px 0 28px 0;
+            font-size: 18px;
+            font-weight: 500;
+            color: #1B5E20;
+            line-height: 1.5;
+        }
+        .tagline small {
+            display: block;
+            font-weight: 400;
+            color: #4a5a4a;
+            font-size: 15px;
+            margin-top: 4px;
+        }
+
+        /* ── 顧問地圖區塊 (整合自 rehab.html) ── */
+        .consult-section {
+            background: #ffffff;
+            border: 2px solid #2E7D32;
+            border-radius: 24px;
+            padding: 24px;
+            margin: 28px 0;
+            box-shadow: 0 10px 25px rgba(46, 125, 50, 0.05);
+        }
+        .consult-header {
+            color: #1B5E20;
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .consult-desc {
+            color: #555;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+        .consult-links-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+        .consult-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 16px;
+            border-radius: 16px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 15px;
+            transition: all 0.3s ease;
+            border-left: 6px solid;
+            line-height: 1.4;
+        }
+        .link-green {
+            background: #F1F8E9;
+            color: #2E7D32;
+            border-color: #4CAF50;
+        }
+        .link-gold {
+            background: #FFFBF0;
+            color: #B8860B;
+            border-color: #F9A825;
+        }
+        .consult-link:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        @media (max-width: 768px) {
+            .consult-links-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+        }
+
+        /* ── 四大服務區塊（總覽） ── */
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1B5E20;
+            margin: 36px 0 16px 0;
+            padding-bottom: 6px;
+            border-bottom: 3px solid #E8F5E9;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title .badge {
+            background: #F9A825;
+            color: #1B5E20;
+            font-size: 13px;
+            font-weight: 700;
+            padding: 0 14px;
+            border-radius: 30px;
+            line-height: 26px;
+        }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px 30px;
+            background: #F9FBF7;
+            padding: 20px 24px;
+            border-radius: 20px;
+            margin-bottom: 8px;
+        }
+        .service-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 15px;
+            line-height: 1.5;
+            padding: 4px 0;
+            border-bottom: 1px dashed rgba(46, 125, 50, 0.10);
+        }
+        .service-item:last-child {
+            border-bottom: none;
+        }
+        .service-item .icon {
+            font-size: 18px;
+            min-width: 28px;
+            text-align: center;
+            color: #2E7D32;
+        }
+        .service-item .label {
+            font-weight: 600;
+            color: #1B5E20;
+        }
+        .service-item .desc {
+            color: #3d4f3d;
+        }
+
+        @media (max-width: 640px) {
+            .service-grid {
+                grid-template-columns: 1fr;
+                padding: 16px;
+                gap: 6px;
+            }
+            .container {
+                padding: 20px 14px;
+            }
+            .tagline {
+                font-size: 16px;
+                padding-left: 14px;
+            }
+        }
+
+        /* ── 問題詳情（手風琴） ── */
+        .faq-section {
+            margin-top: 28px;
+        }
+        .faq-item {
+            border: 1px solid #e0ebe0;
+            border-radius: 16px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: 0.2s;
+            background: #ffffff;
+        }
+        .faq-item:hover {
+            border-color: #a5c9a5;
+        }
+
+        .faq-question {
+            width: 100%;
+            background: none;
+            border: none;
+            padding: 18px 22px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #1B5E20;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            font-family: inherit;
+            line-height: 1.4;
+            transition: 0.15s;
+        }
+        .faq-question:hover {
+            background: #F6FAF5;
+        }
+        .faq-question .arrow {
+            font-size: 20px;
+            color: #2E7D32;
+            flex-shrink: 0;
+            transition: transform 0.25s;
+        }
+        .faq-question .q-icon {
+            font-size: 22px;
+            margin-right: 6px;
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.25s ease;
+            padding: 0 22px;
+            background: #FAFCF9;
+            border-top: 1px solid transparent;
+        }
+        .faq-answer-inner {
+            padding: 18px 0 22px 0;
+            color: #2a3d2a;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+        .faq-answer-inner strong {
+            color: #1B5E20;
+        }
+        .faq-answer-inner ul {
+            margin: 8px 0 4px 20px;
+            padding-left: 6px;
+            list-style: none;
+        }
+        .faq-answer-inner li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 4px;
+        }
+        .faq-answer-inner li::before {
+            content: "▹";
+            position: absolute;
+            left: 0;
+            color: #F9A825;
+            font-weight: 700;
+        }
+
+        .faq-answer-inner .tag {
+            display: inline-block;
+            background: #E8F5E9;
+            color: #1B5E20;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 1px 14px;
+            border-radius: 30px;
+            margin-right: 6px;
+        }
+
+        /* 展開狀態 */
+        .faq-item.open {
+            border-color: #2E7D32;
+            box-shadow: 0 4px 16px rgba(46, 125, 50, 0.06);
+        }
+        .faq-item.open .faq-answer {
+            max-height: 1200px;
+            padding: 0 22px;
+            border-top-color: #dce8dc;
+        }
+        .faq-item.open .arrow {
+            transform: rotate(180deg);
+        }
+
+        /* ── 流程圖 ── */
+        .flow {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 8px 12px;
+            background: #E8F5E9;
+            border-radius: 60px;
+            padding: 16px 28px;
+            margin: 40px 0 10px 0;
+        }
+        .flow-step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: #1B5E20;
+            font-size: 15px;
+            }
+        .flow-step .num {
+            background: #F9A825;
+            color: #1B5E20;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 800;
+        }
+        .flow-arrow {
+            color: #a0b8a0;
+            font-size: 20px;
+            font-weight: 300;
+        }
+        @media (max-width: 550px) {
+            .flow {
+                border-radius: 28px;
+                padding: 14px 18px;
+                flex-direction: column;
+                gap: 4px;
+            }
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+        }
+
+        /* ── 底部聯絡 ── */
+        .footer {
+            margin-top: 36px;
+            padding-top: 24px;
+            border-top: 2px solid #E8F5E9;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+        }
+        .footer .contact {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px 28px;
+            font-size: 15px;
+            font-weight: 500;
+            color: #1B5E20;
+        }
+        .footer .contact span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .footer .copy {
+            font-size: 13px;
+            color: #6f856f;
+        }
+        .btn-cta {
+            background: #F9A825;
+            color: #1B5E20;
+            font-weight: 700;
+            padding: 12px 28px;
+            border-radius: 60px;
+            text-decoration: none;
+            font-size: 15px;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(249, 168, 37, 0.2);
+        }
+        .btn-cta:hover {
+            background: #f0b800;
+            transform: scale(1.02);
+        }
+
+        @media (max-width: 600px) {
+            .footer {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .footer .contact {
+                gap: 10px 20px;
+                font-size: 14px;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<div class="consult-container">
-    <h2 class="consult-header">One2Fit 健康顧問地圖</h2>
-    <p class="consult-desc">請選擇您目前的階段，顧問將為您規劃專屬的復康路徑：</p>
-    
-    <!-- 階段一 -->
-    <!-- 將你的按鈕區塊改為以下格式 -->
-    <a href="rehab-assessment.html" class="consult-link link-green">
-    🟢 階段一：急性痛症與基礎評估
-    </a>
-    
-    <a href="breath-rehab.html" class="consult-link link-green">
-    🟢 階段二：呼吸力學復康與結構重建
-    </a>
-    
-    <a href="advanced-pro.html" class="consult-link link-gold">
-    🟡 階段三：年度健康管理 / 教練進修
-    </a>
-     
-    
-    <div class="footer-text">
-        One2Fit 專業復康團隊<br>
-        觀塘成業街27號日昇中心地下G6
+<div class="container">
+
+    <!-- ═══ 品牌 Header ═══ -->
+    <div class="brand">
+        <div class="brand-icon">ONE2<span>FIT</span></div>
+        <div class="brand-tag">運動康復</div>
     </div>
+
+    <!-- ═══ 標語 ═══ -->
+    <div class="tagline">
+        「從足底到頭頂，從呼吸到步態」
+        <small>—— 不是處理症狀，而是重置身體的力學系統。</small>
+    </div>
+
+    <!-- ═══ 顧問地圖區塊 (整合自 rehab.html) ═══ -->
+    <section class="consult-section">
+        <h3 class="consult-header">🗺️ ONE2FIT 健康顧問地圖</h3>
+        <p class="consult-desc">請選擇您目前的階段，顧問將為您規劃專屬的復康路徑：</p>
+        <div class="consult-links-grid">
+            <a href="rehab-assessment.html" class="consult-link link-green">
+                🟢 階段一：<br>急性痛症與基礎評估
+            </a>
+            <a href="breath-rehab.html" class="consult-link link-green">
+                🟢 階段二：<br>呼吸力學復康與結構重建
+            </a>
+            <a href="advanced-pro.html" class="consult-link link-gold">
+                🟡 階段三：<br>年度健康管理 / 教練進修
+            </a>
+        </div>
+    </section>
+
+    <!-- ═══ 服務總覽（四大區塊） ═══ -->
+
+    <!-- 1. 體態評估與矯正 -->
+    <div class="section-title">
+        🟢 體態評估與矯正
+        <span class="badge">6 項</span>
+    </div>
+    <div class="service-grid">
+        <div class="service-item"><span class="icon">🦴</span><span><span class="label">富貴包調整</span><span class="desc"> — 頸胸交界力學重建</span></span></div>
+        <div class="service-item"><span class="icon">🪽</span><span><span class="label">翼狀肩胛矯正</span><span class="desc"> — 啟動前鋸肌，貼回胸廓</span></span></div>
+        <div class="service-item"><span class="icon">🦴</span><span><span class="label">骨盆歪斜矯正</span><span class="desc"> — 前/後/側傾與旋轉</span></span></div>
+        <div class="service-item"><span class="icon">🦵</span><span><span class="label">腿型整合矯正</span><span class="desc"> — X/O/K/XO 型腿力線重建</span></span></div>
+        <div class="service-item"><span class="icon">👣</span><span><span class="label">足踝功能重建</span><span class="desc"> — 扁平足／拇指外翻</span></span></div>
+        <div class="service-item"><span class="icon">📐</span><span><span class="label">脊柱側彎輔助調整</span><span class="desc"> — 高低肩／長短腿代償解除</span></span></div>
+    </div>
+
+    <!-- 2. 疼痛管理與功能恢復 -->
+    <div class="section-title">
+        🟡 疼痛管理與功能恢復
+        <span class="badge">5 項</span>
+    </div>
+    <div class="service-grid">
+        <div class="service-item"><span class="icon">🔥</span><span><span class="label">慢性疼痛處理</span><span class="desc"> — 頸椎病／腰肌勞損／足跟痛</span></span></div>
+        <div class="service-item"><span class="icon">🦵</span><span><span class="label">膝關節疼痛整合處理</span><span class="desc"> — 跑步膝／髕骨軟化／退化</span></span></div>
+        <div class="service-item"><span class="icon">🔄</span><span><span class="label">關節活動度重建</span><span class="desc"> — 蹲／舉／轉頭功能改善</span></span></div>
+        <div class="service-item"><span class="icon">⚡</span><span><span class="label">神經卡壓緩解</span><span class="desc"> — 手麻／腿麻／坐骨神經痛</span></span></div>
+        <div class="service-item"><span class="icon">🏥</span><span><span class="label">運動損傷修復</span><span class="desc"> — 半月板／踝關節／彈響髖</span></span></div>
+    </div>
+
+    <!-- 3. 內臟功能與呼吸重建 -->
+    <div class="section-title">
+        🌿 內臟功能與呼吸重建
+        <span class="badge">3 項</span>
+    </div>
+    <div class="service-grid">
+        <div class="service-item"><span class="icon">🌀</span><span><span class="label">骨盆底功能重建</span><span class="desc"> — 尿頻／痛經／性功能減退</span></span></div>
+        <div class="service-item"><span class="icon">🌬️</span><span><span class="label">呼吸模式重置</span><span class="desc"> — 胸悶／氣短／吸氣聳肩</span></span></div>
+        <div class="service-item"><span class="icon">💪</span><span><span class="label">腹壓與核心力量重建</span><span class="desc"> — 胃下垂／便秘／核心無力</span></span></div>
+    </div>
+
+    <!-- 4. 整合性課程與訓練 -->
+    <div class="section-title">
+        📘 整合性課程與訓練
+        <span class="badge">5 項</span>
+    </div>
+    <div class="service-grid">
+        <div class="service-item"><span class="icon">🧑‍🤝‍🧑</span><span><span class="label">一對一整合矯正課程</span><span class="desc"> — 客製化徒手＋訓練</span></span></div>
+        <div class="service-item"><span class="icon">🍎</span><span><span class="label">康復＋營養教練課程</span><span class="desc"> — 運動×營養雙軌並行</span></span></div>
+        <div class="service-item"><span class="icon">📅</span><span><span class="label">五日體態重建工作坊</span><span class="desc"> — 頭頸→肩胛→骨盆→足踝→力線</span></span></div>
+        <div class="service-item"><span class="icon">🎧</span><span><span class="label">呼吸五部曲線上課程</span><span class="desc"> — 躺姿到動態完整訓練</span></span></div>
+        <div class="service-item"><span class="icon">🏢</span><span><span class="label">企業／團體健康講座</span><span class="desc"> — 辦公室體態衛教與預防</span></span></div>
+    </div>
+
+    <!-- ═══ 常見問題詳解（手風琴） ═══ -->
+    <div class="faq-section">
+        <div class="section-title" style="margin-top:8px;">
+            📖 常見體態與痛症問題詳解
+            <span class="badge">點擊展開</span>
+        </div>
+
+        <!-- 1. 富貴包 -->
+        <div class="faq-item">
+            <button class="faq-question">
+                <span><span class="q-icon">Bone</span> 富貴包（頸胸交界處脂肪堆積）</span>
+                <span class="arrow">▾</span>
+            </button>
+            <div class="faq-answer">
+                <div class="faq-answer-inner">
+                    <p><strong>📍 症狀</strong><br>
+                    頸後出現明顯腫塊／硬塊，常伴隨頸部僵硬、頭痛、頭暈、肩膀緊繃，嚴重時影響手臂活動。</p>
+                    <p><strong>🔍 根源</strong><br>
+                    並非單純脂肪堆積，而是 <strong>頭前傾＋胸椎過度後凸</strong> 的力學代償。<br>
+                    長期低頭看手機、電腦螢幕過低、胸肌過緊、上背無力都會加劇。</p>
+                    <p><strong>✅ 運動康復介入</strong></p>
+                    <ul>
+                        <li><span class="tag">呼吸</span> 上氣呼吸（Upper Airway Breathing）＋被動擺位呼吸，釋放頸部張力</li>
+                        <li><span class="tag">活動度</span> 胸椎後伸＋頸深屈肌啟動</li>
+                        <li><span class="tag">強化</span> 下斜方肌＋前鋸肌，重建肩胛穩定</li>
+                        <li><span class="tag">居家</span> 靠牆站立＋下巴後縮練習</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. 翼狀肩胛 -->
+        <div class="faq-item">
+            <button class="faq-question">
+                <span><span class="q-icon">🪽</span> 翼狀肩胛（肩胛骨翹起）</span>
+                <span class="arrow">▾</span>
+            </button>
+            <div class="faq-answer">
+                <div class="faq-answer-inner">
+                    <p><strong>📍 症狀</strong><br>
+                    肩胛骨內緣明顯翹起，呈「天使翅膀」狀，常伴隨肩頸痠痛、手臂上舉無力、抬手時有聲響。</p>
+                    <p><strong>🔍 根源</strong><br>
+                    <strong>前鋸肌無力</strong> ＋ <strong>胸小肌過緊</strong>，導致肩胛骨失去貼合胸廓的穩定力。<br>
+                    常見於長期含胸、伏案工作、缺乏上肢訓練者。</p>
+                    <p><strong>✅ 運動康復介入</strong></p>
+                    <ul>
+                        <li><span class="tag">放鬆</span> 胸小肌伸展＋胸椎活動度打開</li>
+                        <li><span class="tag">激活</span> 前鋸肌啟動（牆壁推推／四足支撐肩胛前引）</li>
+                        <li><span class="tag">強化</span> 下斜方肌＋中斜方肌，讓肩胛骨後收下沉</li>
+                        <li><span class="tag">整合</span> 肩胛控制融入日常動作（提物／推門）</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. 骨盆歪斜 -->
+        <div class="faq-item">
+            <button class="faq-question">
+                <span><span class="q-icon">🦴</span> 骨盆歪斜（前傾／後傾／側傾／旋轉）</span>
+                <span class="arrow">▾</span>
+            </button>
+            <div class="faq-answer">
+                <div class="faq-answer-inner">
+                    <p><strong>📍 症狀</strong><br>
+                    腰痠背痛、小腹突出（即使不胖）、臀部扁平、站立時重心偏向一側、長短腿感覺、經痛加劇。</p>
+                    <p><strong>🔍 根源</strong><br>
+                    <strong>核心無力</strong> ＋ <strong>髖部肌群失衡</strong>（髂腰肌過緊／臀肌無力／髖外展肌群不平衡）。<br>
+                    久坐、翹腳、單側負重都是常見誘因。</p>
+                    <p><strong>✅ 運動康復介入</strong></p>
+                    <ul>
+                        <li><span class="tag">評估</span> 靜態姿勢＋動態步態分析，鑑別前／後／側傾類型</li>
+                        <li><span class="tag">放鬆</span> 髂腰肌／髖屈肌／腰方肌伸展</li>
+                        <li><span class="tag">啟動</span> 臀中肌＋臀大肌＋腹橫肌（360度腹內壓訓練）</li>
+                        <li><span class="tag">矯正</span> 骨盆中立位建立（呼吸＋核心整合）</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. 腿型問題 -->
+        <div class="faq-item">
+            <button class="faq-question">
+                <span><span class="q-icon">🦵</span> X/O/K/XO型腿</span>
+                <span class="arrow">▾</span>
+            </button>
+            <div class="faq-answer">
+                <div class="faq-answer-inner">
+                    <p><strong>📍 症狀</strong><br>
+                    膝蓋內扣／外翻／不對稱，常伴隨膝蓋痛、足踝不穩、走路姿勢異常、鞋底磨損不均。</p>
+                    <p><strong>🔍 根源</strong><br>
+                    <strong>髖關節控制力不足</strong> ＋ <strong>足弓支撐功能失調</strong>，導致下肢力線傳導異常。<br>
+                    常見於扁平足、臀肌無力、長期穿高跟鞋或缺乏下肢穩定訓練者。</p>
+                    <p><strong>✅ 運動康復介入</strong></p>
+                    <ul>
+                        <li><span class="tag">足踝</span> 足弓激活＋腳趾抓地訓練</li>
+                        <li><span class="tag">膝關節</span> 膝蓋軌跡控制（深蹲／分腿蹲）</li>
+                        <li><span class="tag">髖關節</span> 臀中肌＋髖外旋肌群強化</li>
+                        <li><span class="tag">整合</span> 下肢力線重建＋步態訓練</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. 足踝問題 -->
+        <div class="faq-item">
+            <button class="faq-question">
+                <span><span class="q-icon">👣</span> 足弓塌陷（扁平足）／拇指外翻</span>
+                <span class="arrow">▾</span>
+            </button>
+            <div class="faq-answer">
+                <div class="faq-answer-inner">
+                    <p><strong>📍 症狀</strong><br>
+                    站立時足弓塌陷、拇指根部凸出變形、走路易足底痛、小腿緊繃、膝蓋痛、腰痠。</p>
+                    <p><strong>🔍 根源</strong><br>
+                    <strong>足底肌肉無力</strong> ＋ <strong>力線代償</strong>（身體為適應足部結構而改變步態）。<br>
+                    穿鞋過度、缺乏赤足活動、先天結構或後天姿勢習慣皆有影響。</p>
+                    <p><strong>✅ 運動康復介入</strong></p>
+                    <ul>
+                        <li><span class="tag">評估</span> 足印分析＋單腳站立測試＋走路觀察</li>
+                        <li><span class="tag">激活</span> 足底肌肉（短足訓練／腳趾抓毛巾）</li>
+                        <li><span class="tag">整合</span> 足弓意識融入站立及步行</li>
+                        <li><span class="tag">長期</span> 結合下肢力線訓練，避免代償</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. 脊柱側彎／高低肩／長短腿 -->
+        <div class="faq-item">
+            <button class="faq-question">
+                <span><span class="q-icon">📐</span> 脊柱側彎／高低肩／長短腿</span>
+                <span class="arrow">▾</span>
+            </button>
+            <div class="faq-answer">
+                <div class="faq-answer-inner">
+                    <p><strong>📍 症狀</strong><br>
+                    肩膀一高一低、骨盆歪斜、長期腰背不對稱性痠痛、易疲勞、走路時感覺重心偏一邊。</p>
+                    <p><strong>🔍 根源</strong><br>
+                    <strong>全身力線失衡</strong> —— 脊柱側彎多數為功能性代償，源自足弓、骨盆或呼吸模式異常。<br>
+                    先天性結構側彎另需醫療介入。</p>
+                    <p><strong>✅ 運動康復介入</strong></p>
+                    <ul>
+                        <li><span class="tag">呼吸</span> 對側呼吸擴張＋不對稱姿勢下的呼吸訓練</li>
+                        <li><span class="tag">結構</span> 骨盆歸位＋肩胛控制＋足弓重建</li>
+                        <li><span class="tag">訓練</span> 單側強化薄弱肌群（下斜方肌／臀中肌）</li>
+                        <li><span class="tag">整合</span> 日常姿勢管理（坐／站／行）</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ═══ 服務流程 ═══ -->
+    <div class="flow">
+        <div class="flow-step"><span class="num">1</span>評估</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step"><span class="num">2</span>徒手調整</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step"><span class="num">3</span>動作訓練</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step"><span class="num">4</span>強化肌肉</div>
+        <span class="flow-arrow">→</span>
+        <div class="flow-step"><span class="num">5</span>穩定效果</div>
+    </div>
+
+    <!-- ═══ 底部聯絡 ═══ -->
+    <div class="footer">
+        <div class="contact">
+            <span>📞 6150 0005</span>
+            <span>📩 @one.2_fit</span>
+            <span>📍 觀塘成業街27號日昇中心地下G6室</span>
+        </div>
+        <div style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+            <span class="copy">© ONE2FIT STUDIO</span>
+            <a href="https://wa.me/85261500005?text=你好，我瀏覽了ONE2FIT服務總覽，想預約一對一專業評估。" class="btn-cta" target="_blank">📲 預約評估</a>
+        </div>
+    </div>
+
 </div>
+
+<script>
+    // ── 手風琴功能 ──
+    document.querySelectorAll('.faq-question').forEach(button => {
+        button.addEventListener('click', function() {
+            const item = this.closest('.faq-item');
+            const isOpen = item.classList.contains('open');
+
+            if (isOpen) {
+                item.classList.remove('open');
+            } else {
+                item.classList.add('open');
+            }
+        });
+    });
+</script>
 
 </body>
 </html>

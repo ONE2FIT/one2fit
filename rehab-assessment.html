@@ -1,9 +1,80 @@
 <!DOCTYPE html>
 <html lang="zh-HK">
-<head><meta charset="UTF-8"><title>精準健康評估 | One2Fit</title></head>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>精準健康評估 | One2Fit 復康顧問</title>
+    <style>
+        :root {
+            --primary-green: #4CAF50; /* 補木 - 青草綠 */
+            --dark-green: #1B4D3E;    /* 專業深綠 */
+            --earth-gold: #D4AF37;   /* 補土 - 大地金 */
+            --bg-white: #FFFFFF;
+            --text-color: #333;
+        }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: var(--text-color); margin: 0; background-color: #f9f9f9; }
+        
+        /* Hero Section */
+        .hero { background-color: var(--bg-white); padding: 50px 20px; text-align: center; border-bottom: 5px solid var(--primary-green); }
+        .hero h1 { color: var(--dark-green); font-size: 2.2em; margin-bottom: 10px; }
+        
+        /* Content Section */
+        .container { max-width: 800px; margin: 30px auto; padding: 20px; }
+        .card { background: var(--bg-white); padding: 30px; border-radius: 15px; border: 1px solid #e0e0e0; margin-bottom: 20px; }
+        .card h2 { color: var(--primary-green); border-left: 5px solid var(--primary-green); padding-left: 15px; }
+        
+        /* List Items */
+        ul { list-style: none; padding: 0; }
+        li { padding: 10px 0; border-bottom: 1px solid #eee; display: flex; align-items: center; }
+        li::before { content: "✓"; color: var(--primary-green); font-weight: bold; margin-right: 15px; }
+
+        /* CTA Button - 補土之紮實 */
+        .cta-button { 
+            display: block; width: 100%; max-width: 400px; margin: 40px auto; 
+            background-color: var(--earth-gold); color: white; padding: 20px; 
+            text-align: center; text-decoration: none; font-weight: bold; 
+            border-radius: 50px; font-size: 1.2em; transition: 0.3s;
+        }
+        .cta-button:hover { background-color: #b8860b; transform: scale(1.03); }
+        
+        .footer { text-align: center; color: #888; margin-top: 50px; font-size: 0.9em; }
+    </style>
+</head>
 <body>
-    <h1>精準健康評估與痛症根源分析</h1>
-    <p>透過科學數據，找出你疼痛的源頭。</p>
-    <a href="index.html">返回主頁</a>
+
+    <header class="hero">
+        <h1>痛症，是身體發出的求救訊號。</h1>
+        <p>別再只用止痛藥壓抑訊號，找出根源才是修復的起點。</p>
+    </header>
+
+    <div class="container">
+        <section class="card">
+            <h2>評估，是復康的起點</h2>
+            <p>我們的 60 分鐘深度評估，為你建立專屬的身體數據庫：</p>
+            <ul>
+                <li>專業身體組成分析 (InBody)</li>
+                <li>靜態與動態血壓監測</li>
+                <li>血糖趨勢評估</li>
+                <li>關節活動度與受限評估</li>
+                <li>功能性體態與姿勢分析</li>
+                <li>呼吸效能與肺活量測試</li>
+            </ul>
+        </section>
+
+        <section class="card">
+            <h2>為什麼需要專業評估？</h2>
+            <p>很多人嘗試過各種推拿或伸展，但痛症總是在幾天後回歸。因為你只處理了「結果」，卻忽略了「結構」。我們的評估目標是精準追蹤痛症源頭，為你量身定做下一個階段的復康計劃。</p>
+        </section>
+
+        <a href="https://wa.me/852你的電話?text=你好，我想預約【60分鐘深度健康評估】" class="cta-button">
+            預約 60 分鐘深度健康評估
+        </a>
+    </div>
+
+    <footer class="footer">
+        <p>One2Fit 專業復康顧問中心 | 觀塘成業街27號日昇中心地下G6</p>
+        <a href="index.html">返回首頁</a>
+    </footer>
+
 </body>
 </html>

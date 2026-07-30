@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🧠 60分鐘腳底訓練 - 專注力友善版 | 青少年腦科學教練</title>
+    <title>🧠 60分鐘腳底訓練 - 專注力友善修正版 | 青少年腦科學教練</title>
     <style>
         :root {
             --bg: #fdf6f0;
@@ -12,12 +12,15 @@
             --accent: #ff7b42;
             --accent2: #3ec1a5;
             --warn: #ffb347;
+            --danger: #e74c3c;
             --rest: #8b7bf7;
             --card: #ffffff;
             --border: #f0dcc8;
             --shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
             --font: 'Segoe UI', 'Helvetica Neue', 'Noto Sans HK', 'PingFang HK', sans-serif;
             --bubble: #fff3e8;
+            --warning-bg: #fff5f5;
+            --warning-border: #ffcccc;
         }
 
         * {
@@ -42,10 +45,10 @@
 
         .container {
             width: 100%;
-            max-width: 560px;
+            max-width: 580px;
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 10px;
         }
 
         /* 教練頭像 + 歡迎語 */
@@ -55,12 +58,12 @@
             gap: 12px;
             background: var(--surface);
             border-radius: 24px;
-            padding: 14px 18px;
+            padding: 12px 16px;
             border: 1px solid var(--border);
             box-shadow: var(--shadow);
         }
         .coach-avatar {
-            font-size: 3rem;
+            font-size: 2.6rem;
             line-height: 1;
             animation: bounce 2s infinite;
         }
@@ -70,7 +73,7 @@
                 transform: translateY(0);
             }
             30% {
-                transform: translateY(-8px);
+                transform: translateY(-6px);
             }
             50% {
                 transform: translateY(0);
@@ -78,14 +81,41 @@
         }
         .coach-text .coach-name {
             font-weight: 800;
-            font-size: 1rem;
+            font-size: 0.95rem;
             color: var(--accent);
             letter-spacing: 0.02em;
         }
         .coach-text .coach-msg {
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             color: #7a6b5d;
             line-height: 1.4;
+            transition: all 0.3s ease;
+        }
+
+        /* 警告橫幅 */
+        .warning-banner {
+            background: var(--warning-bg);
+            border: 2px solid var(--warning-border);
+            border-radius: 16px;
+            padding: 10px 14px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #c0392b;
+            text-align: center;
+            display: none;
+            animation: pulse-warning 1.2s ease-in-out infinite;
+        }
+        .warning-banner.show {
+            display: block;
+        }
+        @keyframes pulse-warning {
+            0%,
+            100% {
+                border-color: #ffcccc;
+            }
+            50% {
+                border-color: #e74c3c;
+            }
         }
 
         /* 階段標籤 */
@@ -132,8 +162,8 @@
         }
         .timer-ring {
             position: relative;
-            width: 190px;
-            height: 190px;
+            width: 160px;
+            height: 160px;
         }
         .timer-ring svg {
             transform: rotate(-90deg);
@@ -159,6 +189,10 @@
             stroke: var(--warn);
             animation: pulse-warn 0.6s ease-in-out infinite;
         }
+        .progress-circle.danger-mode {
+            stroke: var(--danger);
+            animation: pulse-warn 0.4s ease-in-out infinite;
+        }
         @keyframes pulse-warn {
             0%,
             100% {
@@ -176,7 +210,7 @@
             text-align: center;
         }
         .timer-minutes {
-            font-size: 3.2rem;
+            font-size: 2.6rem;
             font-weight: 800;
             line-height: 1;
             color: #3d2c1e;
@@ -184,7 +218,7 @@
             font-family: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
         }
         .timer-seconds {
-            font-size: 1.5rem;
+            font-size: 1.2rem;
             font-weight: 600;
             color: #9a8b7a;
             font-variant-numeric: tabular-nums;
@@ -202,7 +236,7 @@
         .action-card {
             background: var(--card);
             border-radius: 24px;
-            padding: 20px 18px;
+            padding: 16px 14px;
             border: 1px solid var(--border);
             box-shadow: var(--shadow);
             text-align: center;
@@ -214,10 +248,15 @@
             border-color: #d5c8f8;
             background: #faf8ff;
         }
+        .action-card.danger-card {
+            border-color: #ffcccc;
+            border-width: 2px;
+            animation: pulse-warning 1s ease-in-out infinite;
+        }
         .action-card .emoji-big {
-            font-size: 3rem;
+            font-size: 2.4rem;
             display: block;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
             animation: float 3s ease-in-out infinite;
         }
         @keyframes float {
@@ -226,11 +265,11 @@
                 transform: translateY(0);
             }
             50% {
-                transform: translateY(-6px);
+                transform: translateY(-4px);
             }
         }
         .action-card .step-tag {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             text-transform: uppercase;
             letter-spacing: 0.12em;
             color: var(--accent2);
@@ -238,34 +277,53 @@
             font-weight: 700;
         }
         .action-card .action-title {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 800;
             color: #3d2c1e;
-            margin-bottom: 4px;
+            margin-bottom: 3px;
             line-height: 1.3;
         }
         .action-card .action-duration {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: #9a8b7a;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
         }
         .action-card .action-detail {
-            font-size: 0.92rem;
+            font-size: 0.85rem;
             color: #5c4f40;
-            line-height: 1.7;
+            line-height: 1.6;
             background: var(--bubble);
-            border-radius: 14px;
-            padding: 12px 16px;
+            border-radius: 12px;
+            padding: 8px 12px;
             text-align: left;
             border: 1px dashed #f0d0b0;
+            margin-bottom: 6px;
+        }
+        .action-card .attention-box {
+            font-size: 0.8rem;
+            color: #c0392b;
+            background: #fff5f5;
+            border: 1px solid #ffcccc;
+            border-radius: 10px;
+            padding: 8px 12px;
+            text-align: left;
+            font-weight: 700;
+            line-height: 1.5;
+        }
+        .action-card .attention-box::before {
+            content: '⚠️ 注意事項：';
+            display: block;
+            font-size: 0.72rem;
+            letter-spacing: 0.06em;
+            margin-bottom: 2px;
         }
         .action-card .tip-box {
-            margin-top: 10px;
-            font-size: 0.8rem;
+            margin-top: 6px;
+            font-size: 0.76rem;
             color: #8b7bf7;
             background: #f8f6ff;
             border-radius: 10px;
-            padding: 8px 12px;
+            padding: 6px 10px;
             text-align: center;
             font-weight: 600;
         }
@@ -273,76 +331,35 @@
         /* 步驟指示器 */
         .indicator-row {
             display: flex;
-            gap: 4px;
+            gap: 3px;
             justify-content: center;
             flex-wrap: wrap;
         }
         .indicator-dot {
-            width: 9px;
-            height: 9px;
+            width: 7px;
+            height: 7px;
             border-radius: 50%;
             background: #e8d5c0;
             transition: all 0.3s ease;
         }
         .indicator-dot.active {
             background: var(--accent);
-            box-shadow: 0 0 14px rgba(255, 123, 66, 0.5);
-            transform: scale(1.6);
+            box-shadow: 0 0 10px rgba(255, 123, 66, 0.5);
+            transform: scale(1.5);
         }
         .indicator-dot.done {
             background: var(--accent2);
         }
 
-        /* 按鈕 */
-        .control-row {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .btn {
-            padding: 14px 28px;
-            border-radius: 36px;
-            border: none;
-            font-weight: 700;
-            font-size: 1rem;
-            cursor: pointer;
-            letter-spacing: 0.03em;
-            transition: all 0.2s ease;
-            font-family: var(--font);
-            touch-action: manipulation;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-        }
-        .btn-start {
-            background: var(--accent);
-            color: #fff;
-        }
-        .btn-pause {
-            background: var(--warn);
-            color: #3d2c1e;
-        }
-        .btn-reset {
-            background: #fff;
-            border: 2px solid #e0d0c0;
-            color: #7a6b5d;
-        }
-        .btn:active {
-            transform: scale(0.94);
-        }
-        .btn:disabled {
-            opacity: 0.4;
-            pointer-events: none;
-        }
-
-        /* 六大區塊進度 */
+        /* 區塊指示器 */
         .block-indicators {
             display: flex;
             gap: 6px;
             justify-content: center;
         }
         .block-dot {
-            width: 28px;
-            height: 28px;
+            width: 26px;
+            height: 26px;
             border-radius: 50%;
             background: #f0e0d0;
             display: flex;
@@ -364,23 +381,78 @@
             color: #fff;
         }
 
+        /* 按鈕 */
+        .control-row {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 12px 22px;
+            border-radius: 36px;
+            border: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            cursor: pointer;
+            letter-spacing: 0.03em;
+            transition: all 0.2s ease;
+            font-family: var(--font);
+            touch-action: manipulation;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+        }
+        .btn-start {
+            background: var(--accent);
+            color: #fff;
+        }
+        .btn-pause {
+            background: var(--warn);
+            color: #3d2c1e;
+        }
+        .btn-skip {
+            background: #fff;
+            border: 2px solid #e0d0c0;
+            color: #7a6b5d;
+            font-size: 0.8rem;
+        }
+        .btn-reset {
+            background: #fff;
+            border: 2px solid #e0d0c0;
+            color: #7a6b5d;
+        }
+        .btn:active {
+            transform: scale(0.94);
+        }
+        .btn:disabled {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 0.7rem;
+            color: #b8a590;
+            letter-spacing: 0.04em;
+            line-height: 1.5;
+        }
+
         @media (max-width: 420px) {
             .timer-ring {
-                width: 150px;
-                height: 150px;
+                width: 130px;
+                height: 130px;
             }
             .timer-minutes {
-                font-size: 2.5rem;
+                font-size: 2rem;
             }
             .timer-seconds {
-                font-size: 1.2rem;
+                font-size: 1rem;
             }
             .action-card .action-title {
-                font-size: 1.3rem;
+                font-size: 1.1rem;
             }
             .btn {
-                padding: 12px 20px;
-                font-size: 0.9rem;
+                padding: 10px 16px;
+                font-size: 0.8rem;
             }
         }
     </style>
@@ -392,8 +464,13 @@
             <span class="coach-avatar">🧠</span>
             <div class="coach-text">
                 <div class="coach-name">青少年腦科學教練 · DAVID MIAO</div>
-                <div class="coach-msg" id="coachMsg">好！我哋一齊重建大腦同腳底嘅連線！記住：轉得快、唔好散、開心最緊要！</div>
+                <div class="coach-msg" id="coachMsg">記住：框架係指引，唔係死命令。佢攰就收，亂做不如唔做。</div>
             </div>
+        </div>
+
+        <!-- 警告橫幅（高風險區塊時顯示） -->
+        <div class="warning-banner" id="warningBanner">
+            🚨 高風險動作！睇實膝頭外翻同閉氣，呢兩個係紅線！
         </div>
 
         <!-- 階段標籤 -->
@@ -434,12 +511,15 @@
         <div class="action-card" id="actionCard">
             <span class="emoji-big" id="emojiBig">🦶</span>
             <span class="step-tag" id="stepTag">第 1 / 60 步 · 區塊一</span>
-            <div class="action-title" id="actionTitle">坐姿「腳踭捉迷藏」</div>
+            <div class="action-title" id="actionTitle">坐姿「腳踭捉迷藏」認位</div>
             <div class="action-duration" id="actionDuration">⏱ 1 分鐘</div>
             <div class="action-detail" id="actionDetail">
-                佢坐喺凳上面，赤腳平放。你用手幫佢將跟骨撥返正，叫佢閉眼：「記住腳踭內側掂地嘅感覺。我郁你隻腳，你要話俾我知——內側仲掂唔掂到地下？」做3-5次就停。
+                佢坐凳上，赤腳平放。你輕輕將跟骨向內撥正（唔係大力撥），叫佢自己保持，你放手。問佢閉眼感受：「邊個位掂住地下？」留意：你一放手佢係咪即刻彈返去外翻？係嘅話代表本體感受未建立。
             </div>
-            <div class="tip-box" id="tipBox">💡 教練貼士：唔好磨！3次搞掂即刻轉下一個動作。</div>
+            <div class="attention-box" id="attentionBox">
+                撥完放手觀察係咪即刻外翻。係嘅話唔好急加難度，做3次有感覺就停。唔好磨。
+            </div>
+            <div class="tip-box" id="tipBox">💡 輕輕引導、唔係大力撥。放手觀察，外翻即知本體感受未建立。</div>
         </div>
 
         <!-- 步驟指示點 -->
@@ -449,214 +529,235 @@
         <div class="control-row">
             <button class="btn btn-start" id="btnStart" onclick="startTimer()">▶ 開始訓練</button>
             <button class="btn btn-pause" id="btnPause" onclick="pauseTimer()" disabled>⏸ 暫停</button>
+            <button class="btn btn-skip" id="btnSkip" onclick="skipToBlock6()" disabled>⏭ 跳到收操</button>
             <button class="btn btn-reset" id="btnReset" onclick="resetTimer()">↺ 重設</button>
+        </div>
+        <div class="footer-note">
+            ⚠️ 60分鐘係上限，唔係硬指標。<br>佢攰就撳「暫停」或者「跳到收操」。<br>亂做不如唔做，有質素嘅40分鐘好過60分鐘亂做。
         </div>
     </div>
 
     <script>
-        // ==================== 六大區塊 x 每分鐘步驟 ====================
-        // 區塊一：腳底醒覺遊戲 (0-10分鐘)
-        // 區塊二：呼吸連接 (10-20分鐘)
-        // 區塊三：動態初階 (20-30分鐘)
-        // 區塊四：單腳支撐入門 (30-40分鐘)
-        // 區塊五：遊戲化綜合訓練 (40-50分鐘)
-        // 區塊六：呼吸重置+收操 (50-60分鐘)
-
+        // ==================== 六大區塊 x 每分鐘步驟（完整修正版） ====================
         const trainingSteps = [
-            // ===== 區塊一：腳底醒覺遊戲 (0-10分鐘) =====
-            { title: '坐姿「腳踭捉迷藏」(1)', duration: 60, phase: '區塊一：腳底醒覺遊戲', block: 0, rest: false,
-                emoji: '🦶',
-                detail: '佢坐喺凳上面，赤腳平放。你用手幫佢將跟骨撥返正，叫佢閉眼：「記住腳踭內側掂地嘅感覺。我郁你隻腳，你要話俾我知——內側仲掂唔掂到地下？」做3-5次就停。',
-                tip: '💡 教練貼士：唔好磨！3次搞掂即刻轉下一個動作。' },
-            { title: '坐姿「腳踭捉迷藏」(2)', duration: 60, phase: '區塊一：腳底醒覺遊戲', block: 0, rest: false,
-                emoji: '🦶',
-                detail: '繼續捉迷藏遊戲。今次試下唔同方向郁佢隻腳——向內郁、向外郁。問佢：「而家呢？內側仲掂唔掂到？」保持輕鬆好玩，笑住做。', tip: '💡 教練貼士：笑住做！呢個係遊戲，唔係考試。' },
-            { title: '坐姿「腳踭捉迷藏」(3)', duration: 60, phase: '區塊一：腳底醒覺遊戲', block: 0, rest: false,
-                emoji: '🦶',
-                detail: '最後一輪捉迷藏。如果佢已經搵到感覺，讚佢：「你好叻喎！咁快就記住咗腳踭內側嘅位置！」然後準備企磚。',
-                tip: '💡 教練貼士：讚佢！正向回饋會令大腦更願意學習。' },
-
-            { title: '瑜伽磚企定 + 數數字挑戰 (1)', duration: 60, phase: '區塊一：腳底醒覺遊戲', block: 0, rest: false,
-                emoji: '🧱',
-                detail: '兩塊瑜伽磚平放，內側支撐企好。開電視/平板俾佢睇！你唔好煩佢，俾佢專注睇片。腳踭內側+大腳趾掂磚，外側懸空。',
-                tip: '💡 教練貼士：將訓練嵌入娛樂！佢睇片、腳底被動學習。' },
-            { title: '瑜伽磚企定 + 數數字挑戰 (2)', duration: 60, phase: '區塊一：腳底醒覺遊戲', block: 0, rest: false,
-                emoji: '🧱',
-                detail: '繼續睇片企磚。你呢分鐘只問一次：「而家右腳腳踭邊個位踩得最實？」佢答到就讚，答唔到就輕輕提。問完就唔好再出聲。',
-                tip: '💡 教練貼士：每分鐘問一次就夠，唔好連續問。' },
-            { title: '瑜伽磚企定 + 數數字挑戰 (3)', duration: 60, phase: '區塊一：腳底醒覺遊戲', block: 0, rest: false,
-                emoji: '🧱', detail: '保持企位，繼續睇片。檢查腳底有冇向外翻，有就輕輕撥返正。其餘時間你唔好煩佢。',
-                tip: '💡 教練貼士：你同佢搶專注力你一定輸，同佢嘅娛樂「共存」你就贏。' },
-            { title: '瑜伽磚企定 + 數數字挑戰 (4)', duration: 60, phase: '區塊一：腳底醒覺遊戲', block: 0, rest: false,
-                emoji: '🧱', detail: '繼續睇片企磚。問：「左腳腳踭邊個位踩得最實？」答完就讚。足弓內側微微升起，唔好塌。',
-                tip: '💡 教練貼士：保持輕鬆，唔好令佢覺得被監視。' },
-            { title: '瑜伽磚企定 + 數數字挑戰 (5)', duration: 60, phase: '區塊一：腳底醒覺遊戲', block: 0, rest: false,
-                emoji: '🧱', detail: '繼續睇片企磚。如果佢開始攰，俾佢扶牆，但唔好落磚。',
-                tip: '💡 教練貼士：攰可以扶，但唔好落磚——保持腳底連線。' },
-            { title: '瑜伽磚企定 + 數數字挑戰 (6)', duration: 60, phase: '區塊一：腳底醒覺遊戲', block: 0, rest: false,
-                emoji: '🧱', detail: '保持企位。最後一次檢查腳底。準備進入下一個區塊！',
-                tip: '💡 教練貼士：第一區塊就快完成！讚佢：「你做得好穩陣！」' },
-            { title: '瑜伽磚企定 + 數數字挑戰 (7)', duration: 60, phase: '區塊一：腳底醒覺遊戲', block: 0, rest: false,
-                emoji: '🧱',
-                detail: '最後一分鐘區塊一！保持企磚睇片。同佢講：「準備轉下一個遊戲啦！」俾佢有心理準備。',
-                tip: '💡 教練貼士：預告轉場，等佢個腦準備切換。' },
+            // ===== 區塊一：腳底醒覺遊戲 (0-10分鐘) [捉迷藏只做2分鐘] =====
+            { title: '坐姿「腳踭捉迷藏」認位', duration: 60, phase: '區塊一：腳底醒覺遊戲', block: 0, rest: false, emoji: '🦶',
+                highRisk: false,
+                detail: '佢坐凳上，赤腳平放。你輕輕將跟骨向內撥正（唔係大力撥），叫佢自己保持，你放手。「閉眼，記住腳踭內側掂地嘅感覺。」',
+                attention: '撥完放手觀察：佢係咪即刻彈返去外翻？係嘅話代表本體感受仲未建立，唔好急住加難度。做3次有感覺就停。',
+                tip: '💡 輕輕引導、唔係大力撥。放手觀察係關鍵。' },
+            { title: '坐姿「腳踭捉迷藏」隨機測試', duration: 60, phase: '區塊一：腳底醒覺遊戲', block: 0, rest: false, emoji: '🦶',
+                highRisk: false,
+                detail: '隨機方向郁佢隻腳——向內、向外、向前。問佢：「而家呢？內側仲掂唔掂到地下？」保持輕鬆好玩，笑住做。2分鐘搞掂，即刻起身企磚！',
+                attention: '唔同方向測試本體感受。2分鐘就夠，未散之前就轉。', tip: '💡 轉得夠快！2分鐘搞掂即轉企磚，唔好戀戰。' },
+            { title: '瑜伽磚企定 + 睇片 (1)', duration: 60, phase: '區塊一：腳底醒覺遊戲', block: 0, rest: false, emoji: '🧱',
+                highRisk: false,
+                detail: '兩塊瑜伽磚平放，內側支撐企好。腳踭內側+大腳趾掂磚，外側懸空。即刻開電視/平板！你唔好煩佢，俾佢專注睇片。',
+                attention: '留意腳掌外側有冇掂返落去——有就散咗。輕輕提「外側懸空喎」，唔好鬧，提完收聲。',
+                tip: '💡 你每分鐘問一次就夠，否則同娛樂搶專注力你一定輸。' },
+            { title: '瑜伽磚企定 + 睇片 (2)', duration: 60, phase: '區塊一：腳底醒覺遊戲', block: 0, rest: false, emoji: '🧱',
+                highRisk: false, detail: '繼續睇片企磚。呢分鐘只問一次：「右腳腳踭邊個位踩得最實？」答到就讚，答唔到輕輕提。問完收聲。',
+                attention: '唔好不斷問問題！每分鐘一次就夠。佢嘅專注力喺屏幕，唔係喺你度。', tip: '💡 寄生喺娛樂上，而唔係同娛樂搶注意力。' },
+            { title: '瑜伽磚企定 + 睇片 (3)', duration: 60, phase: '區塊一：腳底醒覺遊戲', block: 0, rest: false, emoji: '🧱',
+                highRisk: false, detail: '保持企位繼續睇片。檢查腳底有冇向外翻，有就輕輕撥返正。其餘時間你唔好出聲。足弓內側微微升起。',
+                attention: '腳掌外側掂返落去 = 散咗。提完就收聲，唔好長氣。', tip: '💡 你嘅存在係輔助，唔係主角。俾佢被動學習。' },
+            { title: '瑜伽磚企定 + 睇片 (4)', duration: 60, phase: '區塊一：腳底醒覺遊戲', block: 0, rest: false, emoji: '🧱',
+                highRisk: false, detail: '繼續睇片企磚。問：「左腳腳踭邊個位踩得最實？」答完讚。如果佢開始攰，俾佢扶牆但唔好落磚。',
+                attention: '攰可以扶牆，唔好落磚。保持腳底連線。', tip: '💡 保持輕鬆，唔好令佢覺得被監視。' },
+            { title: '瑜伽磚企定 + 睇片 (5)', duration: 60, phase: '區塊一：腳底醒覺遊戲', block: 0, rest: false, emoji: '🧱',
+                highRisk: false, detail: '繼續睇片企磚。最後一次檢查腳底。同佢講：「準備轉下一個遊戲啦！」俾佢心理準備。',
+                attention: '預告轉場，等佢個腦準備切換。', tip: '💡 區塊一就快完成！讚佢：「你企得好穩陣！」' },
+            { title: '瑜伽磚企定 + 睇片 (6)', duration: 60, phase: '區塊一：腳底醒覺遊戲', block: 0, rest: false, emoji: '🧱',
+                highRisk: false, detail: '保持企磚睇片。準備進入呼吸連接區塊。呢個係課堂第114講嘅數字秘籍——改善跟骨外翻嘅基礎。',
+                attention: '小朋友髖臼未完全閉合，呢個企法唔會負重太多，最安全有效。', tip: '💡 最後一分鐘區塊一！準備進入區塊二：呼吸連接。' },
+            { title: '瑜伽磚企定 + 睇片 (7)', duration: 60, phase: '區塊一：腳底醒覺遊戲', block: 0, rest: false, emoji: '🧱',
+                highRisk: false, detail: '區塊一最後一分鐘！保持企磚。同佢講：「坐低抖一抖，準備玩呼吸遊戲。」', attention: '過渡要平滑，唔好突然轉。',
+                tip: '💡 區塊一完成！落磚、坐低，準備呼吸連接。' },
 
             // ===== 區塊二：呼吸連接 (10-20分鐘) =====
             { title: '坐姿貼背呼氣搵腳踭 (1)', duration: 60, phase: '區塊二：呼吸連接', block: 1, rest: false, emoji: '🫁',
-                detail: '坐凳上，背脊完全貼實椅背。引導慢呼氣：「呼氣嘅時候，我要你感覺到腳踭內側壓地下嘅力變大咗。呼氣，踩實。」做2-3次完整呼氣就停。',
-                tip: '💡 教練貼士：用呼氣帶動腳底，唔係用腳底去配合呼氣。' },
+                highRisk: false,
+                detail: '坐凳上，背脊完全貼實椅背。引導慢呼氣：「呼氣嗰陣，氣向下沉，感覺腳踭壓住地下嘅力變大。」做2-3次完整呼氣就停。',
+                attention: '⚠️ 紅線：呼氣嗰陣膊頭有冇升起？有冇閉氣谷住？有就即刻停。呼吸錯，成個訓練方向就錯。',
+                tip: '💡 用呼氣帶動腳底，唔係用腳底去配合呼氣。' },
             { title: '坐姿貼背呼氣搵腳踭 (2)', duration: 60, phase: '區塊二：呼吸連接', block: 1, rest: false, emoji: '🫁',
-                detail: '繼續呼氣搵腳踭。呼氣3秒、腳踭壓地；吸氣2秒、保持唔放。做2-3次，然後傾兩句偈，俾佢鬆一鬆。',
-                tip: '💡 教練貼士：唔好連續做！做幾次就傾偈，轉下動作。' },
-            { title: '坐姿貼背呼氣搵腳踭 (3)', duration: 60, phase: '區塊二：呼吸連接', block: 1, rest: false, emoji: '🫁',
+                highRisk: false,
                 detail: '繼續。「呼氣嘅時候，腳踭踩實地下。吸氣嘅時候，保持住，唔好俾佢散。」呢個係「真人之息以踵」嘅入門版。',
-                tip: '💡 教練貼士：呼吸建立唔到，上面做乜都係白費。' },
+                attention: '膊頭唔好升起、唔好閉氣。呼氣要慢而深。', tip: '💡 呼吸建立唔到，上面做乜都係白費。' },
+            { title: '坐姿貼背呼氣搵腳踭 (3)', duration: 60, phase: '區塊二：呼吸連接', block: 1, rest: false, emoji: '🫁',
+                highRisk: false, detail: '繼續呼氣搵腳踭。呼氣3秒、腳踭壓地；吸氣2秒、保持唔放。做2-3次就傾偈鬆一鬆。',
+                attention: '唔好連續做！做幾次就傾偈轉動作，保持新鮮感。', tip: '💡 質素比數量重要。每次呼氣都要有感覺。' },
             { title: '坐姿貼背呼氣搵腳踭 (4)', duration: 60, phase: '區塊二：呼吸連接', block: 1, rest: false, emoji: '🫁',
-                detail: '最後兩輪呼氣搵腳踭。保持慢而深，唔好心急。做完就準備離背挑戰。',
-                tip: '💡 教練貼士：質素比數量重要。每次呼氣都要有感覺。' },
+                highRisk: false, detail: '最後兩輪貼背呼吸。保持慢而深，唔好心急。做完準備離背挑戰。',
+                attention: '預告難度升級，等佢有心理準備。', tip: '💡 準備離背——呢個係全堂最容易被忽略但最危險嘅位。' },
             { title: '坐姿貼背呼氣搵腳踭 (5)', duration: 60, phase: '區塊二：呼吸連接', block: 1, rest: false, emoji: '🫁',
-                detail: '最後一分鐘貼背呼吸。準備進入離背坐姿——難度升級！', tip: '💡 教練貼士：預告難度升級，等佢有心理準備。' },
-
+                highRisk: false, detail: '最後一分鐘貼背呼吸。準備進入離背坐姿——核心未建立、腳底未穩，呢個係高風險動作。',
+                attention: '⚠️ 離背坐姿對佢係極高強度。做得唔好，寧願跳過。', tip: '💡 離背做得好，3次就夠；做唔好，寧願跳過，唔好死撐。' },
             { title: '坐姿離背搵自身支撐 (1)', duration: 60, phase: '區塊二：呼吸連接', block: 1, rest: false, emoji: '💪',
-                detail: '背脊離開椅背！冇咗靠山，佢要自己坐穩。「而家冇得挨，你只可以用屁股同腳底撐住自己。呼氣、腳踭踩實。」做2-3次呼氣就轉。',
-                tip: '💡 教練貼士：離背對佢係極高強度！死撐會令佢用錯肌肉代償。' },
+                highRisk: true,
+                detail: '背脊離開椅背！冇咗靠山，自己坐穩。「而家冇得挨，只可以用屁股同腳底撐住自己。呼氣、腳踭踩實。」做2-3次呼氣就轉。',
+                attention: '🚨 紅線一：有冇閉氣？有就停。紅線二：條腰有冇向後塌或向前弓？有就代表用腰代償，即刻挨返埋牆！',
+                tip: '💡 離背係極高強度。死撐會令佢用錯肌肉代償，越練越衰。' },
             { title: '坐姿離背搵自身支撐 (2)', duration: 60, phase: '區塊二：呼吸連接', block: 1, rest: false, emoji: '💪',
-                detail: '繼續離背坐姿。如果佢開始周身郁、坐唔穩，俾佢挨返埋牆，唔好勉強。你做2-3次呼氣就轉。',
-                tip: '💡 教練貼士：容許失敗！坐唔穩就挨返，唔好罰、唔好面色。' },
+                highRisk: true, detail: '繼續離背坐姿。如果佢周身郁、坐唔穩，俾佢挨返埋牆，唔好勉強。你做2-3次呼氣就轉。',
+                attention: '🚨 容許失敗！坐唔穩就挨返，唔好罰、唔好面色。腰塌即停。', tip: '💡 離背做得好，3次就夠。做唔好，跳過呢個動作直接入區塊三。' },
             { title: '坐姿離背搵自身支撐 (3)', duration: 60, phase: '區塊二：呼吸連接', block: 1, rest: false, emoji: '💪',
-                detail: '再試離背坐姿。今次挑戰：呼氣時腳踭壓地，保持3秒先吸氣。做到就讚、做唔到就笑住話「差少少，再嚟」。',
-                tip: '💡 教練貼士：遊戲化！「挑戰3秒」比「做呼吸練習」好聽一百倍。' },
+                highRisk: true, detail: '最後挑戰離背坐姿。呼氣時腳踭壓地，保持3秒先吸氣。做到就讚、做唔到就笑住話「差少少，再嚟」。',
+                attention: '🚨 3次高質素離背呼吸就夠。如果佢已經明顯攰或者代償，跳去下一個動作。',
+                tip: '💡 「挑戰3秒」比「做呼吸練習」好聽一百倍。' },
             { title: '坐姿離背搵自身支撐 (4)', duration: 60, phase: '區塊二：呼吸連接', block: 1, rest: false, emoji: '💪',
-                detail: '最後兩輪離背呼吸。保持輕鬆，唔好逼佢。做完準備進入動態訓練。',
-                tip: '💡 教練貼士：越練越衰嘅原因——死撐。寧願少做，唔好錯做。' },
-            { title: '坐姿離背搵自身支撐 (5)', duration: 60, phase: '區塊二：呼吸連接', block: 1, rest: false, emoji: '💪',
-                detail: '區塊二最後一分鐘！離背坐姿收尾。同佢講：「深呼吸搞得掂，而家起身郁吓啦！」', tip: '💡 教練貼士：區塊二完成！讚佢：「你嘅呼吸同腳底開始連線啦！」' },
+                highRisk: true, detail: '離背坐姿收尾。保持輕鬆，唔好逼佢。準備起身進入動態訓練。',
+                attention: '如果離背做得唔好，呢分鐘直接用嚟抖，坐返貼背呼吸。', tip: '💡 練錯不如唔練。離背做唔好就跳過，唔好死撐。' },
+            { title: '區塊二收尾', duration: 60, phase: '區塊二：呼吸連接', block: 1, rest: false, emoji: '🫁', highRisk: false,
+                detail: '區塊二最後一分鐘！坐返貼背，做兩次舒服嘅呼吸。同佢講：「呼吸搞得掂，而家起身郁吓啦！」',
+                attention: '確保佢離開區塊二之前呼吸係順暢嘅，膊頭放鬆。', tip: '💡 區塊二完成！讚佢：「你嘅呼吸同腳底開始連線啦！」' },
 
             // ===== 區塊三：動態初階 (20-30分鐘) =====
             { title: '內側支撐 + 慢速擺臂 (1)', duration: 60, phase: '區塊三：動態初階', block: 2, rest: false, emoji: '🤸',
-                detail: '企返上瑜伽磚，開始慢速擺臂。規矩：「擺臂嘅時候，腳踭內側唔准散。散咗就由頭嚟過。」擺三下就停、檢查腳底。唔好連續擺。',
-                tip: '💡 教練貼士：擺三下就停！未散之前就檢查，唔好等散咗先補救。' },
+                highRisk: false,
+                detail: '企返上瑜伽磚，慢速擺臂。「擺臂嘅時候，腳踭內側唔准散。散咗就由頭嚟過。」擺三下就停、檢查腳底。唔好連續擺。',
+                attention: '⚠️ 留意膊頭有冇聳起——有嘅話代表用上斜方肌代償呼吸，即刻停。擺三下就停，未散之前就檢查。',
+                tip: '💡 擺三下就停！未散之前就檢查，唔好等散咗先補救。' },
             { title: '內側支撐 + 慢速擺臂 (2)', duration: 60, phase: '區塊三：動態初階', block: 2, rest: false, emoji: '🤸',
+                highRisk: false,
                 detail: '繼續慢速擺臂。支撐項聽腳、擺動項聽手。手臂由上面帶動，腳底由內側支撐話事。一散就停、一笑就重嚟。',
-                tip: '💡 教練貼士：千祈唔好先夾膝頭再翻腳——呢個係錯嘅！支撐由腳話事。' },
+                attention: '千祈唔好先夾膝頭再翻腳——呢個係自上而下控制，係錯嘅！支撐由腳話事。',
+            tip: '💡 支撐項一定要由腳話事，唔係由膝頭話事。' },
             { title: '內側支撐 + 慢速擺臂 (3)', duration: 60, phase: '區塊三：動態初階', block: 2, rest: false, emoji: '🤸',
-                detail: '加速少少擺臂。保持腳底鎖死。做30秒、抖30秒。如果腳底散咗，退返去慢速。',
-                tip: '💡 教練貼士：進階原則——腳底唔散先好加速。散咗就退一步。' },
+                highRisk: false, detail: '加速少少擺臂。保持腳底鎖死。做30秒、抖30秒。如果腳底散咗，退返去慢速。',
+                attention: '進階原則——腳底唔散先好加速。散咗就退一步。', tip: '💡 唔好心急加速。腳底散咗就退返慢速，呢個係鐵律。' },
             { title: '內側支撐 + 慢速擺臂 (4)', duration: 60, phase: '區塊三：動態初階', block: 2, rest: false, emoji: '🤸',
-                detail: '挑戰閉眼擺臂！企穩咗之後，閉眼慢速擺臂3下。呢個係訓練大腦同腳底之間嘅直接連接。',
-                tip: '💡 教練貼士：閉眼擺臂係終極本體感受訓練！企唔穩就開眼，唔好死撐。' },
-            { title: '內側支撐 + 慢速擺臂 (5)', duration: 60, phase: '區塊三：動態初階', block: 2, rest: false, emoji: '🤸',
-                detail: '自由擺臂，快慢交替。保持腳底內側支撐。最後一分鐘，準備進入「腳踭鎖死」挑戰。',
-                tip: '💡 教練貼士：轉得快、保持新鮮感。佢未悶之前就轉下一個遊戲。' },
-
+                highRisk: false, detail: '挑戰閉眼擺臂！企穩咗之後，閉眼慢速擺臂3下。呢個係訓練大腦同腳底之間嘅直接連接。',
+                attention: '閉眼擺臂係終極本體感受訓練！企唔穩就開眼，唔好死撐。', tip: '💡 閉眼做唔到就開眼，唔好勉強。循序漸進。' },
+            { title: '內側支撐 + 擺臂收尾', duration: 60, phase: '區塊三：動態初階', block: 2, rest: false, emoji: '🤸',
+                highRisk: false, detail: '自由擺臂，快慢交替。保持腳底內側支撐。準備進入「腳踭鎖死」挑戰。',
+                attention: '轉得快、保持新鮮感。佢未悶之前就轉下一個遊戲。', tip: '💡 最後一分鐘擺臂，準備進入遊戲化挑戰。' },
             { title: '「腳踭鎖死」挑戰 (1)', duration: 60, phase: '區塊三：動態初階', block: 2, rest: false, emoji: '🎯',
-                detail: '遊戲：「我而家會輕輕推你膊頭，你唔准跌、腳踭內側唔准散！」推嘅力度由輕開始，慢慢加。佢做到就大讚、散咗就笑住話「再嚟」。',
-                tip: '💡 教練貼士：遊戲化！佢想贏，專注力會自動集中。' },
+                highRisk: false,
+                detail: '遊戲：「我而家會輕輕推你膊頭，你唔准跌、腳踭內側唔准散！」推嘅力度由輕開始，慢慢加。方向要隨機——向前、向側、向後。',
+                attention: '⚠️ 推嘅方向要隨機！你一重複，佢個腦就會預測、就會作弊。力度太勁一推就散就收返啲。',
+                tip: '💡 遊戲化！佢想贏，專注力會自動集中。' },
             { title: '「腳踭鎖死」挑戰 (2)', duration: 60, phase: '區塊三：動態初階', block: 2, rest: false, emoji: '🎯',
-                detail: '繼續鎖死挑戰。今次推嘅方向隨機——向前、向側、向後。佢要保持腳底內側支撐唔散。',
-                tip: '💡 教練貼士：隨機方向挑戰本體感受，比固定方向有效十倍。' },
+                highRisk: false, detail: '繼續鎖死挑戰。隨機方向推，力度慢慢加。佢做到就大讚、散咗就笑住話「再嚟」。',
+                attention: '隨機方向挑戰本體感受，比固定方向有效十倍。', tip: '💡 笑住做！散咗唔係失敗，係學習嘅一部分。' },
             { title: '「腳踭鎖死」挑戰 (3)', duration: 60, phase: '區塊三：動態初階', block: 2, rest: false, emoji: '🎯',
-                detail: '繼續挑戰。如果佢已經好穩，可以加難度：單手扶牆、另一隻手擺臂，同時你推佢。',
-                tip: '💡 教練貼士：難度要逐級加，唔好一跳就最難。成功感係最好嘅動力。' },
+                highRisk: false, detail: '繼續挑戰。如果佢已經好穩，可以加難度：單手扶牆、另一隻手擺臂，同時你推佢。',
+                attention: '難度要逐級加，唔好一跳就最難。成功感係最好嘅動力。', tip: '💡 逐級加難度，保持挑戰感但唔好挫敗佢。' },
             { title: '「腳踭鎖死」挑戰 (4)', duration: 60, phase: '區塊三：動態初階', block: 2, rest: false, emoji: '🎯',
-                detail: '最後兩輪鎖死挑戰。讚佢：「你嘅腳底已經比十分鐘前穩咗好多！」',
-                tip: '💡 教練貼士：具體讚美！「比之前穩咗」比「你好叻」更有說服力。' },
-            { title: '「腳踭鎖死」挑戰 (5)', duration: 60, phase: '區塊三：動態初階', block: 2, rest: false, emoji: '🎯',
+                highRisk: false, detail: '最後兩輪鎖死挑戰。讚佢：「你嘅腳底已經比十分鐘前穩咗好多！」',
+                attention: '具體讚美！「比之前穩咗」比「你好叻」更有說服力。', tip: '💡 具體讚美令大腦釋放多巴胺，強化學習效果。' },
+            { title: '區塊三收尾', duration: 60, phase: '區塊三：動態初階', block: 2, rest: false, emoji: '🎯', highRisk: false,
                 detail: '區塊三最後一分鐘！鎖死挑戰收尾。同佢講：「準備進入單腳挑戰！呢個係最難嘅關卡。」',
-                tip: '💡 教練貼士：預告下一個區塊，等佢個腦準備迎接新挑戰。' },
+                attention: '預告下一個區塊，等佢個腦準備迎接新挑戰。', tip: '💡 區塊三完成！準備進入高風險區塊四。' },
 
-            // ===== 區塊四：單腳支撐入門 (30-40分鐘) =====
-            { title: '扶牆單腳企 (右腳)', duration: 60, phase: '區塊四：單腳支撐入門', block: 3, rest: false, emoji: '🦵',
+            // ===== 區塊四：單腳支撐入門 (30-40分鐘) [高風險] =====
+            { title: '扶牆單腳企 (右腳) (1)', duration: 60, phase: '區塊四：單腳支撐入門', block: 3, rest: false, emoji: '🦵',
+                highRisk: true,
                 detail: '右手扶牆，右腳單腳企瑜伽磚，保持跟骨內側踩實，左腳輕輕離地。「只係企定，唔好郁。呼吸。」目標15秒。做到就停、抖一陣。',
-                tip: '💡 教練貼士：做到15秒就停！唔好連續練，每次之間俾佢行兩步鬆一鬆。' },
-            { title: '扶牆單腳企 (右腳)', duration: 60, phase: '區塊四：單腳支撐入門', block: 3, rest: false, emoji: '🦵',
-                detail: '繼續右腳單腳企。右膝如果又開始外翻（向內扣），即刻停、重置、再嚟。呢個代表右腳內側支撐仲未夠穩。',
-                tip: '💡 教練貼士：外翻即停！練錯嘅每一分鐘，都係向後退。' },
-            { title: '扶牆單腳企 (左腳)', duration: 60, phase: '區塊四：單腳支撐入門', block: 3, rest: false, emoji: '🦵',
-                detail: '左手扶牆，左腳單腳企瑜伽磚，保持跟骨內側踩實，右腳離地。目標15秒。',
-                tip: '💡 教練貼士：左右腳輪流做，保持新鮮感。' },
-            { title: '扶牆單腳企 (左腳)', duration: 60, phase: '區塊四：單腳支撐入門', block: 3, rest: false, emoji: '🦵',
-                detail: '繼續左腳單腳企。如果左腳比右腳穩，讚佢；如果右腳仲係差啲，唔好擔心，呢個係累積咗十一年嘅結果。',
-                tip: '💡 教練貼士：十一年嘅外翻，唔會一日好返。慢慢嚟，三個月見改善。' },
+                attention: '🚨 紅線：右膝外翻即停！你之前話佢右邊膝頭會外翻，呢個動作一定要睇到實。膝頭向內扣就即刻停、落地、重置、再嚟。',
+                tip: '💡 做到15秒就停！唔好連續練，每次之間俾佢行兩步鬆一鬆。' },
+            { title: '扶牆單腳企 (右腳) (2)', duration: 60, phase: '區塊四：單腳支撐入門', block: 3, rest: false, emoji: '🦵',
+                highRisk: true, detail: '繼續右腳單腳企。右膝如果又開始外翻（向內扣），即刻停、重置、再嚟。練錯嘅每一分鐘，都係向後退。',
+                attention: '🚨 外翻即停！呢個代表右腳內側支撐喺單腳之下仲未夠穩。唔好死撐。',
+                tip: '💡 練錯嘅每一分鐘，都係向後退。寧願做少啲，都要做啱。' },
+            { title: '扶牆單腳企 (左腳) (1)', duration: 60, phase: '區塊四：單腳支撐入門', block: 3, rest: false, emoji: '🦵',
+                highRisk: true, detail: '左手扶牆，左腳單腳企瑜伽磚，保持跟骨內側踩實，右腳離地。目標15秒。',
+                attention: '🚨 同樣睇實左膝有冇外翻。雖然你之前話主要係右邊，但左邊都要檢查。', tip: '💡 左右腳輪流做，保持新鮮感。' },
+            { title: '扶牆單腳企 (左腳) (2)', duration: 60, phase: '區塊四：單腳支撐入門', block: 3, rest: false, emoji: '🦵',
+                highRisk: true, detail: '繼續左腳單腳企。如果左腳比右腳穩，讚佢；如果右腳仲係差啲，唔好擔心，呢個係累積咗十一年嘅結果。',
+                attention: '十一年嘅外翻，唔會一日好返。慢慢嚟，三個月見改善。', tip: '💡 保持耐心。十一年嘅習慣，需要時間重建。' },
             { title: '扶牆單腳企 (交替)', duration: 60, phase: '區塊四：單腳支撐入門', block: 3, rest: false, emoji: '🦵',
-                detail: '左右腳交替單腳企。每隻腳做10-15秒就轉。保持呼吸，唔好閉氣。', tip: '💡 教練貼士：交替做比死練一隻腳更有效，因為大腦要不斷切換。' },
-
+                highRisk: true, detail: '左右腳交替單腳企。每隻腳做10-15秒就轉。保持呼吸，唔好閉氣。',
+                attention: '🚨 閉氣係紅線！單腳企嗰陣好易不自覺閉氣，你要提醒佢保持呼吸。', tip: '💡 交替做比死練一隻腳更有效，因為大腦要不斷切換。' },
             { title: '單腳 + 左手擺臂 (右腳)', duration: 60, phase: '區塊四：單腳支撐入門', block: 3, rest: false, emoji: '🤚',
-                detail: '右手扶牆、右腳企磚，左手慢慢擺臂。支撐項聽腳、擺動項聽手。右手扶牆係輔助，慢慢減少扶牆力度。',
-                tip: '💡 教練貼士：減少扶牆嘅力度，唔係減少扶牆嘅時間。' },
-            { title: '單腳 + 左手擺臂 (右腳)', duration: 60, phase: '區塊四：單腳支撐入門', block: 3, rest: false, emoji: '🤚',
-                detail: '繼續右腳企磚 + 左手擺臂。挑戰：慢慢減少扶牆力度，睇下可唔可以只用指尖掂牆。',
-                tip: '💡 教練貼士：指尖掂牆係過渡到唔扶牆嘅關鍵一步。' },
+                highRisk: true,
+                detail: '右手扶牆、右腳企磚，左手慢慢擺臂。支撐項聽腳、擺動項聽手。扶牆嘅手只係輔助，唔係主力。慢慢減少扶牆力度。',
+                attention: '🚨 減少扶牆嘅力度，唔係減少扶牆嘅時間。由成隻手貼牆，變成只用指尖掂牆。',
+                tip: '💡 指尖掂牆係過渡到唔扶牆嘅關鍵一步。' },
+            { title: '單腳 + 左手擺臂 (右腳) 進階', duration: 60, phase: '區塊四：單腳支撐入門', block: 3, rest: false, emoji: '🤚',
+                highRisk: true, detail: '繼續右腳企磚 + 左手擺臂。挑戰：只用指尖掂牆，甚至嘗試離牆1秒。',
+                attention: '🚨 離牆挑戰要極小心。如果膝頭外翻即刻扶返牆。', tip: '💡 離牆1秒都係進步！唔好急，慢慢嚟。' },
             { title: '單腳 + 右手擺臂 (左腳)', duration: 60, phase: '區塊四：單腳支撐入門', block: 3, rest: false, emoji: '🤚',
-                detail: '左手扶牆、左腳企磚，右手慢慢擺臂。保持腳底內側支撐。', tip: '💡 教練貼士：左右都要練，唔好偏重一邊。' },
-            { title: '單腳 + 右手擺臂 (左腳)', duration: 60, phase: '區塊四：單腳支撐入門', block: 3, rest: false, emoji: '🤚',
-                detail: '繼續左腳企磚 + 右手擺臂。挑戰指尖掂牆。', tip: '💡 教練貼士：每一步小進步都值得慶祝！' },
-            { title: '單腳支撐收尾', duration: 60, phase: '區塊四：單腳支撐入門', block: 3, rest: false, emoji: '🦵',
-                detail: '區塊四最後一分鐘！自由選擇：想再練右腳定左腳？俾佢自己揀。自主權令專注力更集中。',
-                tip: '💡 教練貼士：俾佢話事！自主權對小朋友係最好嘅動力。' },
+                highRisk: true, detail: '左手扶牆、左腳企磚，右手慢慢擺臂。保持腳底內側支撐。', attention: '左右都要練，唔好偏重一邊。',
+                tip: '💡 左右平衡訓練，避免身體出現新嘅代償模式。' },
+            { title: '單腳支撐收尾 (1)', duration: 60, phase: '區塊四：單腳支撐入門', block: 3, rest: false, emoji: '🦵',
+                highRisk: true,
+                detail: '自由選擇：想再練右腳定左腳？俾佢自己揀。自主權令專注力更集中。如果佢已經明顯攰，呢分鐘用嚟抖。',
+                attention: '🚨 如果佢做到呢度已經明顯攰、開始亂做、膝頭外翻走出嚟，撳暫停或者直接跳去區塊六做呼吸重置。',
+                tip: '💡 亂做不如唔做。60分鐘係上限，唔係硬指標。' },
+            { title: '單腳支撐收尾 (2)', duration: 60, phase: '區塊四：單腳支撐入門', block: 3, rest: false, emoji: '🦵',
+                highRisk: true,
+                detail: '區塊四最後一分鐘！落磚，雙腳平放地下，抖一抖。同佢講：「單腳挑戰完成！你今日嘅表現比上星期進步咗！」',
+                attention: '確保佢離開區塊四之前腳底係穩定嘅，冇外翻。', tip: '💡 區塊四完成！讚佢具體嘅進步。準備進入遊戲化綜合訓練。' },
 
             // ===== 區塊五：遊戲化綜合訓練 (40-50分鐘) =====
             { title: '「跟骨過三關」第一關', duration: 60, phase: '區塊五：遊戲化綜合訓練', block: 4, rest: false, emoji: '🏆',
+                highRisk: false,
                 detail: '第一關：雙腳瑜伽磚企定，內側支撐，保持10秒。熱身關，一定過到！過到就大讚、擊掌！',
-                tip: '💡 教練貼士：第一關要簡單到一定過到，建立成功感。' },
-            { title: '「跟骨過三關」第一關', duration: 60, phase: '區塊五：遊戲化綜合訓練', block: 4, rest: false, emoji: '🏆',
-                detail: '重溫第一關，今次閉眼企10秒。過到就話：「嘩！閉眼都過到，你個腦同腳底連線越嚟越強！」',
-                tip: '💡 教練貼士：升級版第一關，俾佢覺得自己進步緊。' },
+                attention: '第一關要簡單到一定過到，建立成功感。', tip: '💡 成功感係最好嘅動力。第一關要簡單到一定過到。' },
+            { title: '「跟骨過三關」第一關 升級', duration: 60, phase: '區塊五：遊戲化綜合訓練', block: 4, rest: false, emoji: '🏆',
+                highRisk: false, detail: '重溫第一關，今次閉眼企10秒。過到就話：「嘩！閉眼都過到，你個腦同腳底連線越嚟越強！」',
+                attention: '升級版第一關，俾佢覺得自己進步緊。', tip: '💡 閉眼版本係進階挑戰，過到會極大提升信心。' },
             { title: '「跟骨過三關」第二關', duration: 60, phase: '區塊五：遊戲化綜合訓練', block: 4, rest: false, emoji: '🏆',
+                highRisk: false,
                 detail: '第二關：雙腳企定 + 慢速擺臂5下，腳底唔散。中等難度。散咗就笑住話「差少少，再嚟」，過到就熱烈慶祝！',
-                tip: '💡 教練貼士：過唔到唔好俾壓力，笑住再嚟。呢個係遊戲，唔係考試。' },
-            { title: '「跟骨過三關」第二關', duration: 60, phase: '區塊五：遊戲化綜合訓練', block: 4, rest: false, emoji: '🏆',
-                detail: '再挑戰第二關。今次擺臂8下！如果過到，佢嘅信心會爆升。過唔到就退返5下，冇問題。',
-                tip: '💡 教練貼士：彈性難度——做到就升、做唔到就降，保持挑戰感。' },
+                attention: '過唔到唔好俾壓力，笑住再嚟。呢個係遊戲，唔係考試。', tip: '💡 遊戲化嘅核心：過唔到係「差少少」，唔係「失敗」。' },
+            { title: '「跟骨過三關」第二關 挑戰', duration: 60, phase: '區塊五：遊戲化綜合訓練', block: 4, rest: false, emoji: '🏆',
+                highRisk: false, detail: '再挑戰第二關。今次擺臂8下！如果過到，佢嘅信心會爆升。過唔到就退返5下，冇問題。',
+                attention: '彈性難度——做到就升、做唔到就降，保持挑戰感。', tip: '💡 彈性難度係保持專注力嘅秘訣。' },
             { title: '「跟骨過三關」第三關', duration: 60, phase: '區塊五：遊戲化綜合訓練', block: 4, rest: false, emoji: '🏆',
+                highRisk: true,
                 detail: '第三關：右腳單腳扶牆企定15秒。終極關！呢個係全堂最難嘅挑戰。過到就瘋狂慶祝！過唔到就話：「你已經比一開始勁咗好多！」',
-                tip: '💡 教練貼士：終極關唔一定要過到。努力過就值得慶祝。' },
-            { title: '「跟骨過三關」第三關', duration: 60, phase: '區塊五：遊戲化綜合訓練', block: 4, rest: false, emoji: '🏆',
-                detail: '再挑戰第三關！如果佢想，可以試下減少扶牆力度。指尖掂牆企15秒——呢個係精英級難度。',
-                tip: '💡 教練貼士：俾佢自己揀難度。佢揀嘅，佢會更投入。' },
-            { title: '自由選擇 (1)', duration: 60, phase: '區塊五：遊戲化綜合訓練', block: 4, rest: false, emoji: '🎮',
+                attention: '🚨 終極關唔一定要過到。努力過就值得慶祝。膝頭外翻即停。', tip: '💡 終極關嘅目的係挑戰，唔係一定要過。過程比結果重要。' },
+            { title: '「跟骨過三關」第三關 再挑戰', duration: 60, phase: '區塊五：遊戲化綜合訓練', block: 4, rest: false, emoji: '🏆',
+                highRisk: true, detail: '再挑戰第三關！如果佢想，可以試下減少扶牆力度。指尖掂牆企15秒——呢個係精英級難度。',
+                attention: '🚨 俾佢自己揀難度。佢揀嘅，佢會更投入。但膝頭外翻即刻停。', tip: '💡 自主權係最強嘅專注力燃料。' },
+            { title: '自由選擇 (1)', duration: 60, phase: '區塊五：遊戲化綜合訓練', block: 4, rest: false, emoji: '🎮', highRisk: false,
                 detail: '問佢：「你想再挑戰邊一關？」俾佢自己揀。佢有自主權，專注力會更集中。揀完做2-3分鐘。',
-                tip: '💡 教練貼士：自主權係最強嘅專注力燃料。' },
-            { title: '自由選擇 (2)', duration: 60, phase: '區塊五：遊戲化綜合訓練', block: 4, rest: false, emoji: '🎮',
-                detail: '繼續自由挑戰。如果佢已經攰，可以揀最簡單嘅第一關重溫，保持成功感。',
-                tip: '💡 教練貼士：攰就退返簡單關，唔好死撐。成功感比難度更重要。' },
-            { title: '自由選擇 (3)', duration: 60, phase: '區塊五：遊戲化綜合訓練', block: 4, rest: false, emoji: '🎮',
-                detail: '最後一輪自由挑戰。同佢講：「最後一次，揀你最鍾意嗰關！」', tip: '💡 教練貼士：最後一次俾佢話事，等佢帶住成功感進入收操。' },
-            { title: '區塊五收尾', duration: 60, phase: '區塊五：遊戲化綜合訓練', block: 4, rest: false, emoji: '🎮',
+                attention: '如果佢已經攰，引導佢揀最簡單嘅第一關重溫，保持成功感。', tip: '💡 自主權係最強嘅動力引擎。' },
+            { title: '自由選擇 (2)', duration: 60, phase: '區塊五：遊戲化綜合訓練', block: 4, rest: false, emoji: '🎮', highRisk: false,
+                detail: '繼續自由挑戰。攰就退返簡單關，唔好死撐。成功感比難度更重要。',
+                attention: '攰就退返簡單關。成功感比難度更重要。', tip: '💡 最後一輪自由挑戰，等佢帶住成功感進入收操。' },
+            { title: '自由選擇 (3)', duration: 60, phase: '區塊五：遊戲化綜合訓練', block: 4, rest: false, emoji: '🎮', highRisk: false,
+                detail: '最後一次自由挑戰。同佢講：「最後一次，揀你最鍾意嗰關！」',
+                attention: '最後一次俾佢話事，等佢帶住成功感進入收操。', tip: '💡 區塊五收尾，準備進入呼吸重置。' },
+            { title: '區塊五收尾', duration: 60, phase: '區塊五：遊戲化綜合訓練', block: 4, rest: false, emoji: '🎮', highRisk: false,
                 detail: '區塊五完成！同佢講：「你過咗咁多關，犀利喎！而家我哋做最後嘅呼吸放鬆。」準備進入呼吸重置。',
-                tip: '💡 教練貼士：過渡要平滑，等佢個系統慢慢落返嚟。' },
+                attention: '過渡要平滑，等佢個系統慢慢落返嚟。', tip: '💡 區塊五完成！準備最後嘅呼吸重置。' },
 
             // ===== 區塊六：呼吸重置 + 收操 (50-60分鐘) =====
-            { title: '仰臥腳底呼吸 (1)', duration: 60, phase: '區塊六：呼吸重置+收操', block: 5, rest: true, emoji: '😌',
+            { title: '仰臥腳底呼吸 (1)', duration: 60, phase: '區塊六：呼吸重置+收操', block: 5, rest: true, emoji: '😌', highRisk: false,
                 detail: '仰臥，雙腳平放、膝頭彎曲，腳底踩實地面。「呼氣嗰陣，腳踭內側壓實地下。呼盡、停一秒、放鬆吸氣。」做3-5次完整呼吸。',
-                tip: '💡 教練貼士：唔使多，3-5次有質素嘅呼吸就夠。將系統由興奮切換返放鬆。' },
-            { title: '仰臥腳底呼吸 (2)', duration: 60, phase: '區塊六：呼吸重置+收操', block: 5, rest: true, emoji: '😌',
+                attention: '唔使多，3-5次有質素嘅呼吸就夠。將系統由交感（興奮）切換返副交感（修復）。',
+                tip: '💡 呢個係將成堂訓練嘅效果整合嘅關鍵時刻。' },
+            { title: '仰臥腳底呼吸 (2)', duration: 60, phase: '區塊六：呼吸重置+收操', block: 5, rest: true, emoji: '😌', highRisk: false,
                 detail: '繼續仰臥呼吸。引導佢呼氣更慢、更深。「呼氣嘅時候，感覺成個腳底都貼實地下。」',
-                tip: '💡 教練貼士：呢個係將成堂訓練嘅效果整合嘅關鍵時刻。' },
-            { title: '仰臥腳底呼吸 (3)', duration: 60, phase: '區塊六：呼吸重置+收操', block: 5, rest: true, emoji: '😌',
+                attention: '呼氣要夠慢、夠深。呼盡之後停一秒先吸氣——呢個係腳底支撐同呼吸之間連接整合嘅最後一步。',
+                tip: '💡 呼盡停一秒，等身體真正感受到腳底支撐。' },
+            { title: '仰臥腳底呼吸 (3)', duration: 60, phase: '區塊六：呼吸重置+收操', block: 5, rest: true, emoji: '😌', highRisk: false,
                 detail: '繼續仰臥呼吸。保持慢而深嘅節奏。幫佢個系統由交感神經切換返去副交感神經。',
-                tip: '💡 教練貼士：交感=戰鬥狀態，副交感=修復狀態。呼吸重置幫佢切換。' },
-            { title: '仰臥腳底呼吸 (4)', duration: 60, phase: '區塊六：呼吸重置+收操', block: 5, rest: true, emoji: '😌',
-                detail: '最後幾輪呼吸。做完之後，俾佢靜靜哋躺多一陣，唔好即刻彈起身。',
-                tip: '💡 教練貼士：躺多一陣，等神經系統真正沉澱。' },
-            { title: '仰臥腳底呼吸 (5)', duration: 60, phase: '區塊六：呼吸重置+收操', block: 5, rest: true, emoji: '😌',
-                detail: '呼吸重置完成。準備起身做最後嘅自由伸展同傾偈。', tip: '💡 教練貼士：慢慢起身，唔好急。' },
-
-            { title: '自由伸展 + 傾偈 (1)', duration: 60, phase: '區塊六：呼吸重置+收操', block: 5, rest: true, emoji: '💬',
+                attention: '交感=戰鬥狀態，副交感=修復狀態。呼吸重置幫佢切換。', tip: '💡 最後幾輪呼吸。做完俾佢靜靜躺多一陣，唔好即刻彈起身。' },
+            { title: '仰臥腳底呼吸 (4)', duration: 60, phase: '區塊六：呼吸重置+收操', block: 5, rest: true, emoji: '😌', highRisk: false,
+                detail: '最後幾輪呼吸。做完之後，俾佢靜靜哋躺多一陣，唔好即刻彈起身。等神經系統真正沉澱。',
+                attention: '躺多一陣，等神經系統真正沉澱。慢慢起身，唔好急。', tip: '💡 呼吸重置完成。準備起身做最後嘅自由伸展同傾偈。' },
+            { title: '仰臥腳底呼吸 (5)', duration: 60, phase: '區塊六：呼吸重置+收操', block: 5, rest: true, emoji: '😌', highRisk: false,
+                detail: '呼吸重置完成。慢慢起身，準備做最後嘅自由伸展同傾偈。', attention: '慢慢起身，唔好急。', tip: '💡 起身之後保持放鬆，進入收操傾偈。' },
+            { title: '自由伸展 + 傾偈 (1)', duration: 60, phase: '區塊六：呼吸重置+收操', block: 5, rest: true, emoji: '💬', highRisk: false,
                 detail: '俾佢自己伸展吓，你同佢傾兩句：「今日邊一關最難？邊一關最好玩？」等佢講返出嚟。',
-                tip: '💡 教練貼士：當佢可以講返出嚟，大腦已經開始儲存呢啲經驗。' },
-            { title: '自由伸展 + 傾偈 (2)', duration: 60, phase: '區塊六：呼吸重置+收操', block: 5, rest: true, emoji: '💬',
+                attention: '當佢可以講返出嚟，大腦已經開始儲存呢啲經驗。', tip: '💡 傾偈整合學習，幫大腦鞏固今日嘅訓練效果。' },
+            { title: '自由伸展 + 傾偈 (2)', duration: 60, phase: '區塊六：呼吸重置+收操', block: 5, rest: true, emoji: '💬', highRisk: false,
                 detail: '繼續傾偈。讚佢具體嘅進步：「你今日閉眼企比上星期耐咗」「你單腳企穩咗好多」。',
-                tip: '💡 教練貼士：具體讚美令大腦釋放多巴胺，強化學習效果。' },
-            { title: '自由伸展 + 傾偈 (3)', duration: 60, phase: '區塊六：呼吸重置+收操', block: 5, rest: true, emoji: '💬',
+                attention: '具體讚美令大腦釋放多巴胺，強化學習效果。', tip: '💡 具體讚美比「你好叻」有效十倍。' },
+            { title: '自由伸展 + 傾偈 (3)', duration: 60, phase: '區塊六：呼吸重置+收操', block: 5, rest: true, emoji: '💬', highRisk: false,
                 detail: '繼續伸展傾偈。問佢：「下星期想挑戰咩新關卡？」等佢對下次訓練有期待。',
-                tip: '💡 教練貼士：令佢期待下一次，你就成功咗一半。' },
-            { title: '自由伸展 + 傾偈 (4)', duration: 60, phase: '區塊六：呼吸重置+收操', block: 5, rest: true, emoji: '💬',
+                attention: '令佢期待下一次，你就成功咗一半。', tip: '💡 期待感係持續訓練嘅最強動力。' },
+            { title: '自由伸展 + 傾偈 (4)', duration: 60, phase: '區塊六：呼吸重置+收操', block: 5, rest: true, emoji: '💬', highRisk: false,
                 detail: '最後伸展。同佢講：「今日嘅訓練全部完成！你做得好好，我为你感到驕傲！」',
-                tip: '💡 教練貼士：用「我为你感到驕傲」而唔係「你好叻」，更具體、更有力。' },
-            { title: '🎉 訓練完成！', duration: 60, phase: '區塊六：呼吸重置+收操', block: 5, rest: true, emoji: '🎉',
-                detail: '60分鐘全部完成！記住五大原則：1.轉得夠快 2.嵌入娛樂 3.遊戲化 4.容許抖 5.60分鐘係上限。每星期2-3次，三個月見改善！',
-                tip: '💡 教練貼士：容易獲得的必將容易失去。慢慢嚟，等佢個系統自己適應，先係真正嘅改變。' },
+                attention: '用「我为你感到驕傲」而唔係「你好叻」，更具體、更有力。', tip: '💡 最後一句讚美，等佢帶住滿足感離開。' },
+            { title: '🎉 訓練完成！', duration: 60, phase: '區塊六：呼吸重置+收操', block: 5, rest: true, emoji: '🎉', highRisk: false,
+                detail: '60分鐘全部完成！記住五大原則：1.轉得夠快 2.嵌入娛樂 3.遊戲化 4.容許抖 5.60分鐘係上限。每星期2-3次，三個月見改善。籃球前後各5分鐘瑜伽磚企立 + 牆邊拔跟骨！',
+                attention: '籃球前後都要做足預防：打之前5分鐘瑜伽磚企立，打完即刻3分鐘牆邊拔跟骨。',
+                tip: '💡 容易獲得的必將容易失去。慢慢嚟，等佢個系統自己適應，先係真正嘅改變。' },
         ];
 
         // ==================== 狀態管理 ====================
@@ -673,6 +774,7 @@
 
         // ==================== DOM ====================
         const coachMsgEl = document.getElementById('coachMsg');
+        const warningBannerEl = document.getElementById('warningBanner');
         const phaseBadgeEl = document.getElementById('phaseBadge');
         const totalProgressFillEl = document.getElementById('totalProgressFill');
         const progressCircleEl = document.getElementById('progressCircle');
@@ -684,24 +786,27 @@
         const actionTitleEl = document.getElementById('actionTitle');
         const actionDurationEl = document.getElementById('actionDuration');
         const actionDetailEl = document.getElementById('actionDetail');
+        const attentionBoxEl = document.getElementById('attentionBox');
         const tipBoxEl = document.getElementById('tipBox');
         const actionCardEl = document.getElementById('actionCard');
         const indicatorRowEl = document.getElementById('indicatorRow');
         const blockIndicatorsEl = document.getElementById('blockIndicators');
         const btnStartEl = document.getElementById('btnStart');
         const btnPauseEl = document.getElementById('btnPause');
+        const btnSkipEl = document.getElementById('btnSkip');
         const btnResetEl = document.getElementById('btnReset');
 
-        // 教練金句庫
         const coachQuotes = [
-            '好！我哋一齊重建大腦同腳底嘅連線！記住：轉得快、唔好散、開心最緊要！',
+            '記住：框架係指引，唔係死命令。佢攰就收，亂做不如唔做。',
             '你做得好穩陣！保持住，腳底內側踩實就係贏！',
-            '記住：容易獲得的必將容易失去。慢慢嚟，等身體自己適應。',
+            '容易獲得的必將容易失去。慢慢嚟，等身體自己適應。',
             '你嘅大腦同腳底正在建立新嘅連接，每一分鐘都係進步！',
             '攰就抖，唔好死撐。抖嗰陣腳底掂地，本身就係訓練。',
             '未散之前就轉！保持新鮮感，大腦先會願意學習。',
             '你練錯嘅每一分鐘，都係向後退。所以我哋寧願做少啲，都要做啱。',
             '讚你！你嘅專注力今日真係好強！',
+            '膝頭外翻同閉氣係紅線！見到即刻停，唔好猶豫。',
+            '離背做唔好就跳過，唔好死撐。練錯不如唔練。',
         ];
 
         function randomCoachQuote() {
@@ -745,9 +850,17 @@
         function updateDisplay() {
             const step = trainingSteps[currentStepIndex];
 
-            // 教練訊息 (隨機更換)
-            if (totalElapsedSeconds % 30 === 0 || currentStepIndex === 0) {
+            // 教練訊息
+            if (totalElapsedSeconds % 25 === 0 || currentStepIndex === 0) {
                 coachMsgEl.textContent = randomCoachQuote();
+            }
+
+            // 高風險警告橫幅
+            if (step.highRisk) {
+                warningBannerEl.classList.add('show');
+                warningBannerEl.textContent = '🚨 高風險動作！睇實膝頭外翻同閉氣，呢兩個係紅線！';
+            } else {
+                warningBannerEl.classList.remove('show');
             }
 
             // 階段標籤
@@ -765,9 +878,10 @@
             const stepProgress = timeLeftInStep / 60;
             const offset = CIRCUMFERENCE * (1 - stepProgress);
             progressCircleEl.style.strokeDashoffset = offset;
-            progressCircleEl.classList.remove('rest-mode', 'warn-mode');
+            progressCircleEl.classList.remove('rest-mode', 'warn-mode', 'danger-mode');
             if (step.rest) progressCircleEl.classList.add('rest-mode');
-            if (timeLeftInStep <= 10 && !step.rest) progressCircleEl.classList.add('warn-mode');
+            if (step.highRisk) progressCircleEl.classList.add('danger-mode');
+            if (timeLeftInStep <= 10 && !step.rest && !step.highRisk) progressCircleEl.classList.add('warn-mode');
 
             // 計時器數字
             const min = Math.floor(timeLeftInStep / 60);
@@ -783,8 +897,10 @@
             actionTitleEl.textContent = step.title;
             actionDurationEl.textContent = `⏱ ${step.duration} 秒`;
             actionDetailEl.textContent = step.detail;
+            attentionBoxEl.textContent = step.attention;
             tipBoxEl.textContent = step.tip;
             actionCardEl.classList.toggle('rest-card', step.rest);
+            actionCardEl.classList.toggle('danger-card', step.highRisk);
 
             updateIndicators();
         }
@@ -808,26 +924,53 @@
             isPaused = false;
             btnStartEl.disabled = false;
             btnPauseEl.disabled = true;
+            btnSkipEl.disabled = true;
             btnStartEl.textContent = '▶ 開始訓練';
+            warningBannerEl.classList.remove('show');
             phaseBadgeEl.textContent = '🎉 訓練完成！';
             phaseBadgeEl.classList.add('rest-phase');
-            coachMsgEl.textContent = '你今日做得好好！記住：每星期2-3次，三個月見改善。我为你感到驕傲！🧠✨';
+            coachMsgEl.textContent = '你今日做得好好！記住：每星期2-3次，三個月見改善。籃球前後做足預防！🧠✨';
             actionTitleEl.textContent = '🎉 60分鐘全部完成！';
             actionDetailEl.textContent =
-                '五大原則回顧：\n1. 轉得夠快——未散就轉\n2. 嵌入娛樂——寄生喺佢嘅娛樂上\n3. 遊戲化——過關挑戰令專注力自動集中\n4. 容許抖——攰就坐低腳底掂地\n5. 60分鐘係上限——亂做不如唔做\n\n每星期2-3次，三個月見改善。籃球前後做足預防！';
-            tipBoxEl.textContent = '💡 教練最後貼士：容易獲得的必將容易失去。慢慢嚟，等佢個系統自己適應。';
+                '五大原則回顧：\n1. 轉得夠快——未散就轉\n2. 嵌入娛樂——寄生喺佢嘅娛樂上\n3. 遊戲化——過關挑戰令專注力自動集中\n4. 容許抖——攰就坐低腳底掂地\n5. 60分鐘係上限——亂做不如唔做\n\n籃球前後：打之前5分鐘瑜伽磚企立，打完即刻3分鐘牆邊拔跟骨。';
+            attentionBoxEl.textContent = '每星期2-3次，三個月見改善。籃球同等時長內表現下滑就即刻停。';
+            tipBoxEl.textContent = '💡 容易獲得的必將容易失去。慢慢嚟，等佢個系統自己適應。';
             emojiBigEl.textContent = '🏆';
             timerMinutesEl.textContent = '0';
             timerSecondsEl.textContent = '00';
             progressCircleEl.style.strokeDashoffset = CIRCUMFERENCE;
+            progressCircleEl.classList.remove('rest-mode', 'warn-mode', 'danger-mode');
             totalProgressFillEl.style.width = '100%';
             actionCardEl.classList.add('rest-card');
+            actionCardEl.classList.remove('danger-card');
             const dots = indicatorRowEl.querySelectorAll('.indicator-dot');
             dots.forEach(d => { d.classList.add('done');
                 d.classList.remove('active'); });
             const blockDots = blockIndicatorsEl.querySelectorAll('.block-dot');
             blockDots.forEach(d => { d.classList.add('done-block');
                 d.classList.remove('active-block'); });
+        }
+
+        // ==================== 跳到區塊六 ====================
+        function skipToBlock6() {
+            if (!isRunning && !isPaused && totalElapsedSeconds === 0) return;
+            clearInterval(timerInterval);
+            timerInterval = null;
+            isRunning = false;
+            isPaused = false;
+            // 搵區塊六嘅第一個步驟
+            const block6StartIndex = trainingSteps.findIndex(s => s.block === 5);
+            if (block6StartIndex >= 0) {
+                currentStepIndex = block6StartIndex;
+                timeLeftInStep = 60;
+                totalElapsedSeconds = currentStepIndex * 60;
+            }
+            btnStartEl.disabled = false;
+            btnStartEl.textContent = '▶ 開始訓練';
+            btnPauseEl.disabled = true;
+            btnSkipEl.disabled = true;
+            coachMsgEl.textContent = '👌 已跳到區塊六：呼吸重置+收操。俾佢抖、做呼吸、傾偈。';
+            updateDisplay();
         }
 
         // ==================== 計時器 ====================
@@ -846,6 +989,7 @@
                 isPaused = false;
                 isRunning = true;
                 btnPauseEl.disabled = false;
+                btnSkipEl.disabled = false;
                 btnStartEl.textContent = '▶ 進行中';
                 btnStartEl.disabled = true;
                 timerInterval = setInterval(tick, 1000);
@@ -857,6 +1001,7 @@
             btnStartEl.disabled = true;
             btnStartEl.textContent = '▶ 進行中';
             btnPauseEl.disabled = false;
+            btnSkipEl.disabled = false;
             coachMsgEl.textContent = '開始啦！記住：轉得快、唔好散、開心最緊要！🚀';
             timerInterval = setInterval(tick, 1000);
             updateDisplay();
@@ -871,7 +1016,8 @@
             btnStartEl.disabled = false;
             btnStartEl.textContent = '▶ 繼續';
             btnPauseEl.disabled = true;
-            coachMsgEl.textContent = '暫停抖一抖～飲啖水、深呼吸，準備好就繼續！💧';
+            btnSkipEl.disabled = false;
+            coachMsgEl.textContent = '暫停抖一抖～飲啖水、深呼吸，準備好就繼續！💧 如果佢太攰，可以撳「跳到收操」。';
         }
 
         function resetTimer() {
@@ -885,12 +1031,14 @@
             btnStartEl.disabled = false;
             btnStartEl.textContent = '▶ 開始訓練';
             btnPauseEl.disabled = true;
+            btnSkipEl.disabled = true;
+            warningBannerEl.classList.remove('show');
             progressCircleEl.style.strokeDashoffset = '0';
-            progressCircleEl.classList.remove('rest-mode', 'warn-mode');
+            progressCircleEl.classList.remove('rest-mode', 'warn-mode', 'danger-mode');
             totalProgressFillEl.style.width = '0%';
-            actionCardEl.classList.remove('rest-card');
+            actionCardEl.classList.remove('rest-card', 'danger-card');
             phaseBadgeEl.classList.remove('rest-phase');
-            coachMsgEl.textContent = '好！我哋一齊重建大腦同腳底嘅連線！記住：轉得快、唔好散、開心最緊要！';
+            coachMsgEl.textContent = '記住：框架係指引，唔係死命令。佢攰就收，亂做不如唔做。';
             updateDisplay();
         }
 
@@ -900,6 +1048,10 @@
                 e.preventDefault();
                 if (isRunning && !isPaused) pauseTimer();
                 else startTimer();
+            }
+            if (e.code === 'KeyS' && e.ctrlKey) {
+                e.preventDefault();
+                skipToBlock6();
             }
             if (e.code === 'KeyR' && e.ctrlKey) {
                 e.preventDefault();

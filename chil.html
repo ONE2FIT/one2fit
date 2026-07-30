@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>60分鐘腳底訓練計時器</title>
+    <style>
+        :root {
+            --bg: #0a0e14;
+            --surface: #141b22;
+            --text: #e0e0e0;
+            --accent: #ff6b35;
+            --accent2: #4ecdc4;
+            --warn: #f7c948;
+            --rest: #6c5ce7;
+            --card: #1a2332;
+            --border: #2a3544;
+            --font: 'Segoe UI', 'Helvetica Neue', 'Noto Sans HK', sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 16px;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 520px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* 頂部狀態列 */
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--surface);
+            border-radius: 20px;
+            padding: 12px 20px;
+            border: 1px solid var(--border);
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .status-bar .phase {
+            color: var(--accent2);
+            letter-spacing: 0.04em;
+        }
+        .status-bar .overall-time {
+            color: #888;
+            font-variant-numeric: tabular-nums;
+            font-family: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+        }
+
+        /* 主計時器 */
+        .timer-ring-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            margin: 8px 0 0 0;
+        }
+        .timer-ring {
+            position: relative;
+            width: 220px;
+            height: 220px;
+        }
+        .timer-ring svg {
+            transform: rotate(-90deg);
+            width: 100%;
+            height: 100%;
+        }
+        .timer-ring .bg-circle {
+            fill: none;
+            stroke: var(--border);
+            stroke-width: 10;
+        }
+        .timer-ring .progress-circle {
+            fill: none;
+            stroke: var(--accent);
+            stroke-width: 10;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.9s linear;
+        }
+        .timer-ring .progress-circle.rest-mode {
+            stroke: var(--rest);
+        }
+        .timer-ring .progress-circle.warn-mode {
+            stroke: var(--warn);
+        }
+        .timer-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        .timer-minutes {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1;
+            color: #fff;
+            font-variant-numeric: tabular-nums;
+            font-family: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+        }
+        .timer-seconds {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #aaa;
+            font-variant-numeric: tabular-nums;
+            font-family: 'SF Mono', 'Cascadia Code', 'Consolas', monospace;
+        }
+        .timer-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: #888;
+            margin-top: 2px;
+        }
+
+        /* 動作顯示卡 */
+        .action-card {
+            background: var(--card);
+            border-radius: 24px;
+            padding: 24px 20px;
+            border: 1px solid var(--border);
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .action-card.rest-card {
+            border-color: var(--rest);
+            background: #1a1a2e;
+        }
+        .action-card .step-number {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--accent2);
+            margin-bottom: 6px;
+            font-weight: 700;
+        }
+        .action-card .action-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+        .action-card .action-duration {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-bottom: 12px;
+        }
+        .action-card .action-detail {
+            font-size: 0.95rem;
+            color: #bbb;
+            line-height: 1.6;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            padding: 12px 16px;
+            text-align: left;
+        }
+        .action-card .rest-icon {
+            font-size: 3rem;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        /* 動畫指示器 */
+        .indicator-row {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .indicator-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--border);
+            transition: all 0.3s ease;
+        }
+        .indicator-dot.active {
+            background: var(--accent);
+            box-shadow: 0 0 14px var(--accent);
+            transform: scale(1.4);
+        }
+        .indicator-dot.done {
+            background: var(--accent2);
+        }
+
+        /* 控制按鈕 */
+        .control-row {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 14px 28px;
+            border-radius: 40px;
+            border: none;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            letter-spacing: 0.03em;
+            transition: all 0.2s ease;
+            font-family: var(--font);
+            touch-action: manipulation;
+        }
+        .btn-start {
+            background: var(--accent);
+            color: #fff;
+        }
+        .btn-pause {
+            background: var(--warn);
+            color: #000;
+        }
+        .btn-reset {
+            background: transparent;
+            border: 2px solid var(--border);
+            color: #ccc;
+        }
+        .btn:active {
+            transform: scale(0.95);
+        }
+        .btn:disabled {
+            opacity: 0.4;
+            pointer-events: none;
+        }
+
+        /* 總進度條 */
+        .total-progress-bar {
+            height: 6px;
+            background: var(--border);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        .total-progress-fill {
+            height: 100%;
+            background: var(--accent2);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        /* 響應式 */
+        @media (max-width: 400px) {
+            .timer-ring {
+                width: 170px;
+                height: 170px;
+            }
+            .timer-minutes {
+                font-size: 3rem;
+            }
+            .timer-seconds {
+                font-size: 1.5rem;
+            }
+            .action-card .action-title {
+                font-size: 1.3rem;
+            }
+            .btn {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 狀態列 -->
+        <div class="status-bar">
+            <span class="phase" id="phaseName">準備開始</span>
+            <span class="overall-time" id="overallTime">60:00</span>
+        </div>
+
+        <!-- 總進度條 -->
+        <div class="total-progress-bar">
+            <div class="total-progress-fill" id="totalProgressFill" style="width: 0%;"></div>
+        </div>
+
+        <!-- 圓形計時器 -->
+        <div class="timer-ring-container">
+            <div class="timer-ring">
+                <svg viewBox="0 0 200 200">
+                    <circle class="bg-circle" cx="100" cy="100" r="90"/>
+                    <circle class="progress-circle" id="progressCircle" cx="100" cy="100" r="90"
+                    stroke-dasharray="565.49" stroke-dashoffset="0"/>
+                </svg>
+                <div class="timer-center">
+                    <div class="timer-minutes" id="timerMinutes">60</div>
+                    <div class="timer-seconds" id="timerSeconds">00</div>
+                    <div class="timer-label" id="timerLabel">分鐘</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 動作顯示卡 -->
+        <div class="action-card" id="actionCard">
+            <span class="step-number" id="stepNumber">第 1 步</span>
+            <div class="action-title" id="actionTitle">赤腳自由行</div>
+            <div class="action-duration" id="actionDuration">⏱ 1 分鐘</div>
+            <div class="action-detail" id="actionDetail">
+                除襪赤腳喺地下自由行，唔使任何指令，就係等腳底醒覺。
+            </div>
+        </div>
+
+        <!-- 步驟指示器 -->
+        <div class="indicator-row" id="indicatorRow"></div>
+
+        <!-- 控制按鈕 -->
+        <div class="control-row">
+            <button class="btn btn-start" id="btnStart" onclick="startTimer()">▶ 開始訓練</button>
+            <button class="btn btn-pause" id="btnPause" onclick="pauseTimer()" disabled>⏸ 暫停</button>
+            <button class="btn btn-reset" id="btnReset" onclick="resetTimer()">↺ 重設</button>
+        </div>
+    </div>
+
+    <script>
+        // ==================== 訓練步驟定義 ====================
+        // 每分鐘一個步驟，共60個步驟
+        const trainingSteps = [
+            // 第1-5分鐘：熱身遊戲化
+            { title: '赤腳自由行', duration: 60, detail: '除襪赤腳喺地下自由行，唔使任何指令，等腳底醒覺。', phase: '熱身', rest: false },
+            { title: '腳趾抓毛巾比賽 (1)', duration: 60, detail: '擺條毛巾喺地下，同小朋友鬥快用腳趾抓毛巾。贏咗有貼紙！', phase: '熱身', rest: false },
+            { title: '腳趾抓毛巾比賽 (2)', duration: 60, detail: '繼續抓毛巾比賽，換隻腳再鬥過。保持遊戲氣氛！', phase: '熱身', rest: false },
+            { title: '坐姿跟骨定位 (右腳)', duration: 60, detail: '坐低，用手將右腳跟骨向內撥正。叫佢閉眼感受3秒：「邊個位掂住地下？」答完即放鬆。重複3次。', phase: '熱身',
+                rest: false },
+            { title: '坐姿跟骨定位 (左腳)', duration: 60, detail: '同樣做左腳。每次保持唔超過5秒，做3次就夠。唔好戀戰。', phase: '熱身', rest: false },
+
+            // 第6-15分鐘：瑜伽磚企立 + 睇動畫片
+            { title: '雙腳瑜伽磚企立 (開眼)', duration: 60, detail: '擺兩塊瑜伽磚平放，赤腳企上去。腳踭內側+大腳趾掂磚，外側懸空。即刻開電視/平板！', phase: '本體感受重建',
+                rest: false },
+            { title: '繼續企磚睇片', duration: 60, detail: '保持企位，繼續睇動畫片。腳踭內側踩實，外側懸空。', phase: '本體感受重建', rest: false },
+            { title: '繼續企磚睇片', duration: 60, detail: '保持企位，繼續睇動畫片。你只需要望一望佢腳底有冇向外翻。', phase: '本體感受重建', rest: false },
+            { title: '檢查+調整', duration: 60, detail: '暫停動畫片！「俾我睇下腳踭有冇走位？」有走位就撥返正。然後繼續睇片。', phase: '本體感受重建',
+            rest: false },
+            { title: '繼續企磚睇片', duration: 60, detail: '保持企位，繼續睇動畫片。', phase: '本體感受重建', rest: false },
+            { title: '繼續企磚睇片', duration: 60, detail: '保持企位，繼續睇動畫片。每隔1分鐘檢查腳底。', phase: '本體感受重建', rest: false },
+            { title: '繼續企磚睇片', duration: 60, detail: '保持企位，繼續睇動畫片。', phase: '本體感受重建', rest: false },
+            { title: '閉眼企 (挑戰版)', duration: 60, detail: '「試下閉眼企10秒，睇下Keep唔Keep到？」閉眼10秒、開眼10秒，重複。企唔穩就扶牆。',
+                phase: '本體感受重建', rest: false },
+            { title: '閉眼企繼續', duration: 60, detail: '繼續閉眼企挑戰。呢個係全堂最關鍵嘅腦腳連接訓練！', phase: '本體感受重建', rest: false },
+            { title: '閉眼企繼續', duration: 60, detail: '最後一輪閉眼企。做完可以抖一抖。', phase: '本體感受重建', rest: false },
+
+            // 第16-25分鐘：坐低抖 + 呼吸遊戲
+            { title: '坐姿抖腳 (主動休息)', duration: 60, detail: '坐喺凳上，雙腳平放地下。自由抖下腳趾、轉下腳踭，完全放鬆。', phase: '休息', rest: true },
+            { title: '繼續抖 + 放鬆', duration: 60, detail: '繼續自由放鬆。唔使落指令，等佢個系統回氣。', phase: '休息', rest: true },
+            { title: '繼續抖 + 放鬆', duration: 60, detail: '最後一分鐘放鬆。準備進入呼吸遊戲。', phase: '休息', rest: true },
+            { title: '呼吸搵腳踭 (遊戲)', duration: 60, detail: '「玩遊戲：呼氣嗰陣，腳踭壓實地下，好似想踩扁曱甴！」呼氣3秒壓地、吸氣2秒保持。',
+                phase: '呼吸訓練', rest: false },
+            { title: '呼吸搵腳踭 繼續', duration: 60, detail: '繼續呼吸遊戲。做10次呼吸，腳踭壓地唔好散。', phase: '呼吸訓練', rest: false },
+            { title: '呼吸搵腳踭 繼續', duration: 60, detail: '繼續呼吸遊戲。保持慢呼氣、腳踭壓實。', phase: '呼吸訓練', rest: false },
+            { title: '呼吸搵腳踭 繼續', duration: 60, detail: '最後一分鐘呼吸遊戲。做完就真正抖。', phase: '呼吸訓練', rest: false },
+            { title: '真正休息 + 飲水', duration: 60, detail: '真正休息！俾佢飲水、坐直、腳底掂地。唔好攤喺梳化。', phase: '休息', rest: true },
+            { title: '繼續休息', duration: 60, detail: '繼續休息，保持腳底掂地。', phase: '休息', rest: true },
+            { title: '繼續休息', duration: 60, detail: '最後一分鐘休息。準備進入動態訓練。', phase: '休息', rest: true },
+
+            // 第26-40分鐘：動態訓練
+            { title: '企磚 + 慢速擺臂', duration: 60, detail: '企返上瑜伽磚，腳踭內側踩實。超慢速擺臂（似打太極）。腳底一散就停，重頭嚟過。',
+                phase: '動態訓練', rest: false },
+            { title: '企磚 + 慢速擺臂 繼續', duration: 60, detail: '繼續慢速擺臂。保持腳底鎖死。', phase: '動態訓練', rest: false },
+            { title: '企磚 + 快速擺臂', duration: 60, detail: '加快擺臂速度！但腳底鎖死唔准郁。做30秒、抖30秒。', phase: '動態訓練', rest: false },
+            { title: '企磚 + 快速擺臂 繼續', duration: 60, detail: '繼續快速擺臂。如果腳底散咗，退返去慢速。', phase: '動態訓練', rest: false },
+            { title: '單腳企 (右腳扶牆)', duration: 60, detail: '右腳企磚、左腳離地，扶牆。目標保持15秒。腳底向外翻就落返嚟。', phase: '動態訓練', rest: false },
+            { title: '單腳企 (右腳繼續)', duration: 60, detail: '繼續右腳單腳企挑戰。左右腳各做兩組。', phase: '動態訓練', rest: false },
+            { title: '單腳企 (左腳扶牆)', duration: 60, detail: '左腳企磚、右腳離地，扶牆。目標保持15秒。', phase: '動態訓練', rest: false },
+            { title: '單腳企 (左腳繼續)', duration: 60, detail: '繼續左腳單腳企挑戰。', phase: '動態訓練', rest: false },
+            { title: '休息回氣', duration: 60, detail: '坐低，雙腳平放，自由呼吸。俾神經系統回氣。可以睇片、傾偈。', phase: '休息', rest: true },
+            { title: '繼續休息', duration: 60, detail: '繼續休息回氣。', phase: '休息', rest: true },
+            { title: '繼續休息', duration: 60, detail: '繼續休息回氣。', phase: '休息', rest: true },
+            { title: '繼續休息', duration: 60, detail: '繼續休息。', phase: '休息', rest: true },
+            { title: '繼續休息', duration: 60, detail: '最後一分鐘休息。準備加固訓練。', phase: '休息', rest: true },
+
+            // 第41-55分鐘：加固 + 挑戰
+            { title: '窄距企磚 + 腳踭外擠', duration: 60, detail: '兩塊瑜伽磚拍埋，窄距企上去。「用腳踭將磚向外推開」出力壓3下、抖10秒。',
+                phase: '加固訓練', rest: false },
+            { title: '窄距企磚 繼續', duration: 60, detail: '繼續腳踭外擠。目標做夠7下（大腦最基本記憶數）。', phase: '加固訓練', rest: false },
+            { title: '窄距企磚 繼續', duration: 60, detail: '繼續腳踭外擠。保持大腳趾壓實磚面。', phase: '加固訓練', rest: false },
+            { title: '重溫閉眼企', duration: 60, detail: '返返正常距離瑜伽磚企立。閉眼10秒、開眼10秒，重複。', phase: '加固訓練', rest: false },
+            { title: '重溫閉眼企 繼續', duration: 60, detail: '繼續閉眼企。睇下比之前有冇進步。', phase: '加固訓練', rest: false },
+            { title: '重溫閉眼企 繼續', duration: 60, detail: '最後一輪閉眼企。', phase: '加固訓練', rest: false },
+            { title: '坐低抖', duration: 60, detail: '坐低休息，雙腳平放地下。', phase: '休息', rest: true },
+            { title: '坐低抖', duration: 60, detail: '繼續休息。', phase: '休息', rest: true },
+            { title: '坐低抖', duration: 60, detail: '繼續休息。準備腳趾抓毛巾重溫。', phase: '休息', rest: true },
+            { title: '腳趾抓毛巾 (重溫)', duration: 60, detail: '坐低再做一次腳趾抓毛巾。今次可以單腳挑戰！贏咗有獎。', phase: '加固訓練', rest: false },
+            { title: '腳趾抓毛巾 繼續', duration: 60, detail: '繼續抓毛巾比賽。換腳挑戰。', phase: '加固訓練', rest: false },
+            { title: '自由揀 (俾佢話事)', duration: 60, detail: '「你想重溫邊個遊戲？企磚？定係呼吸壓腳踭？」俾佢自己揀！自主權好重要。',
+                phase: '加固訓練', rest: false },
+            { title: '自由揀 繼續', duration: 60, detail: '繼續做佢揀嘅遊戲。', phase: '加固訓練', rest: false },
+            { title: '自由揀 繼續', duration: 60, detail: '繼續做佢揀嘅遊戲。', phase: '加固訓練', rest: false },
+            { title: '自由揀 最後', duration: 60, detail: '最後一分鐘自由遊戲。準備收操。', phase: '加固訓練', rest: false },
+
+            // 第56-60分鐘：收操 + 呼吸重置
+            { title: '仰臥呼吸重置', duration: 60, detail: '仰臥地下，雙腳平放、膝頭彎曲，腳底踩實。慢呼氣4秒、腳踭壓地；吸氣3秒、保持。',
+                phase: '收操', rest: false },
+            { title: '仰臥呼吸 繼續', duration: 60, detail: '繼續仰臥呼吸。做8-10次呼吸。', phase: '收操', rest: false },
+            { title: '仰臥呼吸 繼續', duration: 60, detail: '繼續仰臥呼吸。保持腳踭壓實地下。', phase: '收操', rest: false },
+            { title: '抖 + 總結', duration: 60, detail: '「今日做得好好！你閉眼企比上星期耐咗。」（就算冇進步都照讚）', phase: '收操', rest: true },
+            { title: '完成！自由活動', duration: 60, detail: '🎉 60分鐘訓練完成！俾小朋友自由活動。千祈唔好加操，做完就收工！', phase: '完成', rest: true },
+        ];
+
+        // ==================== 狀態管理 ====================
+        const TOTAL_STEPS = trainingSteps.length;
+        const TOTAL_DURATION = TOTAL_STEPS * 60; // 3600秒 = 60分鐘
+        const CIRCUMFERENCE = 2 * Math.PI * 90; // ~565.49
+
+        let currentStepIndex = 0;
+        let timeLeftInStep = 60; // 每秒更新
+        let totalElapsedSeconds = 0;
+        let timerInterval = null;
+        let isRunning = false;
+        let isPaused = false;
+
+        // ==================== DOM 元素 ====================
+        const phaseNameEl = document.getElementById('phaseName');
+        const overallTimeEl = document.getElementById('overallTime');
+        const totalProgressFillEl = document.getElementById('totalProgressFill');
+        const progressCircleEl = document.getElementById('progressCircle');
+        const timerMinutesEl = document.getElementById('timerMinutes');
+        const timerSecondsEl = document.getElementById('timerSeconds');
+        const timerLabelEl = document.getElementById('timerLabel');
+        const stepNumberEl = document.getElementById('stepNumber');
+        const actionTitleEl = document.getElementById('actionTitle');
+        const actionDurationEl = document.getElementById('actionDuration');
+        const actionDetailEl = document.getElementById('actionDetail');
+        const actionCardEl = document.getElementById('actionCard');
+        const indicatorRowEl = document.getElementById('indicatorRow');
+        const btnStartEl = document.getElementById('btnStart');
+        const btnPauseEl = document.getElementById('btnPause');
+        const btnResetEl = document.getElementById('btnReset');
+
+        // ==================== 初始化指示器 ====================
+        function buildIndicators() {
+            indicatorRowEl.innerHTML = '';
+            for (let i = 0; i < TOTAL_STEPS; i++) {
+                const dot = document.createElement('span');
+                dot.className = 'indicator-dot';
+                dot.title = `${i + 1}: ${trainingSteps[i].title}`;
+                dot.dataset.index = i;
+                indicatorRowEl.appendChild(dot);
+            }
+        }
+
+        function updateIndicators() {
+            const dots = indicatorRowEl.querySelectorAll('.indicator-dot');
+            dots.forEach((dot, i) => {
+                dot.classList.remove('active', 'done');
+                if (i < currentStepIndex) dot.classList.add('done');
+                if (i === currentStepIndex) dot.classList.add('active');
+            });
+        }
+
+        // ==================== 更新顯示 ====================
+        function updateDisplay() {
+            const step = trainingSteps[currentStepIndex];
+
+            // 階段名稱
+            phaseNameEl.textContent = step.phase;
+
+            // 總剩餘時間
+            const remainingTotal = TOTAL_DURATION - totalElapsedSeconds;
+            const remMin = Math.floor(remainingTotal / 60);
+            const remSec = remainingTotal % 60;
+            overallTimeEl.textContent = `${remMin}:${remSec.toString().padStart(2, '0')}`;
+
+            // 總進度條
+            const progressPercent = (totalElapsedSeconds / TOTAL_DURATION) * 100;
+            totalProgressFillEl.style.width = `${progressPercent}%`;
+
+            // 圓形進度環 (基於當前步驟的剩餘時間)
+            const stepProgress = timeLeftInStep / 60;
+            const offset = CIRCUMFERENCE * (1 - stepProgress);
+            progressCircleEl.style.strokeDashoffset = offset;
+
+            // 休息模式顏色
+            progressCircleEl.classList.remove('rest-mode', 'warn-mode');
+            if (step.rest) {
+                progressCircleEl.classList.add('rest-mode');
+            }
+            if (timeLeftInStep <= 10 && !step.rest) {
+                progressCircleEl.classList.add('warn-mode');
+            }
+
+            // 計時器數字
+            const min = Math.floor(timeLeftInStep / 60);
+            const sec = timeLeftInStep % 60;
+            timerMinutesEl.textContent = min;
+            timerSecondsEl.textContent = sec.toString().padStart(2, '0');
+            timerLabelEl.textContent = step.rest ? '休息' : '分鐘';
+
+            // 動作卡
+            stepNumberEl.textContent = `第 ${currentStepIndex + 1} 步 / 共 ${TOTAL_STEPS} 步`;
+            actionTitleEl.textContent = step.title;
+            actionDurationEl.textContent = `⏱ ${step.duration} 秒`;
+            actionDetailEl.textContent = step.detail;
+
+            // 休息卡樣式
+            if (step.rest) {
+                actionCardEl.classList.add('rest-card');
+            } else {
+                actionCardEl.classList.remove('rest-card');
+            }
+
+            // 指示器
+            updateIndicators();
+        }
+
+        // ==================== 切換步驟 ====================
+        function advanceStep() {
+            if (currentStepIndex < TOTAL_STEPS - 1) {
+                currentStepIndex++;
+                timeLeftInStep = 60;
+                updateDisplay();
+            } else {
+                // 全部完成
+                completeTraining();
+            }
+        }
+
+        function completeTraining() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            isRunning = false;
+            isPaused = false;
+            btnStartEl.disabled = false;
+            btnPauseEl.disabled = true;
+            btnStartEl.textContent = '▶ 開始訓練';
+            phaseNameEl.textContent = '完成！';
+            actionTitleEl.textContent = '🎉 訓練完成！';
+            actionDetailEl.textContent = '60分鐘訓練全部完成！俾小朋友自由活動，千祈唔好加操！';
+            timerMinutesEl.textContent = '0';
+            timerSecondsEl.textContent = '00';
+            progressCircleEl.style.strokeDashoffset = CIRCUMFERENCE;
+            totalProgressFillEl.style.width = '100%';
+            overallTimeEl.textContent = '0:00';
+            actionCardEl.classList.add('rest-card');
+            const dots = indicatorRowEl.querySelectorAll('.indicator-dot');
+            dots.forEach(d => d.classList.add('done'));
+            dots.forEach(d => d.classList.remove('active'));
+        }
+
+        // ==================== 計時器邏輯 ====================
+        function tick() {
+            if (!isRunning) return;
+
+            timeLeftInStep--;
+            totalElapsedSeconds++;
+
+            if (timeLeftInStep <= 0) {
+                advanceStep();
+            }
+
+            updateDisplay();
+
+            // 如果已經完成
+            if (currentStepIndex >= TOTAL_STEPS - 1 && timeLeftInStep <= 0) {
+                completeTraining();
+            }
+        }
+
+        function startTimer() {
+            if (isRunning && !isPaused) return;
+
+            if (isPaused) {
+                // 恢復
+                isPaused = false;
+                isRunning = true;
+                btnPauseEl.disabled = false;
+                btnStartEl.textContent = '▶ 進行中';
+                btnStartEl.disabled = true;
+                timerInterval = setInterval(tick, 1000);
+                return;
+            }
+
+            // 全新開始
+            if (totalElapsedSeconds > 0 && currentStepIndex === 0 && timeLeftInStep === 60) {
+                // 已重設，正常開始
+            }
+
+            isRunning = true;
+            isPaused = false;
+            btnStartEl.disabled = true;
+            btnStartEl.textContent = '▶ 進行中';
+            btnPauseEl.disabled = false;
+            timerInterval = setInterval(tick, 1000);
+            updateDisplay();
+        }
+
+        function pauseTimer() {
+            if (!isRunning) return;
+            isRunning = false;
+            isPaused = true;
+            clearInterval(timerInterval);
+            timerInterval = null;
+            btnStartEl.disabled = false;
+            btnStartEl.textContent = '▶ 繼續';
+            btnPauseEl.disabled = true;
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            isRunning = false;
+            isPaused = false;
+            currentStepIndex = 0;
+            timeLeftInStep = 60;
+            totalElapsedSeconds = 0;
+            btnStartEl.disabled = false;
+            btnStartEl.textContent = '▶ 開始訓練';
+            btnPauseEl.disabled = true;
+            progressCircleEl.style.strokeDashoffset = '0';
+            progressCircleEl.classList.remove('rest-mode', 'warn-mode');
+            totalProgressFillEl.style.width = '0%';
+            actionCardEl.classList.remove('rest-card');
+            updateDisplay();
+        }
+
+        // ==================== 鍵盤快捷鍵 ====================
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                if (isRunning && !isPaused) {
+                    pauseTimer();
+                } else {
+                    startTimer();
+                }
+            }
+            if (e.code === 'KeyR' && e.ctrlKey) {
+                e.preventDefault();
+                resetTimer();
+            }
+        });
+
+        // ==================== 初始化 ====================
+        function init() {
+            buildIndicators();
+            progressCircleEl.style.strokeDasharray = CIRCUMFERENCE;
+            progressCircleEl.style.strokeDashoffset = '0';
+            updateDisplay();
+        }
+
+        init();
+    </script>
+</body>
+</html>

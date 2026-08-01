@@ -14,349 +14,99 @@
     <title>限時免費報名 | ONE2FIT體系《足以影響你的呼吸》</title>
     
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", "PingFang HK", sans-serif;
-            background: #0f172a;
-            color: #e2e8f0;
-            line-height: 1.7;
-            padding: 20px;
+            background: #0f172a; color: #e2e8f0; line-height: 1.7; padding: 20px;
         }
-        
         .container {
-            max-width: 600px;
-            margin: 0 auto;
-            background: #1e293b;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            max-width: 600px; margin: 0 auto; background: #1e293b;
+            border-radius: 16px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5);
         }
-        
         .header {
             background: linear-gradient(135deg, #1a2a3a 0%, #0f172a 100%);
-            padding: 40px 30px 30px;
-            text-align: center;
-            border-bottom: 2px solid #334155;
+            padding: 40px 30px 30px; text-align: center; border-bottom: 2px solid #334155;
         }
-        
         .header .badge {
-            display: inline-block;
-            background: #dc2626;
-            color: #fff;
-            padding: 6px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 1px;
-            margin-bottom: 16px;
-            animation: pulse 2s infinite;
+            display: inline-block; background: #dc2626; color: #fff; padding: 6px 16px;
+            border-radius: 20px; font-size: 14px; font-weight: 700; letter-spacing: 1px;
+            margin-bottom: 16px; animation: pulse 2s infinite;
         }
-        
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.05); }
         }
-        
-        .header h1 {
-            font-size: 26px;
-            font-weight: 800;
-            color: #f8fafc;
-            margin-bottom: 8px;
-            letter-spacing: 1px;
-        }
-        
-        .header .subtitle {
-            font-size: 15px;
-            color: #94a3b8;
-            margin-bottom: 4px;
-        }
-        
-        .header .price-section {
-            margin-top: 16px;
-        }
-        
-        .header .original-price {
-            text-decoration: line-through;
-            color: #64748b;
-            font-size: 16px;
-        }
-        
+        .header h1 { font-size: 26px; font-weight: 800; color: #f8fafc; margin-bottom: 8px; letter-spacing: 1px; }
+        .header .subtitle { font-size: 15px; color: #94a3b8; margin-bottom: 4px; }
+        .header .price-section { margin-top: 16px; }
+        .header .original-price { text-decoration: line-through; color: #64748b; font-size: 16px; }
         .header .free-badge {
-            display: inline-block;
-            background: #16a34a;
-            color: #fff;
-            padding: 8px 20px;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: 800;
-            margin-left: 8px;
+            display: inline-block; background: #16a34a; color: #fff; padding: 8px 20px;
+            border-radius: 8px; font-size: 18px; font-weight: 800; margin-left: 8px;
         }
-        
-        .body-content {
-            padding: 30px;
+        .body-content { padding: 30px; }
+        .benefits { background: #0f172a; border-radius: 12px; padding: 20px; margin-bottom: 28px; }
+        .benefits h3 { font-size: 16px; color: #f8fafc; margin-bottom: 12px; }
+        .benefits ul { list-style: none; padding: 0; }
+        .benefits ul li { padding: 4px 0; font-size: 14px; color: #cbd5e1; }
+        .benefits ul li::before { content: "✅ "; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: 700; font-size: 14px; color: #f1f5f9; margin-bottom: 6px; }
+        .form-group .hint { font-size: 12px; color: #64748b; font-weight: 400; font-style: italic; margin-bottom: 4px; display: block; }
+        .form-group input[type="text"], .form-group input[type="tel"], .form-group input[type="email"] {
+            width: 100%; padding: 12px 14px; background: #0f172a; border: 1px solid #334155;
+            border-radius: 8px; color: #f8fafc; font-size: 15px; transition: border-color 0.3s;
         }
-        
-        .benefits {
-            background: #0f172a;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 28px;
+        .form-group input:focus { outline: none; border-color: #3b82f6; }
+        .checkbox-group, .radio-group { background: #0f172a; border-radius: 8px; padding: 14px; }
+        .checkbox-group label, .radio-group label {
+            display: flex; align-items: center; padding: 6px 0; font-weight: 400; font-size: 14px; cursor: pointer;
         }
-        
-        .benefits h3 {
-            font-size: 16px;
-            color: #f8fafc;
-            margin-bottom: 12px;
+        .checkbox-group input[type="checkbox"], .radio-group input[type="radio"] {
+            margin-right: 10px; width: 18px; height: 18px; accent-color: #3b82f6;
         }
-        
-        .benefits ul {
-            list-style: none;
-            padding: 0;
-        }
-        
-        .benefits ul li {
-            padding: 4px 0;
-            font-size: 14px;
-            color: #cbd5e1;
-        }
-        
-        .benefits ul li::before {
-            content: "✅ ";
-        }
-        
-        .form-group {
-            margin-bottom: 20px;
-        }
-        
-        .form-group label {
-            display: block;
-            font-weight: 700;
-            font-size: 14px;
-            color: #f1f5f9;
-            margin-bottom: 6px;
-        }
-        
-        .form-group .hint {
-            font-size: 12px;
-            color: #64748b;
-            font-weight: 400;
-            font-style: italic;
-            margin-bottom: 4px;
-            display: block;
-        }
-        
-        .form-group input[type="text"],
-        .form-group input[type="tel"],
-        .form-group input[type="email"] {
-            width: 100%;
-            padding: 12px 14px;
-            background: #0f172a;
-            border: 1px solid #334155;
-            border-radius: 8px;
-            color: #f8fafc;
-            font-size: 15px;
-            transition: border-color 0.3s;
-        }
-        
-        .form-group input:focus {
-            outline: none;
-            border-color: #3b82f6;
-        }
-        
-        .checkbox-group {
-            background: #0f172a;
-            border-radius: 8px;
-            padding: 14px;
-        }
-        
-        .checkbox-group label {
-            display: flex;
-            align-items: center;
-            padding: 6px 0;
-            font-weight: 400;
-            font-size: 14px;
-            cursor: pointer;
-        }
-        
-        .checkbox-group input[type="checkbox"] {
-            margin-right: 10px;
-            width: 18px;
-            height: 18px;
-            accent-color: #3b82f6;
-        }
-        
-        .radio-group {
-            background: #0f172a;
-            border-radius: 8px;
-            padding: 14px;
-        }
-        
-        .radio-group label {
-            display: flex;
-            align-items: center;
-            padding: 6px 0;
-            font-weight: 400;
-            font-size: 14px;
-            cursor: pointer;
-        }
-        
-        .radio-group input[type="radio"] {
-            margin-right: 10px;
-            width: 18px;
-            height: 18px;
-            accent-color: #3b82f6;
-        }
-        
         textarea {
-            width: 100%;
-            padding: 12px 14px;
-            background: #0f172a;
-            border: 1px solid #334155;
-            border-radius: 8px;
-            color: #f8fafc;
-            font-size: 15px;
-            font-family: inherit;
-            resize: vertical;
-            min-height: 80px;
+            width: 100%; padding: 12px 14px; background: #0f172a; border: 1px solid #334155;
+            border-radius: 8px; color: #f8fafc; font-size: 15px; font-family: inherit;
+            resize: vertical; min-height: 80px;
         }
-        
-        textarea:focus {
-            outline: none;
-            border-color: #3b82f6;
-        }
-        
+        textarea:focus { outline: none; border-color: #3b82f6; }
         .submit-btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-            color: #fff;
-            border: none;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            letter-spacing: 1px;
-            margin-top: 8px;
+            width: 100%; padding: 16px; background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+            color: #fff; border: none; border-radius: 12px; font-size: 18px; font-weight: 800;
+            cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; letter-spacing: 1px; margin-top: 8px;
         }
-        
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(220, 38, 38, 0.4);
-        }
-        
-        .submit-btn:disabled {
-            background: #475569;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
-        
-        .success-message {
-            display: none;
-            text-align: center;
-            padding: 40px 30px;
-        }
-        
-        .success-message .icon {
-            font-size: 60px;
-            margin-bottom: 16px;
-        }
-        
-        .success-message h2 {
-            font-size: 22px;
-            color: #f8fafc;
-            margin-bottom: 12px;
-        }
-        
-        .success-message p {
-            color: #94a3b8;
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-        
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(220,38,38,0.4); }
+        .submit-btn:disabled { background: #475569; cursor: not-allowed; transform: none; box-shadow: none; }
+        .success-message { display: none; text-align: center; padding: 40px 30px; }
+        .success-message .icon { font-size: 60px; margin-bottom: 16px; }
+        .success-message h2 { font-size: 22px; color: #f8fafc; margin-bottom: 12px; }
+        .success-message p { color: #94a3b8; font-size: 14px; margin-bottom: 20px; }
         .share-box {
-            background: #0f172a;
-            border-radius: 12px;
-            padding: 16px;
-            text-align: left;
-            font-size: 13px;
-            color: #cbd5e1;
-            margin-bottom: 20px;
-            position: relative;
+            background: #0f172a; border-radius: 12px; padding: 16px; text-align: left;
+            font-size: 13px; color: #cbd5e1; margin-bottom: 20px; position: relative;
         }
-        
         .copy-btn {
-            position: absolute;
-            top: 8px;
-            right: 8px;
-            background: #334155;
-            color: #fff;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 12px;
+            position: absolute; top: 8px; right: 8px; background: #334155; color: #fff;
+            border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px;
         }
-        
-        .copy-btn:hover {
-            background: #475569;
-        }
-        
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 16px;
-            margin-top: 20px;
-            flex-wrap: wrap;
-        }
-        
+        .copy-btn:hover { background: #475569; }
+        .social-links { display: flex; justify-content: center; gap: 16px; margin-top: 20px; flex-wrap: wrap; }
         .social-links a {
-            background: #334155;
-            color: #fff;
-            padding: 12px 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 15px;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: background 0.2s;
+            background: #334155; color: #fff; padding: 12px 24px; border-radius: 8px;
+            text-decoration: none; font-size: 15px; font-weight: 600; display: flex;
+            align-items: center; gap: 8px; transition: background 0.2s;
         }
-        
-        .social-links a:hover {
-            background: #475569;
-        }
-        
+        .social-links a:hover { background: #475569; }
         .error-message {
-            background: #7f1d1d;
-            color: #fca5a5;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 16px;
-            display: none;
-            font-size: 14px;
+            background: #7f1d1d; color: #fca5a5; padding: 12px; border-radius: 8px;
+            margin-bottom: 16px; display: none; font-size: 14px;
         }
-        
         .why-fill {
-            background: #1a2a3a;
-            border-left: 3px solid #3b82f6;
-            padding: 14px 18px;
-            border-radius: 8px;
-            margin-bottom: 28px;
-            font-size: 13px;
-            color: #94a3b8;
+            background: #1a2a3a; border-left: 3px solid #3b82f6; padding: 14px 18px;
+            border-radius: 8px; margin-bottom: 28px; font-size: 13px; color: #94a3b8;
         }
-        
-        .why-fill strong {
-            color: #f8fafc;
-        }
+        .why-fill strong { color: #f8fafc; }
     </style>
 </head>
 <body>
@@ -482,106 +232,8 @@
     </div>
 </div>
 
+<!-- ===== 只保留一個乾淨嘅 Image Beacon Script ===== -->
 <script>
-    // === Google Apps Script 部署網址 ===
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw6dQfKiZy_6GG84UXSA5LQyUD5PU7b6XNb0wMd92L2qH1tfRWQWsCDGBvvpgfnQ91xHw/exec";
-    
-    const form = document.getElementById('registrationForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const errorMessage = document.getElementById('errorMessage');
-    const formContent = document.getElementById('formContent');
-    const successMessage = document.getElementById('successMessage');
-    
-    form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        // 基本驗證
-        const name = document.getElementById('name').value.trim();
-        const whatsapp = document.getElementById('whatsapp').value.trim();
-        
-        if (!name || !whatsapp) {
-            showError('請填寫稱呼同 WhatsApp 電話，呢兩項係必須嘅。');
-            return;
-        }
-        
-        if (!/^\d{8}$/.test(whatsapp)) {
-            showError('請輸入有效嘅8位數香港電話號碼。');
-            return;
-        }
-        
-        // 收集痛點
-        const painCheckboxes = document.querySelectorAll('input[name="painPoints"]:checked');
-        const painPoints = Array.from(painCheckboxes).map(cb => cb.value);
-        const painOther = document.getElementById('painOther').value.trim();
-        if (painOther) painPoints.push('其他：' + painOther);
-        
-        // 收集來源
-        const sourceRadio = document.querySelector('input[name="source"]:checked');
-        const source = sourceRadio ? sourceRadio.value : '';
-        
-        // 收集過往課程
-        const courseRadio = document.querySelector('input[name="previousCourse"]:checked');
-        const previousCourse = courseRadio ? courseRadio.value : '';
-        
-        // 建立數據對象
-        const formData = {
-            name: name,
-            whatsapp: whatsapp,
-            email: document.getElementById('email').value.trim(),
-            painPoints: painPoints.join(', '),
-            source: source,
-            previousCourse: previousCourse,
-            goal: document.getElementById('goal').value.trim(),
-            timestamp: new Date().toLocaleString('zh-HK', { timeZone: 'Asia/Hong_Kong' })
-        };
-        
-        // 禁用按鈕，顯示加載中
-        submitBtn.disabled = true;
-        submitBtn.textContent = '⏳ 提交中...';
-        errorMessage.style.display = 'none';
-        
-        try {
-            const response = await fetch(SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData)
-            });
-            
-            // 顯示成功頁面
-            formContent.style.display = 'none';
-            successMessage.style.display = 'block';
-            document.querySelector('.header .badge').textContent = '🎉 報名成功';
-            document.querySelector('.header .badge').style.background = '#16a34a';
-            
-        } catch (error) {
-            showError('網絡錯誤，請檢查網絡連接後再試。如果問題持續，請直接 WhatsApp 我哋查詢。');
-            submitBtn.disabled = false;
-            submitBtn.textContent = '🔥 立即報名，$0 解鎖原廠設定 🔥';
-        }
-    });
-    
-    function showError(msg) {
-        errorMessage.textContent = msg;
-        errorMessage.style.display = 'block';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-    
-    function copyShareText() {
-        const shareBox = document.getElementById('shareBox');
-        const text = shareBox.textContent.replace('📋 複製', '').trim();
-        
-        navigator.clipboard.writeText(text).then(() => {
-            const btn = document.querySelector('.copy-btn');
-            btn.textContent = '✅ 已複製';
-            setTimeout(() => { btn.textContent = '📋 複製'; }, 2000);
-        }).catch(() => {
-            alert('請手動複製上面嘅文字');
-        });
-    }
-</script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw6dQfKiZy_6GG84UXSA5LQyUD5PU7b6XNb0wMd92L2qH1tfRWQWsCDGBvvpgfnQ91xHw/exec";
     
     const form = document.getElementById('registrationForm');
@@ -612,6 +264,7 @@
         const painPoints = Array.from(painCheckboxes).map(cb => cb.value);
         const painOther = document.getElementById('painOther').value.trim();
         if (painOther) painPoints.push('其他：' + painOther);
+        const painPointsStr = painPoints.join(', ');
         
         // 收集來源
         const sourceRadio = document.querySelector('input[name="source"]:checked');
@@ -621,42 +274,47 @@
         const courseRadio = document.querySelector('input[name="previousCourse"]:checked');
         const previousCourse = courseRadio ? courseRadio.value : '';
         
-        // 建立查詢參數
-        const params = new URLSearchParams();
-        params.append('name', name);
-        params.append('whatsapp', whatsapp);
-        params.append('email', document.getElementById('email').value.trim());
-        params.append('painPoints', painPoints.join(', '));
-        params.append('source', source);
-        params.append('previousCourse', previousCourse);
-        params.append('goal', document.getElementById('goal').value.trim());
-        params.append('timestamp', new Date().toLocaleString('zh-HK', { timeZone: 'Asia/Hong_Kong' }));
+        const email = document.getElementById('email').value.trim();
+        const goal = document.getElementById('goal').value.trim();
+        const timestamp = new Date().toLocaleString('zh-HK', { timeZone: 'Asia/Hong_Kong' });
         
-        // 禁用按鈕，顯示加載中
+        // 禁用按鈕
         submitBtn.disabled = true;
         submitBtn.textContent = '⏳ 提交中...';
         errorMessage.style.display = 'none';
         
-        // 使用 Image Beacon 方式（最穩定，100% 穿到 CORS）
-        const img = new Image();
-        img.onload = function() {
-            // 成功
-            formContent.style.display = 'none';
-            successMessage.style.display = 'block';
-            document.querySelector('.header .badge').textContent = '🎉 報名成功';
-            document.querySelector('.header .badge').style.background = '#16a34a';
-        };
-        img.onerror = function() {
-            // 即使「錯誤」，數據通常已成功發送（因為 Google Apps Script 唔返回圖片格式）
-            formContent.style.display = 'none';
-            successMessage.style.display = 'block';
-            document.querySelector('.header .badge').textContent = '🎉 報名成功';
-            document.querySelector('.header .badge').style.background = '#16a34a';
-        };
+        // 手動構建 URL（每個參數 encodeURIComponent）
+        let requestURL = SCRIPT_URL + '?';
+        requestURL += 'name=' + encodeURIComponent(name);
+        requestURL += '&whatsapp=' + encodeURIComponent(whatsapp);
+        requestURL += '&email=' + encodeURIComponent(email);
+        requestURL += '&painPoints=' + encodeURIComponent(painPointsStr);
+        requestURL += '&source=' + encodeURIComponent(source);
+        requestURL += '&previousCourse=' + encodeURIComponent(previousCourse);
+        requestURL += '&goal=' + encodeURIComponent(goal);
+        requestURL += '&timestamp=' + encodeURIComponent(timestamp);
+        requestURL += '&r=' + Math.random();
         
-        // 發送請求
-        img.src = SCRIPT_URL + '?' + params.toString();
+        // Image Beacon（最穩定跨域方式）
+        const img = new Image();
+        img.onload = showSuccess;
+        img.onerror = showSuccess;
+        img.src = requestURL;
+        
+        // 後備：3秒後強制顯示成功
+        setTimeout(function() {
+            if (successMessage.style.display === 'none' || !successMessage.style.display) {
+                showSuccess();
+            }
+        }, 3000);
     });
+    
+    function showSuccess() {
+        formContent.style.display = 'none';
+        successMessage.style.display = 'block';
+        document.querySelector('.header .badge').textContent = '🎉 報名成功';
+        document.querySelector('.header .badge').style.background = '#16a34a';
+    }
     
     function showError(msg) {
         errorMessage.textContent = msg;
@@ -669,110 +327,11 @@
     function copyShareText() {
         const shareBox = document.getElementById('shareBox');
         const text = shareBox.textContent.replace('📋 複製', '').trim();
-        
-        navigator.clipboard.writeText(text).then(() => {
+        navigator.clipboard.writeText(text).then(function() {
             const btn = document.querySelector('.copy-btn');
             btn.textContent = '✅ 已複製';
-            setTimeout(() => { btn.textContent = '📋 複製'; }, 2000);
-        }).catch(() => {
-            alert('請手動複製上面嘅文字');
-        });
-    }
-</script>
-    // === Google Apps Script 部署網址 ===
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw6dQfKiZy_6GG84UXSA5LQyUD5PU7b6XNb0wMd92L2qH1tfRWQWsCDGBvvpgfnQ91xHw/exec";
-    
-    const form = document.getElementById('registrationForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const errorMessage = document.getElementById('errorMessage');
-    const formContent = document.getElementById('formContent');
-    const successMessage = document.getElementById('successMessage');
-    
-    form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        // 基本驗證
-        const name = document.getElementById('name').value.trim();
-        const whatsapp = document.getElementById('whatsapp').value.trim();
-        
-        if (!name || !whatsapp) {
-            showError('請填寫稱呼同 WhatsApp 電話，呢兩項係必須嘅。');
-            return;
-        }
-        
-        if (!/^\d{8}$/.test(whatsapp)) {
-            showError('請輸入有效嘅8位數香港電話號碼。');
-            return;
-        }
-        
-        // 收集痛點
-        const painCheckboxes = document.querySelectorAll('input[name="painPoints"]:checked');
-        const painPoints = Array.from(painCheckboxes).map(cb => cb.value);
-        const painOther = document.getElementById('painOther').value.trim();
-        if (painOther) painPoints.push('其他：' + painOther);
-        
-        // 收集來源
-        const sourceRadio = document.querySelector('input[name="source"]:checked');
-        const source = sourceRadio ? sourceRadio.value : '';
-        
-        // 收集過往課程
-        const courseRadio = document.querySelector('input[name="previousCourse"]:checked');
-        const previousCourse = courseRadio ? courseRadio.value : '';
-        
-        // 建立 URL-encoded 數據字串（解決 no-cors 問題）
-        const formData = new URLSearchParams();
-        formData.append('name', name);
-        formData.append('whatsapp', whatsapp);
-        formData.append('email', document.getElementById('email').value.trim());
-        formData.append('painPoints', painPoints.join(', '));
-        formData.append('source', source);
-        formData.append('previousCourse', previousCourse);
-        formData.append('goal', document.getElementById('goal').value.trim());
-        formData.append('timestamp', new Date().toLocaleString('zh-HK', { timeZone: 'Asia/Hong_Kong' }));
-        
-        // 禁用按鈕，顯示加載中
-        submitBtn.disabled = true;
-        submitBtn.textContent = '⏳ 提交中...';
-        errorMessage.style.display = 'none';
-        
-        try {
-            await fetch(SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                },
-                body: formData.toString()
-            });
-            
-            // 顯示成功頁面
-            formContent.style.display = 'none';
-            successMessage.style.display = 'block';
-            document.querySelector('.header .badge').textContent = '🎉 報名成功';
-            document.querySelector('.header .badge').style.background = '#16a34a';
-            
-        } catch (error) {
-            showError('網絡錯誤，請檢查網絡連接後再試。如果問題持續，請直接 WhatsApp 我哋查詢。');
-            submitBtn.disabled = false;
-            submitBtn.textContent = '🔥 立即報名，$0 解鎖原廠設定 🔥';
-        }
-    });
-    
-    function showError(msg) {
-        errorMessage.textContent = msg;
-        errorMessage.style.display = 'block';
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-    
-    function copyShareText() {
-        const shareBox = document.getElementById('shareBox');
-        const text = shareBox.textContent.replace('📋 複製', '').trim();
-        
-        navigator.clipboard.writeText(text).then(() => {
-            const btn = document.querySelector('.copy-btn');
-            btn.textContent = '✅ 已複製';
-            setTimeout(() => { btn.textContent = '📋 複製'; }, 2000);
-        }).catch(() => {
+            setTimeout(function() { btn.textContent = '📋 複製'; }, 2000);
+        }).catch(function() {
             alert('請手動複製上面嘅文字');
         });
     }

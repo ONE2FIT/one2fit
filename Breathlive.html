@@ -9,7 +9,7 @@
     <meta property="og:description" content="由腳開始，重塑你身體嘅原廠設定。8月8日前報名，$0 上足9堂！">
     <meta property="og:image" content="https://drive.google.com/file/d/1AQhpcdHotTGHJva-GL7-zTUNXepc_HrZ/view?usp=sharing">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://www.instagram.com/one.2_fit/">
+    <meta property="og:url" content="https://one2fit.github.io/one2fit/Breathlive">
     
     <title>限時免費報名 | ONE2FIT體系《足以影響你的呼吸》</title>
     
@@ -304,21 +304,34 @@
             font-size: 12px;
         }
         
+        .copy-btn:hover {
+            background: #475569;
+        }
+        
         .social-links {
             display: flex;
             justify-content: center;
             gap: 16px;
             margin-top: 20px;
+            flex-wrap: wrap;
         }
         
         .social-links a {
             background: #334155;
             color: #fff;
-            padding: 10px 20px;
+            padding: 12px 24px;
             border-radius: 8px;
             text-decoration: none;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+        }
+        
+        .social-links a:hover {
+            background: #475569;
         }
         
         .error-message {
@@ -457,21 +470,20 @@
         
         <div class="share-box" id="shareBox">
 🚨 我啱啱報咗個免費嘅線上課程，《足以影響你的呼吸》。由康復教練 Gavin Sir 嘅 ONE2FIT 體系團隊教，連續9個星期六，由腳開始解決全身痛症同體態問題。8月8日前報名 $0！
-快啲趁截止前一齊報名 👉 https://one2fit.github.io//one2fit/Breathlive
+快啲趁截止前一齊報名 👉 https://one2fit.github.io/one2fit/Breathlive
             <button class="copy-btn" onclick="copyShareText()">📋 複製</button>
         </div>
         
-        <h3 style="font-size:16px; color:#f8fafc; margin-bottom:8px;">📲 而家就 follow 我哋</h3>
+        <h3 style="font-size:16px; color:#f8fafc; margin-bottom:8px;">📲 有問題？即時聯絡我哋</h3>
         <div class="social-links">
-            <a href="wa.me/85261500005?text=w我想報名呼吸直播課或其他課程和服務/" target="_blank">📘 Whatsapp</a>
+            <a href="https://wa.me/85261500005?text=我想查詢呼吸直播課程" target="_blank">💬 WhatsApp 查詢</a>
             <a href="https://www.instagram.com/one.2_fit/" target="_blank">📸 Instagram</a>
-        
         </div>
     </div>
 </div>
 
 <script>
-    // === Google Apps Script 部署網址（你需要替換） ===
+    // === Google Apps Script 部署網址 ===
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw6dQfKiZy_6GG84UXSA5LQyUD5PU7b6XNb0wMd92L2qH1tfRWQWsCDGBvvpgfnQ91xHw/exec";
     
     const form = document.getElementById('registrationForm');
@@ -531,21 +543,21 @@
         try {
             const response = await fetch(SCRIPT_URL, {
                 method: 'POST',
-                mode: 'no-cors', // Google Apps Script 需要 no-cors
+                mode: 'no-cors',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify(formData)
             });
             
-            // 由於 no-cors 無法讀取 response，直接顯示成功
+            // 顯示成功頁面
             formContent.style.display = 'none';
             successMessage.style.display = 'block';
             document.querySelector('.header .badge').textContent = '🎉 報名成功';
             document.querySelector('.header .badge').style.background = '#16a34a';
             
         } catch (error) {
-            showError('網絡錯誤，請檢查網絡連接後再試。如果問題持續，請直接 WhatsApp 我哋。');
+            showError('網絡錯誤，請檢查網絡連接後再試。如果問題持續，請直接 WhatsApp 我哋查詢。');
             submitBtn.disabled = false;
             submitBtn.textContent = '🔥 立即報名，$0 解鎖原廠設定 🔥';
         }

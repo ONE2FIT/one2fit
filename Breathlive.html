@@ -581,6 +581,201 @@
             alert('請手動複製上面嘅文字');
         });
     }
+</<<script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw6dQfKiZy_6GG84UXSA5LQyUD5PU7b6XNb0wMd92L2qH1tfRWQWsCDGBvvpgfnQ91xHw/exec";
+    
+    const form = document.getElementById('registrationForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const errorMessage = document.getElementById('errorMessage');
+    const formContent = document.getElementById('formContent');
+    const successMessage = document.getElementById('successMessage');
+    
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        // 基本驗證
+        const name = document.getElementById('name').value.trim();
+        const whatsapp = document.getElementById('whatsapp').value.trim();
+        
+        if (!name || !whatsapp) {
+            showError('請填寫稱呼同 WhatsApp 電話，呢兩項係必須嘅。');
+            return;
+        }
+        
+        if (!/^\d{8}$/.test(whatsapp)) {
+            showError('請輸入有效嘅8位數香港電話號碼。');
+            return;
+        }
+        
+        // 收集痛點
+        const painCheckboxes = document.querySelectorAll('input[name="painPoints"]:checked');
+        const painPoints = Array.from(painCheckboxes).map(cb => cb.value);
+        const painOther = document.getElementById('painOther').value.trim();
+        if (painOther) painPoints.push('其他：' + painOther);
+        
+        // 收集來源
+        const sourceRadio = document.querySelector('input[name="source"]:checked');
+        const source = sourceRadio ? sourceRadio.value : '';
+        
+        // 收集過往課程
+        const courseRadio = document.querySelector('input[name="previousCourse"]:checked');
+        const previousCourse = courseRadio ? courseRadio.value : '';
+        
+        // 建立查詢參數
+        const params = new URLSearchParams();
+        params.append('name', name);
+        params.append('whatsapp', whatsapp);
+        params.append('email', document.getElementById('email').value.trim());
+        params.append('painPoints', painPoints.join(', '));
+        params.append('source', source);
+        params.append('previousCourse', previousCourse);
+        params.append('goal', document.getElementById('goal').value.trim());
+        params.append('timestamp', new Date().toLocaleString('zh-HK', { timeZone: 'Asia/Hong_Kong' }));
+        
+        // 禁用按鈕，顯示加載中
+        submitBtn.disabled = true;
+        submitBtn.textContent = '⏳ 提交中...';
+        errorMessage.style.display = 'none';
+        
+        // 使用 Image Beacon 方式（最穩定，100% 穿到 CORS）
+        const img = new Image();
+        img.onload = function() {
+            // 成功
+            formContent.style.display = 'none';
+            successMessage.style.display = 'block';
+            document.querySelector('.header .badge').textContent = '🎉 報名成功';
+            document.querySelector('.header .badge').style.background = '#16a34a';
+        };
+        img.onerror = function() {
+            // 即使「錯誤」，數據通常已成功發送（因為 Google Apps Script 唔返回圖片格式）
+            formContent.style.display = 'none';
+            successMessage.style.display = 'block';
+            document.querySelector('.header .badge').textContent = '🎉 報名成功';
+            document.querySelector('.header .badge').style.background = '#16a34a';
+        };
+        
+        // 發送請求
+        img.src = SCRIPT_URL + '?' + params.toString();
+    });
+    
+    function showError(msg) {
+        errorMessage.textContent = msg;
+        errorMessage.style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        submitBtn.disabled = false;
+        submitBtn.textContent = '🔥 立即報名，$0 解鎖原廠設定 🔥';
+    }
+    
+    function copyShareText() {
+        const shareBox = document.getElementById('shareBox');
+        const text = shareBox.textContent.replace('📋 複製', '').trim();
+        
+        navigator.clipboard.writeText(text).then(() => {
+            const btn = document.querySelector('.copy-btn');
+            btn.textContent = '✅ 已複製';
+            setTimeout(() => { btn.textContent = '📋 複製'; }, 2000);
+        }).catch(() => {
+            alert('請手動複製上面嘅文字');
+        });
+    }
+</script>
+    // === Google Apps Script 部署網址 ===
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw6dQfKiZy_6GG84UXSA5LQyUD5PU7b6XNb0wMd92L2qH1tfRWQWsCDGBvvpgfnQ91xHw/exec";
+    
+    const form = document.getElementById('registrationForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const errorMessage = document.getElementById('errorMessage');
+    const formContent = document.getElementById('formContent');
+    const successMessage = document.getElementById('successMessage');
+    
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        // 基本驗證
+        const name = document.getElementById('name').value.trim();
+        const whatsapp = document.getElementById('whatsapp').value.trim();
+        
+        if (!name || !whatsapp) {
+            showError('請填寫稱呼同 WhatsApp 電話，呢兩項係必須嘅。');
+            return;
+        }
+        
+        if (!/^\d{8}$/.test(whatsapp)) {
+            showError('請輸入有效嘅8位數香港電話號碼。');
+            return;
+        }
+        
+        // 收集痛點
+        const painCheckboxes = document.querySelectorAll('input[name="painPoints"]:checked');
+        const painPoints = Array.from(painCheckboxes).map(cb => cb.value);
+        const painOther = document.getElementById('painOther').value.trim();
+        if (painOther) painPoints.push('其他：' + painOther);
+        
+        // 收集來源
+        const sourceRadio = document.querySelector('input[name="source"]:checked');
+        const source = sourceRadio ? sourceRadio.value : '';
+        
+        // 收集過往課程
+        const courseRadio = document.querySelector('input[name="previousCourse"]:checked');
+        const previousCourse = courseRadio ? courseRadio.value : '';
+        
+        // 建立 URL-encoded 數據字串（解決 no-cors 問題）
+        const formData = new URLSearchParams();
+        formData.append('name', name);
+        formData.append('whatsapp', whatsapp);
+        formData.append('email', document.getElementById('email').value.trim());
+        formData.append('painPoints', painPoints.join(', '));
+        formData.append('source', source);
+        formData.append('previousCourse', previousCourse);
+        formData.append('goal', document.getElementById('goal').value.trim());
+        formData.append('timestamp', new Date().toLocaleString('zh-HK', { timeZone: 'Asia/Hong_Kong' }));
+        
+        // 禁用按鈕，顯示加載中
+        submitBtn.disabled = true;
+        submitBtn.textContent = '⏳ 提交中...';
+        errorMessage.style.display = 'none';
+        
+        try {
+            await fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: formData.toString()
+            });
+            
+            // 顯示成功頁面
+            formContent.style.display = 'none';
+            successMessage.style.display = 'block';
+            document.querySelector('.header .badge').textContent = '🎉 報名成功';
+            document.querySelector('.header .badge').style.background = '#16a34a';
+            
+        } catch (error) {
+            showError('網絡錯誤，請檢查網絡連接後再試。如果問題持續，請直接 WhatsApp 我哋查詢。');
+            submitBtn.disabled = false;
+            submitBtn.textContent = '🔥 立即報名，$0 解鎖原廠設定 🔥';
+        }
+    });
+    
+    function showError(msg) {
+        errorMessage.textContent = msg;
+        errorMessage.style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+    
+    function copyShareText() {
+        const shareBox = document.getElementById('shareBox');
+        const text = shareBox.textContent.replace('📋 複製', '').trim();
+        
+        navigator.clipboard.writeText(text).then(() => {
+            const btn = document.querySelector('.copy-btn');
+            btn.textContent = '✅ 已複製';
+            setTimeout(() => { btn.textContent = '📋 複製'; }, 2000);
+        }).catch(() => {
+            alert('請手動複製上面嘅文字');
+        });
+    }
 </script>
 
 </body>

@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>右脚承重·动态稳定训练 | 计时器</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background: #f5f3f0;
+            color: #1e1e2a;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+        }
+        .card {
+            max-width: 500px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 40px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+            padding: 24px 20px 32px;
+            transition: all 0.2s;
+        }
+        h1 {
+            font-size: 1.6rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+            color: #1e1e2a;
+        }
+        .subhead {
+            font-size: 0.9rem;
+            color: #5e5e6e;
+            border-left: 3px solid #b0a8a0;
+            padding-left: 12px;
+            margin-bottom: 24px;
+            font-weight: 380;
+            line-height: 1.4;
+        }
+        .phase-badge {
+            display: inline-block;
+            background: #eae7e2;
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            letter-spacing: 0.3px;
+            color: #3d3d4a;
+            margin-bottom: 18px;
+        }
+        .timer-section {
+            background: #faf9f7;
+            border-radius: 32px;
+            padding: 20px 16px 18px;
+            margin-bottom: 24px;
+            border: 1px solid #e8e4de;
+        }
+        .timer-display {
+            font-size: 4.2rem;
+            font-weight: 500;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 2px;
+            text-align: center;
+            line-height: 1.2;
+            color: #1a1a26;
+            background: #ffffff;
+            padding: 8px 0 4px;
+            border-radius: 60px;
+            margin-bottom: 6px;
+        }
+        .timer-label {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #6f6f80;
+            letter-spacing: 0.5px;
+            margin-bottom: 18px;
+        }
+        .control-group {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px 12px;
+            margin-top: 6px;
+        }
+        .btn {
+            border: none;
+            background: #ece8e3;
+            padding: 10px 18px;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: #2d2d3a;
+            flex: 1 0 auto;
+            min-width: 70px;
+            cursor: pointer;
+            transition: 0.15s;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            gap: 6px;
+        }
+        .btn-primary {
+            background: #1e1e2a;
+            color: white;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        .btn-primary:active { background: #3b3b4a; transform: scale(0.96); }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid #d6d0c8;
+        }
+        .btn-outline:active { background: #ece8e3; }
+        .btn-success {
+            background: #2b6e4f;
+            color: white;
+        }
+        .btn-success:active { background: #1f5a3f; }
+        .btn:disabled {
+            opacity: 0.4;
+            pointer-events: none;
+            transform: none;
+        }
+        .hr-divider {
+            margin: 24px 0 18px;
+            border: 0;
+            height: 1px;
+            background: linear-gradient(to right, #e0dad4, transparent);
+        }
+        .step-block {
+            background: #faf9f7;
+            border-radius: 24px;
+            padding: 16px 14px 18px;
+            margin-bottom: 20px;
+            border: 1px solid #ebe7e1;
+        }
+        .step-title {
+            font-weight: 600;
+            font-size: 1.0rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+        .step-title small {
+            font-weight: 400;
+            font-size: 0.75rem;
+            color: #6b6b7c;
+            background: #eae7e2;
+            padding: 0 12px;
+            border-radius: 30px;
+        }
+        .step-desc {
+            font-size: 0.9rem;
+            color: #3a3a48;
+            line-height: 1.5;
+            padding-left: 4px;
+            margin-bottom: 12px;
+        }
+        .data-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            gap: 12px;
+            margin-top: 10px;
+        }
+        .data-item {
+            background: white;
+            border-radius: 20px;
+            padding: 8px 14px 10px;
+            flex: 1 0 100px;
+            border: 1px solid #e3dfd9;
+        }
+        .data-item label {
+            display: block;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            color: #6f6f80;
+            margin-bottom: 2px;
+        }
+        .data-item span {
+            font-weight: 500;
+            font-size: 1.0rem;
+        }
+        .feedback-note {
+            background: #f1efe9;
+            padding: 10px 14px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: #3d3d4a;
+            margin: 12px 0 4px;
+            border-left: 4px solid #b0a8a0;
+        }
+        .footnote {
+            font-size: 0.75rem;
+            color: #7d7d8e;
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 12px;
+            border-top: 1px dashed #dcd6ce;
+        }
+        .badge-icon {
+            display: inline-block;
+            background: #d2ccc4;
+            border-radius: 40px;
+            padding: 0 10px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #2f2f3a;
+        }
+        @media (max-width: 440px) {
+            .timer-display { font-size: 3.5rem; }
+            .card { padding: 18px 14px; }
+        }
+    </style>
+</head>
+<body>
+<div class="card" role="main">
+    <h1>🦶 右脚承重 · 动态稳定</h1>
+    <div class="subhead">第二步 · 单侧承重 + 上半身螺旋力线</div>
+    <div class="phase-badge">⏳ 启动准备 · 心率确认</div>
+
+    <!-- 计时器核心 -->
+    <div class="timer-section">
+        <div class="timer-display" id="timerDisplay">00:00</div>
+        <div class="timer-label" id="timerLabel">仰躺吸3呼6 · 5分钟</div>
+        <div class="control-group">
+            <button class="btn btn-primary" id="startBtn">▶ 开始</button>
+            <button class="btn btn-outline" id="pauseBtn">⏸ 暂停</button>
+            <button class="btn btn-outline" id="resetBtn">↺ 重置</button>
+        </div>
+        <div style="display: flex; justify-content: center; gap: 10px; margin-top: 14px; flex-wrap: wrap;">
+            <button class="btn" id="presetPrep" style="background: #d8d2ca;">🧘 准备 5min</button>
+            <button class="btn" id="presetSwing" style="background: #d8d2ca;">🦵 摆臂 20s</button>
+            <button class="btn" id="presetRest" style="background: #d8d2ca;">☕ 休息 30s</button>
+        </div>
+    </div>
+
+    <!-- 训练步骤说明 + 记录 -->
+    <div class="step-block">
+        <div class="step-title">⚡ 动作二 · 右脚承重 + 左手摆臂 <small>3组</small></div>
+        <div class="step-desc">
+            <span style="background: #eae7e2; padding: 0 10px; border-radius: 40px;">右脚跟骨内侧贴地</span> 
+            悬空左脚 · 左手自然摆臂 (15-20s) 
+        </div>
+        <div class="data-grid">
+            <div class="data-item"><label>👣 脚趾抓地？</label><span id="toeGrip">—</span></div>
+            <div class="data-item"><label>🔄 右脚晃动？</label><span id="footShake">—</span></div>
+            <div class="data-item"><label>❤️ 站姿心率 (前后)</label><span id="heartRate">—</span></div>
+        </div>
+        <div class="feedback-note" id="feedbackNote">
+            💡 训练后测心率：比训练前降低 → 力线提升
+        </div>
+        <!-- 快速记录按钮 -->
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px;">
+            <button class="btn" style="flex:1; background:#ece3da;" id="logToeYes">✔ 脚趾抓地</button>
+            <button class="btn" style="flex:1; background:#ece3da;" id="logToeNo">✖ 没有抓地</button>
+            <button class="btn" style="flex:1; background:#ece3da;" id="logShakeYes">✔ 晃动</button>
+            <button class="btn" style="flex:1; background:#ece3da;" id="logShakeNo">✖ 稳定</button>
+        </div>
+        <div style="display: flex; gap: 8px; margin-top: 6px;">
+            <button class="btn btn-success" style="flex:1;" id="logHRDrop">❤️ 心率降低</button>
+            <button class="btn btn-outline" style="flex:1;" id="logHRSame">➖ 无变化</button>
+            <button class="btn btn-outline" style="flex:1;" id="logHRUp">⬆️ 升高</button>
+        </div>
+    </div>
+
+    <!-- 训练回馈摘要 -->
+    <div style="background: #f4f1ec; border-radius: 30px; padding: 14px 16px; margin-top: 6px;">
+        <div style="display: flex; justify-content: space-between; flex-wrap: wrap;">
+            <span><span style="font-weight:500;">组数</span> <span id="setCounter">0 / 3</span></span>
+            <span><span style="font-weight:500;">状态</span> <span id="phaseStatus">⏸ 待开始</span></span>
+        </div>
+        <div style="font-size:0.8rem; color:#4d4d5e; margin-top:6px; background:white; border-radius:40px; padding:4px 14px;">
+            ⚡ 脚趾抓地 = 力线断 → 退回动作一
+        </div>
+    </div>
+    <div class="footnote">
+        🧘 仰躺吸3呼6 · 心率65↓ / 呼吸8-11 · 确认后再开始
+    </div>
+</div>
+
+<script>
+    (function() {
+        "use strict";
+
+        // DOM refs
+        const timerDisplay = document.getElementById('timerDisplay');
+        const timerLabel = document.getElementById('timerLabel');
+        const startBtn = document.getElementById('startBtn');
+        const pauseBtn = document.getElementById('pauseBtn');
+        const resetBtn = document.getElementById('resetBtn');
+
+        // preset buttons
+        const presetPrep = document.getElementById('presetPrep');
+        const presetSwing = document.getElementById('presetSwing');
+        const presetRest = document.getElementById('presetRest');
+
+        // feedback log elements
+        const toeGripSpan = document.getElementById('toeGrip');
+        const footShakeSpan = document.getElementById('footShake');
+        const heartRateSpan = document.getElementById('heartRate');
+        const feedbackNote = document.getElementById('feedbackNote');
+        const setCounter = document.getElementById('setCounter');
+        const phaseStatus = document.getElementById('phaseStatus');
+
+        // log buttons
+        const logToeYes = document.getElementById('logToeYes');
+        const logToeNo = document.getElementById('logToeNo');
+        const logShakeYes = document.getElementById('logShakeYes');
+        const logShakeNo = document.getElementById('logShakeNo');
+        const logHRDrop = document.getElementById('logHRDrop');
+        const logHRSame = document.getElementById('logHRSame');
+        const logHRUp = document.getElementById('logHRUp');
+
+        // state
+        let timerInterval = null;
+        let seconds = 0;               // 当前计时秒数
+        let isRunning = false;
+        let totalSets = 0;             // 完成组数 (0-3)
+        let currentPreset = 'prep';    // 'prep', 'swing', 'rest'
+
+        // 记录数据 (仅展示用)
+        let lastToe = '—';
+        let lastShake = '—';
+        let lastHR = '—';
+        let hrNote = '';
+
+        // ----- helper: format time -----
+        function formatTime(sec) {
+            const m = Math.floor(sec / 60);
+            const s = sec % 60;
+            return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }
+
+        // ----- update display & label -----
+        function updateTimerDisplay() {
+            timerDisplay.textContent = formatTime(seconds);
+        }
+
+        function setTimerLabel(text) {
+            timerLabel.textContent = text;
+        }
+
+        // ----- stop timer (clear interval) -----
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            isRunning = false;
+            phaseStatus.textContent = '⏸ 暂停';
+        }
+
+        // ----- start timer (countdown or countup) -----
+        function startTimer() {
+            if (isRunning) return;
+            // 如果已经完成3组，不允许再启动（但可重置）
+            if (totalSets >= 3) {
+                feedbackNote.textContent = '✅ 已完成3组训练！重置后继续';
+                return;
+            }
+            // 如果当前是prep模式且秒数为0，设定为5分钟 (300s)
+            if (currentPreset === 'prep' && seconds === 0) {
+                seconds = 300;
+                updateTimerDisplay();
+            }
+            // 如果当前是swing模式且秒数为0，设定为20s
+            if (currentPreset === 'swing' && seconds === 0) {
+                seconds = 20;
+                updateTimerDisplay();
+            }
+            // 如果当前是rest模式且秒数为0，设定为30s
+            if (currentPreset === 'rest' && seconds === 0) {
+                seconds = 30;
+                updateTimerDisplay();
+            }
+
+            if (timerInterval) clearInterval(timerInterval);
+            isRunning = true;
+            phaseStatus.textContent = '▶ 进行中';
+
+            timerInterval = setInterval(() => {
+                if (seconds <= 0) {
+                    // 倒计时结束
+                    stopTimer();
+                    phaseStatus.textContent = '⏹ 结束';
+                    // 如果当前是摆臂模式，增加组数 (仅当秒数归零且是swing模式)
+                    if (currentPreset === 'swing' && totalSets < 3) {
+                        totalSets += 1;
+                        setCounter.textContent = `${totalSets} / 3`;
+                        feedbackNote.textContent = `✅ 第${totalSets}组完成！休息或继续`;
+                        if (totalSets >= 3) {
+                            feedbackNote.textContent = '🎯 3组完成！记录身体回馈数据';
+                            phaseStatus.textContent = '✅ 训练完成';
+                        }
+                    }
+                    // 自动重置显示为00:00，但不改变预设
+                    timerDisplay.textContent = '00:00';
+                    seconds = 0;
+                    return;
+                }
+                seconds -= 1;
+                updateTimerDisplay();
+            }, 1000);
+        }
+
+        // ----- reset timer (stop & clear) -----
+        function resetTimer() {
+            stopTimer();
+            seconds = 0;
+            updateTimerDisplay();
+            phaseStatus.textContent = '⏸ 待开始';
+            // 不重置组数，保留已完成组数 (但为了体验，可保留)
+            // 但可以设置回当前预设的初始时间？
+            // 实际上reset只归零，预设值由按钮触发
+            if (currentPreset === 'prep') setTimerLabel('仰躺吸3呼6 · 5分钟');
+            else if (currentPreset === 'swing') setTimerLabel('左手摆臂 20秒');
+            else if (currentPreset === 'rest') setTimerLabel('休息 30秒');
+        }
+
+        // ----- 预设切换 -----
+        function setPreset(mode) {
+            if (isRunning) stopTimer();
+            currentPreset = mode;
+            seconds = 0;
+            updateTimerDisplay();
+            if (mode === 'prep') {
+                setTimerLabel('仰躺吸3呼6 · 5分钟');
+                seconds = 300;
+            } else if (mode === 'swing') {
+                setTimerLabel('左手摆臂 20秒');
+                seconds = 20;
+            } else if (mode === 'rest') {
+                setTimerLabel('休息 30秒');
+                seconds = 30;
+            }
+            updateTimerDisplay();
+            phaseStatus.textContent = '⏸ 预设就绪';
+            // 如果组数已完成3，允许重置后继续
+        }
+
+        // ----- 记录反馈 -----
+        function updateFeedback() {
+            // 更新显示
+            toeGripSpan.textContent = lastToe;
+            footShakeSpan.textContent = lastShake;
+            heartRateSpan.textContent = lastHR;
+            // 根据心率更新note
+            if (lastHR === '降低') {
+                feedbackNote.innerHTML = '💚 心率降低 → 右脚承重能力提升，力线接通';
+            } else if (lastHR === '无变化') {
+                feedbackNote.innerHTML = '🟡 心率无变化 → 建议继续练动作一，不急推进';
+            } else if (lastHR === '升高') {
+                feedbackNote.innerHTML = '🔴 心率升高 → 强度过大或代偿，退回动作一';
+            } else {
+                feedbackNote.innerHTML = '💡 训练后测心率：比训练前降低 → 力线提升';
+            }
+            // 组合提示
+            if (lastToe === '抓地') {
+                feedbackNote.innerHTML += ' ⚠️ 脚趾抓地 = 力线未接上，退回动作一';
+            }
+        }
+
+        // ----- 事件绑定 -----
+        startBtn.addEventListener('click', startTimer);
+        pauseBtn.addEventListener('click', stopTimer);
+        resetBtn.addEventListener('click', function() {
+            resetTimer();
+            // 重置组数？
+            // 可重置组数: 按住重置+组数重置，但这里保持用户体验：仅重置时间，组数不清零(长按重置可清，但先不实现)
+            // 双击重置清组数: 加个隐藏功能: 双击重置清组数
+        });
+        // 双击重置清组数 (方便重新开始)
+        resetBtn.addEventListener('dblclick', function() {
+            if (confirm('重置所有数据？(组数、记录将清零)')) {
+                totalSets = 0;
+                setCounter.textContent = '0 / 3';
+                lastToe = '—';
+                lastShake = '—';
+                lastHR = '—';
+                toeGripSpan.textContent = '—';
+                footShakeSpan.textContent = '—';
+                heartRateSpan.textContent = '—';
+                feedbackNote.innerHTML = '💡 已重置，准备开始训练';
+                phaseStatus.textContent = '⏸ 已重置';
+                resetTimer();
+            }
+        });
+
+        // presets
+        presetPrep.addEventListener('click', function() { setPreset('prep'); });
+        presetSwing.addEventListener('click', function() { 
+            if (totalSets >= 3) {
+                alert('已完成3组，如需继续请双击重置按钮清零组数');
+                return;
+            }
+            setPreset('swing'); 
+        });
+        presetRest.addEventListener('click', function() { setPreset('rest'); });
+
+        // ----- 日志按钮 -----
+        logToeYes.addEventListener('click', function() { lastToe = '抓地'; updateFeedback(); });
+        logToeNo.addEventListener('click', function() { lastToe = '未抓地'; updateFeedback(); });
+        logShakeYes.addEventListener('click', function() { lastShake = '晃动'; updateFeedback(); });
+        logShakeNo.addEventListener('click', function() { lastShake = '稳定'; updateFeedback(); });
+        logHRDrop.addEventListener('click', function() { lastHR = '降低'; updateFeedback(); });
+        logHRSame.addEventListener('click', function() { lastHR = '无变化'; updateFeedback(); });
+        logHRUp.addEventListener('click', function() { lastHR = '升高'; updateFeedback(); });
+
+        // 额外：如果脚趾抓地，自动提示
+        // 初始化
+        setPreset('prep');
+        setCounter.textContent = '0 / 3';
+        phaseStatus.textContent = '⏸ 待开始';
+
+        // 处理组数增加自动回馈 (已经包含在定时器里)
+        // 额外: 如果用户手动修改组数? 不开放
+
+        // 标记 如果摆臂完成自动增加组数已在定时器实现
+
+        // 对于脚趾抓地，增加提醒
+        console.log('计时器已启动 — 右脚承重训练');
+    })();
+</script>
+</body>
+</html>

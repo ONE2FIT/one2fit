@@ -5,206 +5,59 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ONE2FIT 身體評估問卷</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", "PingFang HK", sans-serif;
-            background: #0f172a;
-            color: #e2e8f0;
-            line-height: 1.7;
-            padding: 20px;
+            background: #0f172a; color: #e2e8f0; line-height: 1.7; padding: 20px;
         }
-        .container {
-            max-width: 700px;
-            margin: 0 auto;
-            background: #1e293b;
-            border-radius: 20px;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        .container { max-width: 700px; margin: 0 auto; background: #1e293b; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+        .header { background: linear-gradient(135deg, #1a2a3a 0%, #0f172a 100%); padding: 40px 30px 30px; text-align: center; border-bottom: 2px solid #334155; }
+        .header h1 { font-size: 28px; font-weight: 800; color: #f8fafc; margin-bottom: 8px; letter-spacing: 1px; }
+        .header p { font-size: 15px; color: #94a3b8; }
+        .body-content { padding: 30px; }
+        .section { background: #0f172a; border-radius: 12px; padding: 24px; margin-bottom: 24px; }
+        .section h2 { font-size: 18px; font-weight: 700; color: #f8fafc; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+        .section h2 span { background: #3b82f6; color: #fff; font-size: 14px; padding: 2px 10px; border-radius: 12px; }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-weight: 600; font-size: 14px; color: #f1f5f9; margin-bottom: 6px; }
+        .form-group .hint { font-size: 12px; color: #64748b; font-weight: 400; font-style: italic; margin-bottom: 4px; display: block; }
+        input[type="text"], input[type="number"], input[type="tel"], input[type="email"], select, textarea {
+            width: 100%; padding: 12px 14px; background: #1e293b; border: 1px solid #334155;
+            border-radius: 8px; color: #f8fafc; font-size: 15px; transition: border-color 0.3s;
         }
-        .header {
-            background: linear-gradient(135deg, #1a2a3a 0%, #0f172a 100%);
-            padding: 40px 30px 30px;
-            text-align: center;
-            border-bottom: 2px solid #334155;
+        input:focus, select:focus, textarea:focus { outline: none; border-color: #3b82f6; }
+        textarea { resize: vertical; min-height: 80px; font-family: inherit; }
+        .checkbox-group, .radio-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+        .checkbox-group label, .radio-group label {
+            display: flex; align-items: center; background: #1e293b; padding: 8px 14px;
+            border-radius: 8px; font-weight: 400; font-size: 14px; cursor: pointer; border: 1px solid #334155;
         }
-        .header h1 {
-            font-size: 28px;
-            font-weight: 800;
-            color: #f8fafc;
-            margin-bottom: 8px;
-            letter-spacing: 1px;
-        }
-        .header p {
-            font-size: 15px;
-            color: #94a3b8;
-        }
-        .body-content {
-            padding: 30px;
-        }
-        .section {
-            background: #0f172a;
-            border-radius: 12px;
-            padding: 24px;
-            margin-bottom: 24px;
-        }
-        .section h2 {
-            font-size: 18px;
-            font-weight: 700;
-            color: #f8fafc;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .section h2 span {
-            background: #3b82f6;
-            color: #fff;
-            font-size: 14px;
-            padding: 2px 10px;
-            border-radius: 12px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        .form-group label {
-            display: block;
-            font-weight: 600;
-            font-size: 14px;
-            color: #f1f5f9;
-            margin-bottom: 6px;
-        }
-        .form-group .hint {
-            font-size: 12px;
-            color: #64748b;
-            font-weight: 400;
-            font-style: italic;
-            margin-bottom: 4px;
-            display: block;
-        }
-        input[type="text"],
-        input[type="number"],
-        input[type="tel"],
-        input[type="email"],
-        select,
-        textarea {
-            width: 100%;
-            padding: 12px 14px;
-            background: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 8px;
-            color: #f8fafc;
-            font-size: 15px;
-            transition: border-color 0.3s;
-        }
-        input:focus,
-        select:focus,
-        textarea:focus {
-            outline: none;
-            border-color: #3b82f6;
-        }
-        textarea {
-            resize: vertical;
-            min-height: 80px;
-            font-family: inherit;
-        }
-        .checkbox-group,
-        .radio-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            margin-top: 4px;
-        }
-        .checkbox-group label,
-        .radio-group label {
-            display: flex;
-            align-items: center;
-            background: #1e293b;
-            padding: 8px 14px;
-            border-radius: 8px;
-            font-weight: 400;
-            font-size: 14px;
-            cursor: pointer;
-            border: 1px solid #334155;
-            transition: background 0.2s;
-        }
-        .checkbox-group label:hover,
-        .radio-group label:hover {
-            background: #334155;
-        }
-        .checkbox-group input[type="checkbox"],
-        .radio-group input[type="radio"] {
-            margin-right: 8px;
-            accent-color: #3b82f6;
-            width: 16px;
-            height: 16px;
+        .checkbox-group label:hover, .radio-group label:hover { background: #334155; }
+        .checkbox-group input[type="checkbox"], .radio-group input[type="radio"] {
+            margin-right: 8px; accent-color: #3b82f6; width: 16px; height: 16px;
         }
         .file-upload-area {
-            border: 2px dashed #334155;
-            border-radius: 12px;
-            padding: 30px;
-            text-align: center;
-            color: #64748b;
-            font-size: 14px;
+            border: 2px dashed #334155; border-radius: 12px; padding: 30px; text-align: center; color: #64748b; font-size: 14px;
         }
-        .file-upload-area p {
-            margin-bottom: 8px;
-        }
+        .file-upload-area p { margin-bottom: 8px; }
         .submit-btn {
-            width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            color: #fff;
-            border: none;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: 800;
-            cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
-            letter-spacing: 1px;
+            width: 100%; padding: 16px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: #fff; border: none; border-radius: 12px; font-size: 18px; font-weight: 800;
+            cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; letter-spacing: 1px;
         }
-        .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(59,130,246,0.4); }
+        .submit-btn:disabled { background: #475569; cursor: not-allowed; transform: none; box-shadow: none; }
+        .success-message { display: none; text-align: center; padding: 40px 30px; }
+        .success-message h2 { font-size: 24px; color: #f8fafc; margin-bottom: 12px; }
+        .success-message p { color: #94a3b8; font-size: 15px; }
+        .error-message { background: #7f1d1d; color: #fca5a5; padding: 12px; border-radius: 8px; margin-bottom: 16px; display: none; font-size: 14px; }
+        .progress-bar {
+            width: 100%; height: 6px; background: #334155; border-radius: 3px; margin-top: 12px; display: none;
         }
-        .submit-btn:disabled {
-            background: #475569;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
+        .progress-bar-fill {
+            height: 100%; background: #3b82f6; border-radius: 3px; width: 0%; transition: width 0.3s;
         }
-        .success-message {
-            display: none;
-            text-align: center;
-            padding: 40px 30px;
-        }
-        .success-message h2 {
-            font-size: 24px;
-            color: #f8fafc;
-            margin-bottom: 12px;
-        }
-        .success-message p {
-            color: #94a3b8;
-            font-size: 15px;
-        }
-        .error-message {
-            background: #7f1d1d;
-            color: #fca5a5;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 16px;
-            display: none;
-            font-size: 14px;
-        }
-        @media (max-width: 480px) {
-            .checkbox-group,
-            .radio-group {
-                flex-direction: column;
-            }
-        }
+        @media (max-width: 480px) { .checkbox-group, .radio-group { flex-direction: column; } }
     </style>
 </head>
 <body>
@@ -221,22 +74,10 @@
                 <!-- 基本資料 -->
                 <div class="section">
                     <h2><span>1</span> 基本資料</h2>
-                    <div class="form-group">
-                        <label for="name">姓名 / 稱呼 *</label>
-                        <input type="text" id="name" name="name" placeholder="例如：陳大文" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="age">年齡 *</label>
-                        <input type="number" id="age" name="age" placeholder="例如：35" min="1" max="120" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="height">身高（cm）*</label>
-                        <input type="number" id="height" name="height" placeholder="例如：170" step="0.1" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="weight">體重（kg）*</label>
-                        <input type="number" id="weight" name="weight" placeholder="例如：65" step="0.1" required>
-                    </div>
+                    <div class="form-group"><label for="name">姓名 / 稱呼 *</label><input type="text" id="name" name="name" placeholder="例如：陳大文" required></div>
+                    <div class="form-group"><label for="age">年齡 *</label><input type="number" id="age" name="age" placeholder="例如：35" min="1" max="120" required></div>
+                    <div class="form-group"><label for="height">身高（cm）*</label><input type="number" id="height" name="height" placeholder="例如：170" step="0.1" required></div>
+                    <div class="form-group"><label for="weight">體重（kg）*</label><input type="number" id="weight" name="weight" placeholder="例如：65" step="0.1" required></div>
                 </div>
 
                 <!-- 身體狀況 -->
@@ -269,14 +110,8 @@
                             <option value="6個月以上">6個月以上</option>
                         </select>
                     </div>
-                    <div class="form-group">
-                        <label for="surgery">有冇開過刀、受過傷？（骨折、扭傷、車禍等）</label>
-                        <textarea id="surgery" name="surgery" placeholder="請簡單描述，例如：2019年右腳踝扭傷、2022年盲腸切除..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="disease">有冇被診斷過嘅疾病？有冇在食藥？</label>
-                        <textarea id="disease" name="disease" placeholder="例如：高血壓（食緊降壓藥）、糖尿病、椎間盤突出..."></textarea>
-                    </div>
+                    <div class="form-group"><label for="surgery">有冇開過刀、受過傷？</label><textarea id="surgery" name="surgery" placeholder="例如：2019年右腳踝扭傷、2022年盲腸切除..."></textarea></div>
+                    <div class="form-group"><label for="disease">有冇被診斷過嘅疾病？有冇在食藥？</label><textarea id="disease" name="disease" placeholder="例如：高血壓（食緊降壓藥）、糖尿病..."></textarea></div>
                 </div>
 
                 <!-- 生活與運動 -->
@@ -295,8 +130,8 @@
                         <label>運動習慣 *</label>
                         <div class="radio-group">
                             <label><input type="radio" name="exerciseHabit" value="無" required> 無</label>
-                            <label><input type="radio" name="exerciseHabit" value="偶爾"> 偶爾（每週少於2次）</label>
-                            <label><input type="radio" name="exerciseHabit" value="規律"> 規律（每週2次以上）</label>
+                            <label><input type="radio" name="exerciseHabit" value="偶爾（每週少於2次）"> 偶爾（每週少於2次）</label>
+                            <label><input type="radio" name="exerciseHabit" value="規律（每週2次以上）"> 規律（每週2次以上）</label>
                         </div>
                     </div>
                     <div class="form-group">
@@ -354,99 +189,131 @@
                         <p style="font-size:12px; color:#64748b;">如未能上載，可之後經 WhatsApp 傳送俾我哋</p>
                         <input type="file" id="fileUpload" name="fileUpload" multiple accept="image/*,video/*" style="margin-top:12px; color:#94a3b8;">
                     </div>
+                    <div class="progress-bar" id="progressBar"><div class="progress-bar-fill" id="progressBarFill"></div></div>
                 </div>
 
-                <button type="submit" class="submit-btn" id="submitBtn">
-                    📋 提交評估資料
-                </button>
+                <button type="submit" class="submit-btn" id="submitBtn">📋 提交評估資料</button>
             </form>
         </div>
 
         <div class="success-message" id="successMessage">
             <h2>🎉 提交成功！</h2>
             <p>多謝你嘅資料。<br>我哋會喺 24 小時內透過 WhatsApp 聯絡你，<br>安排下一步嘅線上評估。</p>
-            <p style="margin-top:16px; font-size:14px; color:#94a3b8;">如有任何相片/影片想補充，請 WhatsApp 我哋</p>
         </div>
     </div>
 
     <script>
-        // === 請換成你嘅 Google Apps Script 部署網址 ===
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxIhS2pHroISKiDT8Ty7ijQFt1qPGZPrRLGImfICqaAWUbx7AoiKMuMGPO4TMwztD4Q/exec";
-
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw6dQfKiZy_6GG84UXSA5LQyUD5PU7b6XNb0wMd92L2qH1tfRWQWsCDGBvvpgfnQ91xHw/exec";
         const form = document.getElementById('assessmentForm');
         const submitBtn = document.getElementById('submitBtn');
         const errorMessage = document.getElementById('errorMessage');
         const formContent = document.getElementById('formContent');
         const successMessage = document.getElementById('successMessage');
+        const progressBar = document.getElementById('progressBar');
+        const progressBarFill = document.getElementById('progressBarFill');
 
-        form.addEventListener('submit', function(e) {
+        form.addEventListener('submit', async function(e) {
             e.preventDefault();
 
-            // 簡單驗證
             const name = document.getElementById('name').value.trim();
             const age = document.getElementById('age').value.trim();
             const height = document.getElementById('height').value.trim();
             const weight = document.getElementById('weight').value.trim();
             const duration = document.getElementById('duration').value;
-            const workType = document.querySelector('input[name="workType"]:checked');
-            const exerciseHabit = document.querySelector('input[name="exerciseHabit"]:checked');
-            const sleepQuality = document.querySelector('input[name="sleepQuality"]:checked');
+            const workTypeRadio = document.querySelector('input[name="workType"]:checked');
+            const exerciseHabitRadio = document.querySelector('input[name="exerciseHabit"]:checked');
+            const sleepQualityRadio = document.querySelector('input[name="sleepQuality"]:checked');
 
-            if (!name || !age || !height || !weight || !duration || !workType || !exerciseHabit || !sleepQuality) {
+            if (!name || !age || !height || !weight || !duration || !workTypeRadio || !exerciseHabitRadio || !sleepQualityRadio) {
                 showError('請填寫所有必填欄位（標有 * 號）');
                 return;
             }
 
-            // 收集數據
-            const painAreas = Array.from(document.querySelectorAll('input[name="painArea"]:checked')).map(cb => cb.value);
-            const painOther = document.getElementById('painOther').value.trim();
-            if (painOther) painAreas.push('其他：' + painOther);
-
-            const exerciseTypes = Array.from(document.querySelectorAll('input[name="exerciseType"]:checked')).map(cb => cb.value);
-            const exerciseOther = document.getElementById('exerciseOther').value.trim();
-            if (exerciseOther) exerciseTypes.push('其他：' + exerciseOther);
-
-            const stomachIssues = Array.from(document.querySelectorAll('input[name="stomachIssue"]:checked')).map(cb => cb.value);
-            const pelvicIssues = Array.from(document.querySelectorAll('input[name="pelvicIssue"]:checked')).map(cb => cb.value);
-
-            const formData = {
-                name: name,
-                age: age,
-                height: height,
-                weight: weight,
-                painAreas: painAreas.join(', '),
-                duration: duration,
-                surgery: document.getElementById('surgery').value.trim(),
-                disease: document.getElementById('disease').value.trim(),
-                workType: workType.value,
-                exerciseHabit: exerciseHabit.value,
-                exerciseTypes: exerciseTypes.join(', '),
-                stomachIssues: stomachIssues.join(', '),
-                pelvicIssues: pelvicIssues.join(', '),
-                sleepQuality: sleepQuality.value,
-                timestamp: new Date().toLocaleString('zh-HK', { timeZone: 'Asia/Hong_Kong' })
-            };
-
-            // 禁用按鈕
             submitBtn.disabled = true;
             submitBtn.textContent = '⏳ 提交中...';
             errorMessage.style.display = 'none';
 
-            // 發送資料（使用 Image Beacon 方式，最穩定）
-            const params = new URLSearchParams();
-            for (const key in formData) {
-                params.append(key, encodeURIComponent(formData[key]));
+            // 處理檔案上傳
+            let fileURLs = [];
+            const fileInput = document.getElementById('fileUpload');
+            if (fileInput.files.length > 0) {
+                progressBar.style.display = 'block';
+                const totalFiles = fileInput.files.length;
+                for (let i = 0; i < totalFiles; i++) {
+                    const file = fileInput.files[i];
+                    const reader = new FileReader();
+                    const base64Promise = new Promise((resolve) => {
+                        reader.onload = function(e) {
+                            resolve(e.target.result.split(',')[1]);
+                        };
+                    });
+                    reader.readAsDataURL(file);
+                    const base64Data = await base64Promise;
+                    
+                    // 上傳到 Google Drive 經 Apps Script
+                    const uploadFormData = new FormData();
+                    uploadFormData.append('file', new Blob([Uint8Array.from(atob(base64Data), c => c.charCodeAt(0))], { type: file.type }));
+                    uploadFormData.append('fileName', file.name);
+                    
+                    try {
+                        const uploadResponse = await fetch(SCRIPT_URL + '?action=upload', {
+                            method: 'POST',
+                            body: uploadFormData
+                        });
+                        const uploadResult = await uploadResponse.json();
+                        if (uploadResult.status === 'success') {
+                            fileURLs.push(uploadResult.fileURL);
+                        }
+                    } catch (err) {
+                        console.error('檔案上傳失敗:', err);
+                    }
+                    
+                    progressBarFill.style.width = ((i + 1) / totalFiles * 100) + '%';
+                }
+                progressBar.style.display = 'none';
             }
+
+            // 收集其他資料
+            const painCheckboxes = document.querySelectorAll('input[name="painArea"]:checked');
+            const painAreas = Array.from(painCheckboxes).map(cb => cb.value);
+            const painOther = document.getElementById('painOther').value.trim();
+            if (painOther) painAreas.push('其他：' + painOther);
+            
+            const exerciseCheckboxes = document.querySelectorAll('input[name="exerciseType"]:checked');
+            const exerciseTypes = Array.from(exerciseCheckboxes).map(cb => cb.value);
+            const exerciseOther = document.getElementById('exerciseOther').value.trim();
+            if (exerciseOther) exerciseTypes.push('其他：' + exerciseOther);
+            
+            const stomachCheckboxes = document.querySelectorAll('input[name="stomachIssue"]:checked');
+            const stomachIssues = Array.from(stomachCheckboxes).map(cb => cb.value);
+            
+            const pelvicCheckboxes = document.querySelectorAll('input[name="pelvicIssue"]:checked');
+            const pelvicIssues = Array.from(pelvicCheckboxes).map(cb => cb.value);
+
+            // 發送所有資料到 Sheets
+            const params = new URLSearchParams();
+            params.append('name', name);
+            params.append('age', age);
+            params.append('height', height);
+            params.append('weight', weight);
+            params.append('painAreas', painAreas.join(', '));
+            params.append('duration', duration);
+            params.append('surgery', document.getElementById('surgery').value.trim());
+            params.append('disease', document.getElementById('disease').value.trim());
+            params.append('workType', workTypeRadio.value);
+            params.append('exerciseHabit', exerciseHabitRadio.value);
+            params.append('exerciseTypes', exerciseTypes.join(', '));
+            params.append('stomachIssues', stomachIssues.join(', '));
+            params.append('pelvicIssues', pelvicIssues.join(', '));
+            params.append('sleepQuality', sleepQualityRadio.value);
+            params.append('fileURL', fileURLs.join('\n'));
+            params.append('timestamp', new Date().toLocaleString('zh-HK', { timeZone: 'Asia/Hong_Kong' }));
+
             const img = new Image();
-            img.onload = function() {
-                showSuccess();
-            };
-            img.onerror = function() {
-                showSuccess(); // 即使回傳非圖片，資料通常已成功寫入
-            };
+            img.onload = showSuccess;
+            img.onerror = showSuccess;
             img.src = SCRIPT_URL + '?' + params.toString() + '&r=' + Math.random();
 
-            // 後備：3秒後強制顯示成功
             setTimeout(function() {
                 if (successMessage.style.display === 'none' || !successMessage.style.display) {
                     showSuccess();

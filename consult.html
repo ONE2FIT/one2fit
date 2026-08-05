@@ -51,12 +51,8 @@
         .success-message h2 { font-size: 24px; color: #f8fafc; margin-bottom: 12px; }
         .success-message p { color: #94a3b8; font-size: 15px; }
         .error-message { background: #7f1d1d; color: #fca5a5; padding: 12px; border-radius: 8px; margin-bottom: 16px; display: none; font-size: 14px; }
-        .progress-bar {
-            width: 100%; height: 6px; background: #334155; border-radius: 3px; margin-top: 12px; display: none;
-        }
-        .progress-bar-fill {
-            height: 100%; background: #3b82f6; border-radius: 3px; width: 0%; transition: width 0.3s;
-        }
+        .progress-bar { width: 100%; height: 6px; background: #334155; border-radius: 3px; margin-top: 12px; display: none; }
+        .progress-bar-fill { height: 100%; background: #3b82f6; border-radius: 3px; width: 0%; transition: width 0.3s; }
         @media (max-width: 480px) { .checkbox-group, .radio-group { flex-direction: column; } }
     </style>
 </head>
@@ -189,7 +185,6 @@
                         <p style="font-size:12px; color:#64748b;">如未能上載，可之後經 WhatsApp 傳送俾我哋</p>
                         <input type="file" id="fileUpload" name="fileUpload" multiple accept="image/*,video/*" style="margin-top:12px; color:#94a3b8;">
                     </div>
-                    <div class="progress-bar" id="progressBar"><div class="progress-bar-fill" id="progressBarFill"></div></div>
                 </div>
 
                 <button type="submit" class="submit-btn" id="submitBtn">📋 提交評估資料</button>
@@ -203,18 +198,19 @@
     </div>
 
     <script>
+        // === 真實部署網址 ===
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw6dQfKiZy_6GG84UXSA5LQyUD5PU7b6XNb0wMd92L2qH1tfRWQWsCDGBvvpgfnQ91xHw/exec";
+
         const form = document.getElementById('assessmentForm');
         const submitBtn = document.getElementById('submitBtn');
         const errorMessage = document.getElementById('errorMessage');
         const formContent = document.getElementById('formContent');
         const successMessage = document.getElementById('successMessage');
-        const progressBar = document.getElementById('progressBar');
-        const progressBarFill = document.getElementById('progressBarFill');
 
-        form.addEventListener('submit', async function(e) {
+        form.addEventListener('submit', function(e) {
             e.preventDefault();
 
+            // 基本驗證
             const name = document.getElementById('name').value.trim();
             const age = document.getElementById('age').value.trim();
             const height = document.getElementById('height').value.trim();
@@ -225,7 +221,9 @@
             const sleepQualityRadio = document.querySelector('input[name="sleepQuality"]:checked');
 
             if (!name || !age || !height || !weight || !duration || !workTypeRadio || !exerciseHabitRadio || !sleepQualityRadio) {
-                showError('請填寫所有必填欄位（標有 * 號）');
+                errorMessage.textContent = '請填寫所有必填欄位（標有 * 號）';
+                errorMessage.style.display = 'block';
+                window.scrollTo({ top: 0, behavior: 'smooth' });
                 return;
             }
 
@@ -233,106 +231,66 @@
             submitBtn.textContent = '⏳ 提交中...';
             errorMessage.style.display = 'none';
 
-            // 處理檔案上傳
-            let fileURLs = [];
-            const fileInput = document.getElementById('fileUpload');
-            if (fileInput.files.length > 0) {
-                progressBar.style.display = 'block';
-                const totalFiles = fileInput.files.length;
-                for (let i = 0; i < totalFiles; i++) {
-                    const file = fileInput.files[i];
-                    const reader = new FileReader();
-                    const base64Promise = new Promise((resolve) => {
-                        reader.onload = function(e) {
-                            resolve(e.target.result.split(',')[1]);
-                        };
-                    });
-                    reader.readAsDataURL(file);
-                    const base64Data = await base64Promise;
-                    
-                    // 上傳到 Google Drive 經 Apps Script
-                    const uploadFormData = new FormData();
-                    uploadFormData.append('file', new Blob([Uint8Array.from(atob(base64Data), c => c.charCodeAt(0))], { type: file.type }));
-                    uploadFormData.append('fileName', file.name);
-                    
-                    try {
-                        const uploadResponse = await fetch(SCRIPT_URL + '?action=upload', {
-                            method: 'POST',
-                            body: uploadFormData
-                        });
-                        const uploadResult = await uploadResponse.json();
-                        if (uploadResult.status === 'success') {
-                            fileURLs.push(uploadResult.fileURL);
-                        }
-                    } catch (err) {
-                        console.error('檔案上傳失敗:', err);
-                    }
-                    
-                    progressBarFill.style.width = ((i + 1) / totalFiles * 100) + '%';
-                }
-                progressBar.style.display = 'none';
-            }
-
-            // 收集其他資料
+            // 收集痛點
             const painCheckboxes = document.querySelectorAll('input[name="painArea"]:checked');
             const painAreas = Array.from(painCheckboxes).map(cb => cb.value);
             const painOther = document.getElementById('painOther').value.trim();
             if (painOther) painAreas.push('其他：' + painOther);
-            
+
+            // 收集運動
             const exerciseCheckboxes = document.querySelectorAll('input[name="exerciseType"]:checked');
             const exerciseTypes = Array.from(exerciseCheckboxes).map(cb => cb.value);
             const exerciseOther = document.getElementById('exerciseOther').value.trim();
             if (exerciseOther) exerciseTypes.push('其他：' + exerciseOther);
-            
+
+            // 收集胃部
             const stomachCheckboxes = document.querySelectorAll('input[name="stomachIssue"]:checked');
             const stomachIssues = Array.from(stomachCheckboxes).map(cb => cb.value);
-            
+
+            // 收集盆底
             const pelvicCheckboxes = document.querySelectorAll('input[name="pelvicIssue"]:checked');
             const pelvicIssues = Array.from(pelvicCheckboxes).map(cb => cb.value);
 
-            // 發送所有資料到 Sheets
-            const params = new URLSearchParams();
-            params.append('name', name);
-            params.append('age', age);
-            params.append('height', height);
-            params.append('weight', weight);
-            params.append('painAreas', painAreas.join(', '));
-            params.append('duration', duration);
-            params.append('surgery', document.getElementById('surgery').value.trim());
-            params.append('disease', document.getElementById('disease').value.trim());
-            params.append('workType', workTypeRadio.value);
-            params.append('exerciseHabit', exerciseHabitRadio.value);
-            params.append('exerciseTypes', exerciseTypes.join(', '));
-            params.append('stomachIssues', stomachIssues.join(', '));
-            params.append('pelvicIssues', pelvicIssues.join(', '));
-            params.append('sleepQuality', sleepQualityRadio.value);
-            params.append('fileURL', fileURLs.join('\n'));
-            params.append('timestamp', new Date().toLocaleString('zh-HK', { timeZone: 'Asia/Hong_Kong' }));
+            // 手動構建 URL（唔用 URLSearchParams，避免雙重編碼）
+            let requestURL = SCRIPT_URL + '?';
+            requestURL += 'name=' + encodeURIComponent(name);
+            requestURL += '&age=' + encodeURIComponent(age);
+            requestURL += '&height=' + encodeURIComponent(height);
+            requestURL += '&weight=' + encodeURIComponent(weight);
+            requestURL += '&painAreas=' + encodeURIComponent(painAreas.join(', '));
+            requestURL += '&duration=' + encodeURIComponent(duration);
+            requestURL += '&surgery=' + encodeURIComponent(document.getElementById('surgery').value.trim());
+            requestURL += '&disease=' + encodeURIComponent(document.getElementById('disease').value.trim());
+            requestURL += '&workType=' + encodeURIComponent(workTypeRadio.value);
+            requestURL += '&exerciseHabit=' + encodeURIComponent(exerciseHabitRadio.value);
+            requestURL += '&exerciseTypes=' + encodeURIComponent(exerciseTypes.join(', '));
+            requestURL += '&stomachIssues=' + encodeURIComponent(stomachIssues.join(', '));
+            requestURL += '&pelvicIssues=' + encodeURIComponent(pelvicIssues.join(', '));
+            requestURL += '&sleepQuality=' + encodeURIComponent(sleepQualityRadio.value);
+            requestURL += '&fileURL=' + encodeURIComponent('無上傳（請經 WhatsApp 傳送）');
+            requestURL += '&timestamp=' + encodeURIComponent(new Date().toLocaleString('zh-HK', { timeZone: 'Asia/Hong_Kong' }));
+            requestURL += '&r=' + Math.random();
 
+            // Image Beacon 發送
             const img = new Image();
-            img.onload = showSuccess;
-            img.onerror = showSuccess;
-            img.src = SCRIPT_URL + '?' + params.toString() + '&r=' + Math.random();
+            img.onload = function() {
+                formContent.style.display = 'none';
+                successMessage.style.display = 'block';
+            };
+            img.onerror = function() {
+                formContent.style.display = 'none';
+                successMessage.style.display = 'block';
+            };
+            img.src = requestURL;
 
+            // 後備：3 秒後強制顯示成功
             setTimeout(function() {
                 if (successMessage.style.display === 'none' || !successMessage.style.display) {
-                    showSuccess();
+                    formContent.style.display = 'none';
+                    successMessage.style.display = 'block';
                 }
             }, 3000);
         });
-
-        function showSuccess() {
-            formContent.style.display = 'none';
-            successMessage.style.display = 'block';
-        }
-
-        function showError(msg) {
-            errorMessage.textContent = msg;
-            errorMessage.style.display = 'block';
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            submitBtn.disabled = false;
-            submitBtn.textContent = '📋 提交評估資料';
-        }
     </script>
 </body>
 </html>

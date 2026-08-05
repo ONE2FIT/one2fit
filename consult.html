@@ -5,55 +5,206 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ONE2FIT 身體評估問卷</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", "PingFang HK", sans-serif;
-            background: #0f172a; color: #e2e8f0; line-height: 1.7; padding: 20px;
+            background: #0f172a;
+            color: #e2e8f0;
+            line-height: 1.7;
+            padding: 20px;
         }
         .container {
-            max-width: 700px; margin: 0 auto; background: #1e293b;
-            border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            max-width: 700px;
+            margin: 0 auto;
+            background: #1e293b;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         }
         .header {
             background: linear-gradient(135deg, #1a2a3a 0%, #0f172a 100%);
-            padding: 40px 30px 30px; text-align: center; border-bottom: 2px solid #334155;
+            padding: 40px 30px 30px;
+            text-align: center;
+            border-bottom: 2px solid #334155;
         }
-        .header h1 { font-size: 28px; font-weight: 800; color: #f8fafc; margin-bottom: 8px; letter-spacing: 1px; }
-        .header p { font-size: 15px; color: #94a3b8; }
-        .body-content { padding: 30px; }
-        .section { background: #0f172a; border-radius: 12px; padding: 24px; margin-bottom: 24px; }
-        .section h2 { font-size: 18px; font-weight: 700; color: #f8fafc; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
-        .section h2 span { background: #3b82f6; color: #fff; font-size: 14px; padding: 2px 10px; border-radius: 12px; }
-        .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; font-weight: 600; font-size: 14px; color: #f1f5f9; margin-bottom: 6px; }
-        .form-group .hint { font-size: 12px; color: #64748b; font-weight: 400; font-style: italic; margin-bottom: 4px; display: block; }
-        input[type="text"], input[type="number"], input[type="tel"], input[type="email"], select, textarea {
-            width: 100%; padding: 12px 14px; background: #1e293b; border: 1px solid #334155;
-            border-radius: 8px; color: #f8fafc; font-size: 15px; transition: border-color 0.3s;
+        .header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: #f8fafc;
+            margin-bottom: 8px;
+            letter-spacing: 1px;
         }
-        input:focus, select:focus, textarea:focus { outline: none; border-color: #3b82f6; }
-        textarea { resize: vertical; min-height: 80px; font-family: inherit; }
-        .checkbox-group, .radio-group { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
-        .checkbox-group label, .radio-group label {
-            display: flex; align-items: center; background: #1e293b; padding: 8px 14px;
-            border-radius: 8px; font-weight: 400; font-size: 14px; cursor: pointer; border: 1px solid #334155;
+        .header p {
+            font-size: 15px;
+            color: #94a3b8;
         }
-        .checkbox-group label:hover, .radio-group label:hover { background: #334155; }
-        .checkbox-group input[type="checkbox"], .radio-group input[type="radio"] {
-            margin-right: 8px; accent-color: #3b82f6; width: 16px; height: 16px;
+        .body-content {
+            padding: 30px;
+        }
+        .section {
+            background: #0f172a;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .section h2 {
+            font-size: 18px;
+            font-weight: 700;
+            color: #f8fafc;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section h2 span {
+            background: #3b82f6;
+            color: #fff;
+            font-size: 14px;
+            padding: 2px 10px;
+            border-radius: 12px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            font-size: 14px;
+            color: #f1f5f9;
+            margin-bottom: 6px;
+        }
+        .form-group .hint {
+            font-size: 12px;
+            color: #64748b;
+            font-weight: 400;
+            font-style: italic;
+            margin-bottom: 4px;
+            display: block;
+        }
+        input[type="text"],
+        input[type="number"],
+        input[type="tel"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 14px;
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: #f8fafc;
+            font-size: 15px;
+            transition: border-color 0.3s;
+        }
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+            font-family: inherit;
+        }
+        .checkbox-group,
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 4px;
+        }
+        .checkbox-group label,
+        .radio-group label {
+            display: flex;
+            align-items: center;
+            background: #1e293b;
+            padding: 8px 14px;
+            border-radius: 8px;
+            font-weight: 400;
+            font-size: 14px;
+            cursor: pointer;
+            border: 1px solid #334155;
+            transition: background 0.2s;
+        }
+        .checkbox-group label:hover,
+        .radio-group label:hover {
+            background: #334155;
+        }
+        .checkbox-group input[type="checkbox"],
+        .radio-group input[type="radio"] {
+            margin-right: 8px;
+            accent-color: #3b82f6;
+            width: 16px;
+            height: 16px;
+        }
+        .file-upload-area {
+            border: 2px dashed #334155;
+            border-radius: 12px;
+            padding: 30px;
+            text-align: center;
+            color: #64748b;
+            font-size: 14px;
+        }
+        .file-upload-area p {
+            margin-bottom: 8px;
         }
         .submit-btn {
-            width: 100%; padding: 16px; background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            color: #fff; border: none; border-radius: 12px; font-size: 18px; font-weight: 800;
-            cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; letter-spacing: 1px;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            letter-spacing: 1px;
         }
-        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(59,130,246,0.4); }
-        .submit-btn:disabled { background: #475569; cursor: not-allowed; transform: none; box-shadow: none; }
-        .success-message { display: none; text-align: center; padding: 40px 30px; }
-        .success-message h2 { font-size: 24px; color: #f8fafc; margin-bottom: 12px; }
-        .success-message p { color: #94a3b8; font-size: 15px; }
-        .error-message { background: #7f1d1d; color: #fca5a5; padding: 12px; border-radius: 8px; margin-bottom: 16px; display: none; font-size: 14px; }
-        @media (max-width: 480px) { .checkbox-group, .radio-group { flex-direction: column; } }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+        }
+        .submit-btn:disabled {
+            background: #475569;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 40px 30px;
+        }
+        .success-message h2 {
+            font-size: 24px;
+            color: #f8fafc;
+            margin-bottom: 12px;
+        }
+        .success-message p {
+            color: #94a3b8;
+            font-size: 15px;
+        }
+        .error-message {
+            background: #7f1d1d;
+            color: #fca5a5;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            display: none;
+            font-size: 14px;
+        }
+        @media (max-width: 480px) {
+            .checkbox-group,
+            .radio-group {
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
 <body>
@@ -144,8 +295,8 @@
                         <label>運動習慣 *</label>
                         <div class="radio-group">
                             <label><input type="radio" name="exerciseHabit" value="無" required> 無</label>
-                            <label><input type="radio" name="exerciseHabit" value="偶爾（每週少於2次）"> 偶爾（每週少於2次）</label>
-                            <label><input type="radio" name="exerciseHabit" value="規律（每週2次以上）"> 規律（每週2次以上）</label>
+                            <label><input type="radio" name="exerciseHabit" value="偶爾"> 偶爾（每週少於2次）</label>
+                            <label><input type="radio" name="exerciseHabit" value="規律"> 規律（每週2次以上）</label>
                         </div>
                     </div>
                     <div class="form-group">
@@ -195,6 +346,16 @@
                     </div>
                 </div>
 
+                <!-- 上傳資料 -->
+                <div class="section">
+                    <h2><span>5</span> 上傳參考照片/影片（選擇性）</h2>
+                    <div class="file-upload-area">
+                        <p>📸 建議上傳：<br>1. 正面及側面站姿全身照<br>2. 雙腳正面及腳板底照<br>3. 做深蹲或前彎嘅短片（如有）</p>
+                        <p style="font-size:12px; color:#64748b;">如未能上載，可之後經 WhatsApp 傳送俾我哋</p>
+                        <input type="file" id="fileUpload" name="fileUpload" multiple accept="image/*,video/*" style="margin-top:12px; color:#94a3b8;">
+                    </div>
+                </div>
+
                 <button type="submit" class="submit-btn" id="submitBtn">
                     📋 提交評估資料
                 </button>
@@ -209,7 +370,7 @@
     </div>
 
     <script>
-        // === 換成你嘅真實部署網址 ===
+        // === 請換成你嘅 Google Apps Script 部署網址 ===
         const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxIhS2pHroISKiDT8Ty7ijQFt1qPGZPrRLGImfICqaAWUbx7AoiKMuMGPO4TMwztD4Q/exec";
 
         const form = document.getElementById('assessmentForm');
@@ -220,98 +381,74 @@
 
         form.addEventListener('submit', function(e) {
             e.preventDefault();
-            console.log('表單提交觸發'); // 除錯用
 
-            // 收集數據
+            // 簡單驗證
             const name = document.getElementById('name').value.trim();
             const age = document.getElementById('age').value.trim();
             const height = document.getElementById('height').value.trim();
             const weight = document.getElementById('weight').value.trim();
             const duration = document.getElementById('duration').value;
-            const workTypeRadio = document.querySelector('input[name="workType"]:checked');
-            const exerciseHabitRadio = document.querySelector('input[name="exerciseHabit"]:checked');
-            const sleepQualityRadio = document.querySelector('input[name="sleepQuality"]:checked');
+            const workType = document.querySelector('input[name="workType"]:checked');
+            const exerciseHabit = document.querySelector('input[name="exerciseHabit"]:checked');
+            const sleepQuality = document.querySelector('input[name="sleepQuality"]:checked');
 
-            // 驗證必填欄位
-            if (!name || !age || !height || !weight || !duration || !workTypeRadio || !exerciseHabitRadio || !sleepQualityRadio) {
-                errorMessage.textContent = '請填寫所有必填欄位（標有 * 號）';
-                errorMessage.style.display = 'block';
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                console.log('驗證失敗：有必填欄位未填');
+            if (!name || !age || !height || !weight || !duration || !workType || !exerciseHabit || !sleepQuality) {
+                showError('請填寫所有必填欄位（標有 * 號）');
                 return;
             }
 
-            // 收集痛點
-            const painCheckboxes = document.querySelectorAll('input[name="painArea"]:checked');
-            const painAreas = Array.from(painCheckboxes).map(cb => cb.value);
+            // 收集數據
+            const painAreas = Array.from(document.querySelectorAll('input[name="painArea"]:checked')).map(cb => cb.value);
             const painOther = document.getElementById('painOther').value.trim();
             if (painOther) painAreas.push('其他：' + painOther);
-            const painAreasStr = painAreas.join(', ');
 
-            // 收集運動類型
-            const exerciseCheckboxes = document.querySelectorAll('input[name="exerciseType"]:checked');
-            const exerciseTypes = Array.from(exerciseCheckboxes).map(cb => cb.value);
+            const exerciseTypes = Array.from(document.querySelectorAll('input[name="exerciseType"]:checked')).map(cb => cb.value);
             const exerciseOther = document.getElementById('exerciseOther').value.trim();
             if (exerciseOther) exerciseTypes.push('其他：' + exerciseOther);
-            const exerciseTypesStr = exerciseTypes.join(', ');
 
-            // 收集胃部問題
-            const stomachCheckboxes = document.querySelectorAll('input[name="stomachIssue"]:checked');
-            const stomachIssues = Array.from(stomachCheckboxes).map(cb => cb.value);
-            const stomachIssuesStr = stomachIssues.join(', ');
+            const stomachIssues = Array.from(document.querySelectorAll('input[name="stomachIssue"]:checked')).map(cb => cb.value);
+            const pelvicIssues = Array.from(document.querySelectorAll('input[name="pelvicIssue"]:checked')).map(cb => cb.value);
 
-            // 收集盆底問題
-            const pelvicCheckboxes = document.querySelectorAll('input[name="pelvicIssue"]:checked');
-            const pelvicIssues = Array.from(pelvicCheckboxes).map(cb => cb.value);
-            const pelvicIssuesStr = pelvicIssues.join(', ');
-
-            // 其他資料
-            const surgery = document.getElementById('surgery').value.trim();
-            const disease = document.getElementById('disease').value.trim();
-            const timestamp = new Date().toLocaleString('zh-HK', { timeZone: 'Asia/Hong_Kong' });
+            const formData = {
+                name: name,
+                age: age,
+                height: height,
+                weight: weight,
+                painAreas: painAreas.join(', '),
+                duration: duration,
+                surgery: document.getElementById('surgery').value.trim(),
+                disease: document.getElementById('disease').value.trim(),
+                workType: workType.value,
+                exerciseHabit: exerciseHabit.value,
+                exerciseTypes: exerciseTypes.join(', '),
+                stomachIssues: stomachIssues.join(', '),
+                pelvicIssues: pelvicIssues.join(', '),
+                sleepQuality: sleepQuality.value,
+                timestamp: new Date().toLocaleString('zh-HK', { timeZone: 'Asia/Hong_Kong' })
+            };
 
             // 禁用按鈕
             submitBtn.disabled = true;
             submitBtn.textContent = '⏳ 提交中...';
             errorMessage.style.display = 'none';
 
-            // 手動構建 URL
-            let requestURL = SCRIPT_URL + '?';
-            requestURL += 'name=' + encodeURIComponent(name);
-            requestURL += '&age=' + encodeURIComponent(age);
-            requestURL += '&height=' + encodeURIComponent(height);
-            requestURL += '&weight=' + encodeURIComponent(weight);
-            requestURL += '&painAreas=' + encodeURIComponent(painAreasStr);
-            requestURL += '&duration=' + encodeURIComponent(duration);
-            requestURL += '&surgery=' + encodeURIComponent(surgery);
-            requestURL += '&disease=' + encodeURIComponent(disease);
-            requestURL += '&workType=' + encodeURIComponent(workTypeRadio.value);
-            requestURL += '&exerciseHabit=' + encodeURIComponent(exerciseHabitRadio.value);
-            requestURL += '&exerciseTypes=' + encodeURIComponent(exerciseTypesStr);
-            requestURL += '&stomachIssues=' + encodeURIComponent(stomachIssuesStr);
-            requestURL += '&pelvicIssues=' + encodeURIComponent(pelvicIssuesStr);
-            requestURL += '&sleepQuality=' + encodeURIComponent(sleepQualityRadio.value);
-            requestURL += '&timestamp=' + encodeURIComponent(timestamp);
-            requestURL += '&r=' + Math.random();
-
-            console.log('發送請求 URL:', requestURL); // 除錯用
-
-            // 使用 Image Beacon
+            // 發送資料（使用 Image Beacon 方式，最穩定）
+            const params = new URLSearchParams();
+            for (const key in formData) {
+                params.append(key, encodeURIComponent(formData[key]));
+            }
             const img = new Image();
             img.onload = function() {
-                console.log('Image loaded - 成功');
                 showSuccess();
             };
             img.onerror = function() {
-                console.log('Image error - 但資料通常已發送');
-                showSuccess();
+                showSuccess(); // 即使回傳非圖片，資料通常已成功寫入
             };
-            img.src = requestURL;
+            img.src = SCRIPT_URL + '?' + params.toString() + '&r=' + Math.random();
 
             // 後備：3秒後強制顯示成功
             setTimeout(function() {
                 if (successMessage.style.display === 'none' || !successMessage.style.display) {
-                    console.log('後備機制觸發');
                     showSuccess();
                 }
             }, 3000);
@@ -320,6 +457,14 @@
         function showSuccess() {
             formContent.style.display = 'none';
             successMessage.style.display = 'block';
+        }
+
+        function showError(msg) {
+            errorMessage.textContent = msg;
+            errorMessage.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            submitBtn.disabled = false;
+            submitBtn.textContent = '📋 提交評估資料';
         }
     </script>
 </body>

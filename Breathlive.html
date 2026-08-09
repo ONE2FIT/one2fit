@@ -5,179 +5,413 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- Open Graph 預覽設定 -->
-    <meta property="og:title" content="🚨 限時免費 | ONE2FIT體系《足以影響你的呼吸》9堂直播課">
-    <meta property="og:description" content="由呼吸開始，重塑你身體嘅原廠設定。8月8日前報名，$0 上足9堂！">
-    <meta property="og:image" content="https://drive.google.com/file/d/1AQhpcdHotTGHJva-GL7-zTUNXepc_HrZ/view?usp=sharing">
+    <meta property="og:title" content="錯過了第一場？｜ONE2FIT《解密膈肌》第二場免費直播">
+    <meta property="og:description" content="第二場 0 元聽！一個動作實測你的膈肌，獨家公開 ONE2FIT「流息法」">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://one2fit.github.io/one2fit/Breathlive">
+    <meta property="og:url" content="https://one2fit.github.io/one2fit/Breathlive2">
     
-    <title>限時免費報名 | ONE2FIT體系《足以影響你的呼吸》</title>
+    <title>錯過了第一場？｜ONE2FIT《解密膈肌》第二場免費直播</title>
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", "PingFang HK", sans-serif;
-            background: #0f172a; color: #e2e8f0; line-height: 1.7; padding: 20px;
+            background: #C2B29F;
+            color: #3A302A;
+            line-height: 1.7;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         .container {
-            max-width: 600px; margin: 0 auto; background: #1e293b;
-            border-radius: 16px; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            max-width: 600px;
+            margin: 0 auto;
+            background: #D9C3B0;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(58, 48, 42, 0.25);
+            border: 1px solid rgba(255,255,255,0.3);
         }
         .header {
-            background: linear-gradient(135deg, #1a2a3a 0%, #0f172a 100%);
-            padding: 40px 30px 30px; text-align: center; border-bottom: 2px solid #334155;
+            background: linear-gradient(145deg, #D9C3B0 0%, #C2B29F 100%);
+            padding: 40px 30px 30px;
+            text-align: center;
+            border-bottom: 2px solid rgba(58, 48, 42, 0.08);
         }
         .header .badge {
-            display: inline-block; background: #dc2626; color: #fff; padding: 6px 16px;
-            border-radius: 20px; font-size: 14px; font-weight: 700; letter-spacing: 1px;
-            margin-bottom: 16px; animation: pulse 2s infinite;
+            display: inline-block;
+            background: #B85B43;
+            color: #fff;
+            padding: 6px 20px;
+            border-radius: 30px;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 16px;
+            animation: pulse 2s infinite;
         }
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
+            50% { transform: scale(1.04); }
         }
-        .header h1 { font-size: 26px; font-weight: 800; color: #f8fafc; margin-bottom: 8px; letter-spacing: 1px; }
-        .header .subtitle { font-size: 15px; color: #94a3b8; margin-bottom: 4px; }
-        .header .price-section { margin-top: 16px; }
-        .header .original-price { text-decoration: line-through; color: #64748b; font-size: 16px; }
+        .header h1 {
+            font-size: 28px;
+            font-weight: 800;
+            color: #3A302A;
+            margin-bottom: 4px;
+            letter-spacing: 0.5px;
+        }
+        .header .subtitle {
+            font-size: 16px;
+            color: #5A4A3A;
+            margin-bottom: 4px;
+        }
+        .header .subtitle strong {
+            color: #B85B43;
+        }
+        .header .price-section {
+            margin-top: 16px;
+        }
+        .header .original-price {
+            text-decoration: line-through;
+            color: #8A7A6A;
+            font-size: 16px;
+        }
         .header .free-badge {
-            display: inline-block; background: #16a34a; color: #fff; padding: 8px 20px;
-            border-radius: 8px; font-size: 18px; font-weight: 800; margin-left: 8px;
+            display: inline-block;
+            background: #7A8B7B;
+            color: #fff;
+            padding: 8px 24px;
+            border-radius: 30px;
+            font-size: 18px;
+            font-weight: 800;
+            margin-left: 8px;
         }
         .body-content { padding: 30px; }
-        .benefits { background: #0f172a; border-radius: 12px; padding: 20px; margin-bottom: 28px; }
-        .benefits h3 { font-size: 16px; color: #f8fafc; margin-bottom: 12px; }
+        
+        .missed-box {
+            background: rgba(255,255,255,0.4);
+            backdrop-filter: blur(4px);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(255,255,255,0.5);
+            text-align: center;
+        }
+        .missed-box .big-icon { font-size: 40px; display: block; margin-bottom: 6px; }
+        .missed-box h3 { font-size: 18px; color: #3A302A; margin-bottom: 4px; }
+        .missed-box p { font-size: 14px; color: #5A4A3A; }
+        .missed-box .highlight-gold {
+            display: inline-block;
+            background: #D4A359;
+            color: #3A302A;
+            padding: 2px 14px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        
+        .benefits {
+            background: rgba(255,255,255,0.35);
+            backdrop-filter: blur(4px);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(255,255,255,0.4);
+        }
+        .benefits h3 { font-size: 16px; color: #3A302A; margin-bottom: 12px; }
         .benefits ul { list-style: none; padding: 0; }
-        .benefits ul li { padding: 4px 0; font-size: 14px; color: #cbd5e1; }
-        .benefits ul li::before { content: "✅ "; }
+        .benefits ul li { padding: 4px 0; font-size: 14px; color: #3A302A; }
+        .benefits ul li::before { content: "✨ "; }
+        
+        .why-fill {
+            background: rgba(212, 163, 89, 0.15);
+            border-left: 3px solid #D4A359;
+            padding: 14px 18px;
+            border-radius: 8px;
+            margin-bottom: 28px;
+            font-size: 13px;
+            color: #5A4A3A;
+        }
+        .why-fill strong { color: #3A302A; }
+        
         .form-group { margin-bottom: 20px; }
-        .form-group label { display: block; font-weight: 700; font-size: 14px; color: #f1f5f9; margin-bottom: 6px; }
-        .form-group .hint { font-size: 12px; color: #64748b; font-weight: 400; font-style: italic; margin-bottom: 4px; display: block; }
-        .form-group input[type="text"], .form-group input[type="tel"], .form-group input[type="email"] {
-            width: 100%; padding: 12px 14px; background: #0f172a; border: 1px solid #334155;
-            border-radius: 8px; color: #f8fafc; font-size: 15px; transition: border-color 0.3s;
+        .form-group label {
+            display: block;
+            font-weight: 700;
+            font-size: 14px;
+            color: #3A302A;
+            margin-bottom: 4px;
         }
-        .form-group input:focus { outline: none; border-color: #3b82f6; }
-        .checkbox-group, .radio-group { background: #0f172a; border-radius: 8px; padding: 14px; }
+        .form-group .hint {
+            font-size: 12px;
+            color: #7A6A5A;
+            font-weight: 400;
+            font-style: italic;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .form-group input[type="text"],
+        .form-group input[type="tel"],
+        .form-group input[type="email"] {
+            width: 100%;
+            padding: 12px 14px;
+            background: rgba(255,255,255,0.6);
+            border: 1px solid rgba(58, 48, 42, 0.15);
+            border-radius: 12px;
+            color: #3A302A;
+            font-size: 15px;
+            transition: border-color 0.3s, background 0.3s;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: #D4A359;
+            background: rgba(255,255,255,0.8);
+        }
+        
+        .checkbox-group, .radio-group {
+            background: rgba(255,255,255,0.3);
+            backdrop-filter: blur(2px);
+            border-radius: 12px;
+            padding: 14px;
+        }
         .checkbox-group label, .radio-group label {
-            display: flex; align-items: center; padding: 6px 0; font-weight: 400; font-size: 14px; cursor: pointer;
+            display: flex;
+            align-items: center;
+            padding: 4px 0;
+            font-weight: 400;
+            font-size: 14px;
+            cursor: pointer;
+            color: #3A302A;
         }
-        .checkbox-group input[type="checkbox"], .radio-group input[type="radio"] {
-            margin-right: 10px; width: 18px; height: 18px; accent-color: #3b82f6;
+        .checkbox-group input[type="checkbox"],
+        .radio-group input[type="radio"] {
+            margin-right: 10px;
+            width: 18px;
+            height: 18px;
+            accent-color: #D4A359;
+            flex-shrink: 0;
         }
+        .checkbox-group input[type="text"] {
+            width: 60%;
+            display: inline-block;
+            margin-left: 8px;
+            padding: 4px 10px;
+            background: rgba(255,255,255,0.4);
+            border: 1px solid rgba(58, 48, 42, 0.1);
+            border-radius: 6px;
+            color: #3A302A;
+            font-size: 13px;
+        }
+        .checkbox-group input[type="text"]:focus {
+            outline: none;
+            border-color: #D4A359;
+        }
+        
         textarea {
-            width: 100%; padding: 12px 14px; background: #0f172a; border: 1px solid #334155;
-            border-radius: 8px; color: #f8fafc; font-size: 15px; font-family: inherit;
-            resize: vertical; min-height: 80px;
+            width: 100%;
+            padding: 12px 14px;
+            background: rgba(255,255,255,0.6);
+            border: 1px solid rgba(58, 48, 42, 0.15);
+            border-radius: 12px;
+            color: #3A302A;
+            font-size: 15px;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 80px;
+            transition: border-color 0.3s, background 0.3s;
         }
-        textarea:focus { outline: none; border-color: #3b82f6; }
+        textarea:focus {
+            outline: none;
+            border-color: #D4A359;
+            background: rgba(255,255,255,0.8);
+        }
+        
         .submit-btn {
-            width: 100%; padding: 16px; background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
-            color: #fff; border: none; border-radius: 12px; font-size: 18px; font-weight: 800;
-            cursor: pointer; transition: transform 0.2s, box-shadow 0.2s; letter-spacing: 1px; margin-top: 8px;
+            width: 100%;
+            padding: 16px;
+            background: linear-gradient(135deg, #B85B43 0%, #A04A33 100%);
+            color: #fff;
+            border: none;
+            border-radius: 14px;
+            font-size: 18px;
+            font-weight: 800;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            letter-spacing: 0.5px;
+            margin-top: 8px;
         }
-        .submit-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(220,38,38,0.4); }
-        .submit-btn:disabled { background: #475569; cursor: not-allowed; transform: none; box-shadow: none; }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(184, 91, 67, 0.35);
+        }
+        .submit-btn:disabled {
+            background: #8A7A6A;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+        
         .success-message { display: none; text-align: center; padding: 40px 30px; }
         .success-message .icon { font-size: 60px; margin-bottom: 16px; }
-        .success-message h2 { font-size: 22px; color: #f8fafc; margin-bottom: 12px; }
-        .success-message p { color: #94a3b8; font-size: 14px; margin-bottom: 20px; }
+        .success-message h2 { font-size: 22px; color: #3A302A; margin-bottom: 12px; }
+        .success-message p { color: #5A4A3A; font-size: 14px; margin-bottom: 20px; }
+        
         .share-box {
-            background: #0f172a; border-radius: 12px; padding: 16px; text-align: left;
-            font-size: 13px; color: #cbd5e1; margin-bottom: 20px; position: relative;
+            background: rgba(255,255,255,0.5);
+            backdrop-filter: blur(4px);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: left;
+            font-size: 13px;
+            color: #3A302A;
+            margin-bottom: 20px;
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.4);
         }
         .copy-btn {
-            position: absolute; top: 8px; right: 8px; background: #334155; color: #fff;
-            border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px;
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(58, 48, 42, 0.1);
+            color: #3A302A;
+            border: none;
+            padding: 4px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: background 0.2s;
         }
-        .copy-btn:hover { background: #475569; }
-        .social-links { display: flex; justify-content: center; gap: 16px; margin-top: 20px; flex-wrap: wrap; }
+        .copy-btn:hover { background: rgba(58, 48, 42, 0.2); }
+        
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
         .social-links a {
-            background: #334155; color: #fff; padding: 12px 24px; border-radius: 8px;
-            text-decoration: none; font-size: 15px; font-weight: 600; display: flex;
-            align-items: center; gap: 8px; transition: background 0.2s;
+            background: rgba(58, 48, 42, 0.08);
+            color: #3A302A;
+            padding: 12px 24px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
         }
-        .social-links a:hover { background: #475569; }
+        .social-links a:hover { background: rgba(58, 48, 42, 0.16); }
+        
         .error-message {
-            background: #7f1d1d; color: #fca5a5; padding: 12px; border-radius: 8px;
-            margin-bottom: 16px; display: none; font-size: 14px;
+            background: rgba(184, 91, 67, 0.15);
+            color: #B85B43;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 16px;
+            display: none;
+            font-size: 14px;
+            border-left: 3px solid #B85B43;
         }
-        .why-fill {
-            background: #1a2a3a; border-left: 3px solid #3b82f6; padding: 14px 18px;
-            border-radius: 8px; margin-bottom: 28px; font-size: 13px; color: #94a3b8;
+        .footer-note {
+            text-align: center;
+            font-size: 12px;
+            color: #7A6A5A;
+            padding: 16px 30px 20px;
+            border-top: 1px solid rgba(58, 48, 42, 0.06);
         }
-        .why-fill strong { color: #f8fafc; }
+        .footer-note strong { color: #B85B43; }
+        
+        /* 手機微調 */
+        @media (max-width: 480px) {
+            .header h1 { font-size: 22px; }
+            .header .subtitle { font-size: 14px; }
+            .body-content { padding: 20px; }
+        }
     </style>
 </head>
 <body>
 
 <div class="container" id="mainContent">
     <div class="header">
-        <div class="badge">🚨 限時免費</div>
-        <h1>用一餐飯嘅價錢，解鎖你身體嘅「原廠設定」</h1>
-        <p class="subtitle">由呼吸開始，重塑呼吸</p>
-        <p class="subtitle">📅 8月8日起．連續9個星期六</p>
+        <div class="badge">🔥 第二場 · 免費直播</div>
+        <h1>錯過了第一場？</h1>
+        <p class="subtitle">第二場，才是真正的 <strong>關鍵</strong></p>
+        <p class="subtitle" style="font-size:14px; margin-top:4px;">📅 2026年8月15日（星期六）晚上 7:00-8:00</p>
         <div class="price-section">
             <span class="original-price">原價 $198</span>
-            <span class="free-badge">8月8日前 $0</span>
+            <span class="free-badge">8月15日前 $0</span>
         </div>
     </div>
     
     <div class="body-content" id="formContent">
+        <div class="missed-box">
+            <span class="big-icon">🧘</span>
+            <h3>第一場你錯過了「測驗」</h3>
+            <p>第二場，我們帶你找到 <span class="highlight-gold">解決問題的關鍵</span></p>
+            <p style="font-size:13px; margin-top:6px; color:#5A4A3A;">💡 一個動作實測：你的膈肌，真的有在工作嗎？</p>
+        </div>
+        
         <div class="benefits">
-            <h3>🎯 你將會得到乜嘢？</h3>
+            <h3>🎯 第二場你將會學到</h3>
             <ul>
-                <li>9 堂由 ONE2FIT 體系核心團隊帶領嘅直播互動課</li>
-                <li>即時問答，堂上直接解決你嘅個人問題</li>
-                <li>一套終身受用嘅「由呼吸開始」身體管理系統</li>
-                <li>課後社群支援，同導師、同學一齊持續進步</li>
+                <li>現場實測：你的膈肌及格嗎？（不用儀器，當場知道）</li>
+                <li>獨家公開：ONE2FIT「流息法」——專門訓練膈肌耐力</li>
+                <li>為什麼「練呼吸」很久了，身體卻沒進步？</li>
+                <li>肩頸痠痛、手腳冰涼、食道反流——問題可能都在同一塊肌肉</li>
             </ul>
         </div>
         
         <div class="why-fill">
-            <strong>💡 點解我要填呢啲資料？</strong><br>
-            因為呢個唔係「睇完就算」嘅錄播課。我哋想喺上堂前了解你嘅身體狀況，導師先可以<b>針對性解答你嘅問題</b>，而唔係俾罐頭理論你。<b>你填得越仔細，收穫越大。</b>
+            <strong>💡 為什麼要填這些資料？</strong><br>
+            第二場是 <strong>全程互動體驗</strong>。我們想在上課前了解你的身體狀況，導師才能<strong>針對性解答你的問題</strong>。你填得越仔細，收穫越大。
         </div>
         
         <div class="error-message" id="errorMessage"></div>
         
         <form id="registrationForm">
             <div class="form-group">
-                <label for="name">1. 你嘅稱呼 *</label>
-                <span class="hint">上堂嘅時候點樣稱呼你？</span>
+                <label for="name">1. 你的稱呼 *</label>
+                <span class="hint">上課的時候怎樣稱呼你？</span>
                 <input type="text" id="name" name="name" placeholder="例如：阿強 / Peter" required>
             </div>
             
             <div class="form-group">
                 <label for="whatsapp">2. WhatsApp 聯絡電話 *</label>
-                <span class="hint">上課連結同每星期嘅上堂提醒會直接 WhatsApp 俾你（我哋唔會亂 send 嘢）</span>
+                <span class="hint">上課連結會直接 WhatsApp 發送給你（我們不會亂發訊息）</span>
                 <input type="tel" id="whatsapp" name="whatsapp" placeholder="例如：61234567" required>
             </div>
             
             <div class="form-group">
                 <label for="email">3. Email 電郵地址（選填）</label>
-                <span class="hint">課後筆記同補充資料會電郵俾你重溫</span>
+                <span class="hint">課後筆記會電郵給你重溫</span>
                 <input type="email" id="email" name="email" placeholder="例如：yourname@gmail.com">
             </div>
             
             <div class="form-group">
-                <label>4. 你最困擾嘅身體問題係？（可選多項）</label>
-                <span class="hint">導師會根據最多人揀嘅問題，喺課堂上重點拆解</span>
+                <label>4. 你最困擾的身體問題是？（可選多項）</label>
+                <span class="hint">導師會根據最多人選的問題，在課堂上重點拆解</span>
                 <div class="checkbox-group">
                     <label><input type="checkbox" name="painPoints" value="腰痛 / 下背痛"> 腰痛 / 下背痛</label>
                     <label><input type="checkbox" name="painPoints" value="頸痛 / 富貴包"> 頸痛 / 富貴包</label>
-                    <label><input type="checkbox" name="painPoints" value="頭痛 / 偏頭痛"> 頭痛 / 偏頭痛</label>
+                    <label><input type="checkbox" name="painPoints" value="肩頸僵硬 / 斜方肌緊繃"> 肩頸僵硬 / 斜方肌緊繃</label>
+                    <label><input type="checkbox" name="painPoints" value="手腳冰涼 / 血液循環差"> 手腳冰涼 / 血液循環差</label>
+                    <label><input type="checkbox" name="painPoints" value="食道反流 / 胃酸倒流"> 食道反流 / 胃酸倒流</label>
                     <label><input type="checkbox" name="painPoints" value="失眠 / 睡眠質素差"> 失眠 / 睡眠質素差</label>
-                    <label><input type="checkbox" name="painPoints" value="體態問題（如骨盆前傾、寒背）"> 體態問題（如骨盆前傾、寒背）</label>
+                    <label><input type="checkbox" name="painPoints" value="肋骨外翻 / 體態問題"> 肋骨外翻 / 體態問題</label>
                     <label><input type="checkbox" name="painPoints" value="運動表現（想舉更重、跑更快）"> 運動表現（想舉更重、跑更快）</label>
-                    <label><input type="checkbox" name="painPoints" value="壓力大 / 情緒不穩"> 壓力大 / 情緒不穩</label>
-                    <label><input type="checkbox" name="painPoints" value="其他"> 其他：<input type="text" id="painOther" name="painOther" placeholder="請註明" style="width:60%; display:inline-block; margin-left:8px; padding:6px; background:#1e293b; border:1px solid #334155; border-radius:4px; color:#f8fafc;"></label>
+                    <label><input type="checkbox" name="painPoints" value="其他"> 其他：<input type="text" id="painOther" name="painOther" placeholder="請註明"></label>
                 </div>
             </div>
             
             <div class="form-group">
-                <label>5. 你從邊度認識我哋？</label>
-                <span class="hint">純粹八卦吓，想知邊度嘅朋友最有眼光 😎</span>
+                <label>5. 你從哪裡認識我們的？</label>
+                <span class="hint">純粹好奇，想知道哪里的朋友最有眼光 😎</span>
                 <div class="radio-group">
                     <label><input type="radio" name="source" value="WhatsApp 群組"> WhatsApp 群組</label>
                     <label><input type="radio" name="source" value="Facebook / Instagram"> Facebook / Instagram</label>
@@ -187,52 +421,58 @@
             </div>
             
             <div class="form-group">
-                <label>6. 你有冇上過 Gavin Sir 嘅課？（選填）</label>
-                <span class="hint">幫我哋知道你嘅基礎，調整教學節奏</span>
+                <label>6. 你有上過 Gavin Sir 的課嗎？（選填）</label>
+                <span class="hint">幫助我們了解你的基礎，調整教學節奏</span>
                 <div class="radio-group">
                     <label><input type="radio" name="previousCourse" value="有，想再複習深化"> 有，想再複習深化</label>
-                    <label><input type="radio" name="previousCourse" value="冇，今次係第一次接觸"> 冇，今次係第一次接觸</label>
+                    <label><input type="radio" name="previousCourse" value="沒有，這次是第一次接觸"> 沒有，這次是第一次接觸</label>
                 </div>
             </div>
             
             <div class="form-group">
-                <label for="goal">7. 你最想喺呢9堂入面學到嘅一件事係？（選填）</label>
-                <span class="hint">例如：「我想知點解成日拗柴」、「我想戒咗食止痛藥」</span>
-                <textarea id="goal" name="goal" placeholder="寫低你最想解決嘅問題..."></textarea>
+                <label for="goal">7. 你最想在這堂課學到的一件事是？（選填）</label>
+                <span class="hint">例如：「我想知道為什麼我練呼吸很久了卻沒進步」</span>
+                <textarea id="goal" name="goal" placeholder="寫下你最想解決的問題..."></textarea>
             </div>
             
             <button type="submit" class="submit-btn" id="submitBtn">
-                🔥 立即報名，$0 解鎖原廠設定 🔥
+                🔥 立即報名 · 錯過免費就恢復 $198 🔥
             </button>
         </form>
     </div>
     
     <div class="success-message" id="successMessage">
         <div class="icon">🎉</div>
-        <h2>報名成功！歡迎加入 ONE2FIT 體系</h2>
-        <p>多謝你嘅信任！<br><br>
-        我哋已經收到你嘅報名資料，將會喺 <strong>24 小時內</strong> 經 WhatsApp 發送上課學習群組連結，直播連結會在群組發放請留意群組信息。<br><br>
-        <strong>📅 第一堂日期：2026年8月8日（星期六）</strong><br>
-        ⏰ 上堂時間：將會喺 WhatsApp群組通知你</p>
+        <h2>報名成功！</h2>
+        <p style="font-size:16px; font-weight:600; color:#B85B43;">錯過了第一場？第二場，我們幫你補回來。</p>
+        <p>
+            我們已經收到你的報名資料，將會在 <strong>24 小時內</strong> 經 WhatsApp 發送上課連結。<br><br>
+            <strong>📅 第二場直播日期：2026年8月15日（星期六）</strong><br>
+            ⏰ 時間：晚上 7:00-8:00<br><br>
+            <span style="font-size:13px; color:#5A4A3A;">💡 直播連結將在 WhatsApp 群組發放，請留意群組信息。</span>
+        </p>
         
-        <h3 style="font-size:16px; color:#f8fafc; margin-bottom:8px;">💌 想加倍你嘅收穫？</h3>
-        <p style="font-size:13px; color:#94a3b8;">邀請你嘅朋友一齊參加！撳下面個掣複製訊息，轉發俾身邊有需要嘅人：</p>
+        <h3 style="font-size:16px; color:#3A302A; margin-bottom:8px; margin-top:24px;">💌 邀請朋友一起來</h3>
+        <p style="font-size:13px; color:#5A4A3A;">按下面按鈕複製訊息，轉發給身邊有需要的朋友：</p>
         
         <div class="share-box" id="shareBox">
-🚨 我啱啱報咗個免費嘅線上課程，《足以影響你的呼吸》。由康復教練 Gavin Sir 嘅 ONE2FIT 體系團隊教，連續9個星期六，由呼吸開始解決全身痛症同體態問題。8月8日前報名 $0！
-快啲趁截止前一齊報名 👉 https://one2fit.github.io/one2fit/Breathlive
+🔥 我報名了 ONE2FIT 第二場免費直播《解密膈肌》！錯過第一場沒關係，第二場直接給你解法 —— 一個動作實測你的膈肌，獨家公開「流息法」訓練。
+8月15日前報名 $0，快啲一齊報名 👉 https://one2fit.github.io/one2fit/Breathlive2
             <button class="copy-btn" onclick="copyShareText()">📋 複製</button>
         </div>
         
-        <h3 style="font-size:16px; color:#f8fafc; margin-bottom:8px;">📲 有問題？即時聯絡我哋</h3>
+        <h3 style="font-size:16px; color:#3A302A; margin-bottom:8px;">📲 有問題？即時聯絡我們</h3>
         <div class="social-links">
-            <a href="https://wa.me/85261500005?text=我想查詢呼吸直播課程" target="_blank">💬 WhatsApp 查詢</a>
+            <a href="https://wa.me/85261500005?text=我想查詢《解密膈肌》直播課程" target="_blank">💬 WhatsApp 查詢</a>
             <a href="https://www.instagram.com/one.2_fit/" target="_blank">📸 Instagram</a>
         </div>
     </div>
+    
+    <div class="footer-note">
+        ⏳ 直播結束後，第二場回放將恢復 <strong>HK$198</strong> · 現在報名，鎖定 $0
+    </div>
 </div>
 
-<!-- ===== 只保留一個乾淨嘅 Image Beacon Script ===== -->
 <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw6dQfKiZy_6GG84UXSA5LQyUD5PU7b6XNb0wMd92L2qH1tfRWQWsCDGBvvpgfnQ91xHw/exec";
     
@@ -245,32 +485,28 @@
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         
-        // 基本驗證
         const name = document.getElementById('name').value.trim();
         const whatsapp = document.getElementById('whatsapp').value.trim();
         
         if (!name || !whatsapp) {
-            showError('請填寫稱呼同 WhatsApp 電話，呢兩項係必須嘅。');
+            showError('請填寫稱呼及 WhatsApp 電話，這兩項是必須的。');
             return;
         }
         
         if (!/^\d{8}$/.test(whatsapp)) {
-            showError('請輸入有效嘅8位數香港電話號碼。');
+            showError('請輸入有效的 8 位數香港電話號碼。');
             return;
         }
         
-        // 收集痛點
         const painCheckboxes = document.querySelectorAll('input[name="painPoints"]:checked');
         const painPoints = Array.from(painCheckboxes).map(cb => cb.value);
         const painOther = document.getElementById('painOther').value.trim();
         if (painOther) painPoints.push('其他：' + painOther);
         const painPointsStr = painPoints.join(', ');
         
-        // 收集來源
         const sourceRadio = document.querySelector('input[name="source"]:checked');
         const source = sourceRadio ? sourceRadio.value : '';
         
-        // 收集過往課程
         const courseRadio = document.querySelector('input[name="previousCourse"]:checked');
         const previousCourse = courseRadio ? courseRadio.value : '';
         
@@ -278,12 +514,10 @@
         const goal = document.getElementById('goal').value.trim();
         const timestamp = new Date().toLocaleString('zh-HK', { timeZone: 'Asia/Hong_Kong' });
         
-        // 禁用按鈕
         submitBtn.disabled = true;
         submitBtn.textContent = '⏳ 提交中...';
         errorMessage.style.display = 'none';
         
-        // 手動構建 URL（每個參數 encodeURIComponent）
         let requestURL = SCRIPT_URL + '?';
         requestURL += 'name=' + encodeURIComponent(name);
         requestURL += '&whatsapp=' + encodeURIComponent(whatsapp);
@@ -295,13 +529,11 @@
         requestURL += '&timestamp=' + encodeURIComponent(timestamp);
         requestURL += '&r=' + Math.random();
         
-        // Image Beacon（最穩定跨域方式）
         const img = new Image();
         img.onload = showSuccess;
         img.onerror = showSuccess;
         img.src = requestURL;
         
-        // 後備：3秒後強制顯示成功
         setTimeout(function() {
             if (successMessage.style.display === 'none' || !successMessage.style.display) {
                 showSuccess();
@@ -313,7 +545,8 @@
         formContent.style.display = 'none';
         successMessage.style.display = 'block';
         document.querySelector('.header .badge').textContent = '🎉 報名成功';
-        document.querySelector('.header .badge').style.background = '#16a34a';
+        document.querySelector('.header .badge').style.background = '#7A8B7B';
+        document.querySelector('.header .free-badge').textContent = '✅ 已報名';
     }
     
     function showError(msg) {
@@ -321,7 +554,7 @@
         errorMessage.style.display = 'block';
         window.scrollTo({ top: 0, behavior: 'smooth' });
         submitBtn.disabled = false;
-        submitBtn.textContent = '🔥 立即報名，$0 解鎖原廠設定 🔥';
+        submitBtn.textContent = '🔥 立即報名 · 錯過免費就恢復 $198 🔥';
     }
     
     function copyShareText() {
@@ -332,7 +565,7 @@
             btn.textContent = '✅ 已複製';
             setTimeout(function() { btn.textContent = '📋 複製'; }, 2000);
         }).catch(function() {
-            alert('請手動複製上面嘅文字');
+            alert('請手動複製上面的文字');
         });
     }
 </script>

@@ -474,122 +474,100 @@
 </div>
 
 <script>
-    // ============================================
-    // ⚠️ 將下面呢行換成你 Apps Script 部署後嘅真實網址
-    // ============================================
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw7qdTbJFVwOllB-z9D0HeHcsEL0_rbveMlnauYgneC7KhgnOWWf7TrUErBdVQB9bb_Bw/exec";
-
-    const BOOKING_URL = "https://myfreetime.io/shop/chillclubonmore?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAcGRvZgJleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA85MzY2MTk3NDMzOTI0NTkAAacDTGRl7I1EFasFcUj9PleQ31bK1L8hm9WrOYHJuZucAxLg0C1-2WBg3-c03A_aem_Sr8INfqSvAmAEasDJqcfHw";
-
-    document.addEventListener('DOMContentLoaded', function() {
-
-        const submitBtn = document.getElementById('submitBtn');
-        const successModal = document.getElementById('successModal');
-        const closeModal = document.getElementById('closeModal');
-        const bookingLink = document.getElementById('bookingLink');
-
-        if (!submitBtn) {
-            console.error('搵唔到提交按鈕');
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw6dQfKiZy_6GG84UXSA5LQyUD5PU7b6XNb0wMd92L2qH1tfRWQWsCDGBvvpgfnQ91xHw/exec";
+    
+    const form = document.getElementById('registrationForm');
+    const submitBtn = document.getElementById('submitBtn');
+    const errorMessage = document.getElementById('errorMessage');
+    const formContent = document.getElementById('formContent');
+    const successMessage = document.getElementById('successMessage');
+    
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const name = document.getElementById('name').value.trim();
+        const whatsapp = document.getElementById('whatsapp').value.trim();
+        
+        if (!name || !whatsapp) {
+            showError('請填寫稱呼及 WhatsApp 電話，這兩項是必須的。');
             return;
         }
-
-        submitBtn.addEventListener('click', function() {
-            const btn = this;
-            const name = document.getElementById('name').value.trim();
-            const age = document.getElementById('age').value.trim();
-            const currentPain = document.getElementById('currentPain').value.trim();
-
-            // 基本驗證
-            if (!name || !age || !currentPain) {
-                alert('請最少填寫姓名、年齡，同埋你目前嘅身體不適。');
-                return;
+        
+        if (!/^\d{8}$/.test(whatsapp)) {
+            showError('請輸入有效的 8 位數香港電話號碼。');
+            return;
+        }
+        
+        const painCheckboxes = document.querySelectorAll('input[name="painPoints"]:checked');
+        const painPoints = Array.from(painCheckboxes).map(cb => cb.value);
+        const painOther = document.getElementById('painOther').value.trim();
+        if (painOther) painPoints.push('其他：' + painOther);
+        const painPointsStr = painPoints.join(', ');
+        
+        const sourceRadio = document.querySelector('input[name="source"]:checked');
+        const source = sourceRadio ? sourceRadio.value : '';
+        
+        const courseRadio = document.querySelector('input[name="previousCourse"]:checked');
+        const previousCourse = courseRadio ? courseRadio.value : '';
+        
+        const email = document.getElementById('email').value.trim();
+        const goal = document.getElementById('goal').value.trim();
+        const timestamp = new Date().toLocaleString('zh-HK', { timeZone: 'Asia/Hong_Kong' });
+        
+        submitBtn.disabled = true;
+        submitBtn.textContent = '⏳ 提交中...';
+        errorMessage.style.display = 'none';
+        
+        let requestURL = SCRIPT_URL + '?';
+        requestURL += 'name=' + encodeURIComponent(name);
+        requestURL += '&whatsapp=' + encodeURIComponent(whatsapp);
+        requestURL += '&email=' + encodeURIComponent(email);
+        requestURL += '&painPoints=' + encodeURIComponent(painPointsStr);
+        requestURL += '&source=' + encodeURIComponent(source);
+        requestURL += '&previousCourse=' + encodeURIComponent(previousCourse);
+        requestURL += '&goal=' + encodeURIComponent(goal);
+        requestURL += '&timestamp=' + encodeURIComponent(timestamp);
+        requestURL += '&r=' + Math.random();
+        
+        const img = new Image();
+        img.onload = showSuccess;
+        img.onerror = showSuccess;
+        img.src = requestURL;
+        
+        setTimeout(function() {
+            if (successMessage.style.display === 'none' || !successMessage.style.display) {
+                showSuccess();
             }
-
-            // 收集複選框資料（腸胃問題）
-            const gutIssues = [];
-            document.querySelectorAll('input[name="gutIssue"]:checked').forEach(cb => {
-                if (cb.value !== '以上皆無') gutIssues.push(cb.value);
-            });
-            if (gutIssues.length === 0) {
-                const noneChecked = document.querySelector('input[name="gutIssue"][value="以上皆無"]:checked');
-                if (noneChecked) gutIssues.push('無');
-            }
-
-            // 用 GET 方式建立 URL（同你成功嗰個網頁一樣嘅做法）
-            let requestURL = SCRIPT_URL + '?';
-            requestURL += 'name=' + encodeURIComponent(name);
-            requestURL += '&age=' + encodeURIComponent(age);
-            requestURL += '&height=' + encodeURIComponent(document.getElementById('height').value.trim());
-            requestURL += '&weight=' + encodeURIComponent(document.getElementById('weight').value.trim());
-            requestURL += '&contact=' + encodeURIComponent(document.getElementById('contact').value.trim());
-            requestURL += '&currentPain=' + encodeURIComponent(currentPain);
-            requestURL += '&duration=' + encodeURIComponent(document.getElementById('duration').value);
-            requestURL += '&injuries=' + encodeURIComponent(document.getElementById('injuries').value.trim());
-            requestURL += '&diagnosis=' + encodeURIComponent(document.getElementById('diagnosis').value.trim());
-            requestURL += '&medication=' + encodeURIComponent(document.getElementById('medication').value.trim());
-            requestURL += '&workType=' + encodeURIComponent(document.getElementById('workType').value);
-            requestURL += '&dailySitting=' + encodeURIComponent(document.getElementById('dailySitting').value.trim());
-            requestURL += '&exerciseHabit=' + encodeURIComponent(document.getElementById('exerciseHabit').value.trim());
-            requestURL += '&shoeType=' + encodeURIComponent(document.getElementById('shoeType').value);
-            requestURL += '&breathPattern=' + encodeURIComponent(document.getElementById('breathPattern').value);
-            requestURL += '&gutIssue=' + encodeURIComponent(gutIssues.join('、'));
-            requestURL += '&leakage=' + encodeURIComponent(document.getElementById('leakage').value);
-            requestURL += '&startle=' + encodeURIComponent(document.getElementById('startle').value);
-            requestURL += '&sleepQuality=' + encodeURIComponent(document.getElementById('sleepQuality').value);
-            requestURL += '&morningTension=' + encodeURIComponent(document.getElementById('morningTension').value);
-            requestURL += '&personality=' + encodeURIComponent(document.getElementById('personality').value);
-            requestURL += '&selfDescription=' + encodeURIComponent(document.getElementById('selfDescription').value.trim());
-            requestURL += '&r=' + Math.random(); // 防止快取
-
-            // 顯示載入中
-            btn.disabled = true;
-            btn.innerHTML = '<span class="loading-spinner"></span>提交中…';
-
-            // 用 Image 技巧繞過 CORS（同你成功嗰個網頁一模一樣嘅做法）
-            const img = new Image();
-            img.onload = function() {
-                // 成功，顯示預約彈窗
-                if (successModal) successModal.classList.add('active');
-                btn.disabled = false;
-                btn.innerHTML = '📋 提交問卷，立即預約';
-            };
-            img.onerror = function() {
-                // 即使「失敗」（Image 當佢係 broken image），資料其實已經發送咗出去
-                if (successModal) successModal.classList.add('active');
-                btn.disabled = false;
-                btn.innerHTML = '📋 提交問卷，立即預約';
-            };
-            img.src = requestURL;
-
-            // 後備：3秒後無論如何都顯示成功
-            setTimeout(function() {
-                if (successModal && !successModal.classList.contains('active')) {
-                    successModal.classList.add('active');
-                    btn.disabled = false;
-                    btn.innerHTML = '📋 提交問卷，立即預約';
-                }
-            }, 3000);
-        });
-
-        // 關閉彈窗
-        if (closeModal) {
-            closeModal.addEventListener('click', function() {
-                if (successModal) successModal.classList.remove('active');
-            });
-        }
-        if (successModal) {
-            successModal.addEventListener('click', function(e) {
-                if (e.target === this) this.classList.remove('active');
-            });
-        }
-        if (bookingLink) {
-            bookingLink.addEventListener('click', function() {
-                setTimeout(function() {
-                    if (successModal) successModal.classList.remove('active');
-                }, 500);
-            });
-        }
+        }, 3000);
     });
+    
+    function showSuccess() {
+        formContent.style.display = 'none';
+        successMessage.style.display = 'block';
+        document.querySelector('.header .badge').textContent = '🎉 報名成功';
+        document.querySelector('.header .badge').style.background = '#7A8B7B';
+        document.querySelector('.header .free-badge').textContent = '✅ 已報名';
+    }
+    
+    function showError(msg) {
+        errorMessage.textContent = msg;
+        errorMessage.style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        submitBtn.disabled = false;
+        submitBtn.textContent = '🔥 立即報名 · 錯過免費就恢復 $198 🔥';
+    }
+    
+    function copyShareText() {
+        const shareBox = document.getElementById('shareBox');
+        const text = shareBox.textContent.replace('📋 複製', '').trim();
+        navigator.clipboard.writeText(text).then(function() {
+            const btn = document.querySelector('.copy-btn');
+            btn.textContent = '✅ 已複製';
+            setTimeout(function() { btn.textContent = '📋 複製'; }, 2000);
+        }).catch(function() {
+            alert('請手動複製上面的文字');
+        });
+    }
 </script>
 
 </body>

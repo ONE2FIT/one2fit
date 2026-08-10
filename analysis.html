@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>一對一精準評估問卷 | 神經重置私教</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #f5f5f0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+            padding: 20px;
+            color: #1a1a1a;
+            line-height: 1.5;
+        }
+
+        .form-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 30px 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            color: #111;
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            color: #6b6b6b;
+            margin-bottom: 28px;
+            border-left: 4px solid #c7512e;
+            padding-left: 14px;
+        }
+
+        .section {
+            margin-top: 28px;
+            margin-bottom: 24px;
+        }
+
+        .section-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            letter-spacing: 0.3px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border-bottom: 2px solid #ecece5;
+            padding-bottom: 8px;
+        }
+
+        .section-number {
+            background: #1a1a1a;
+            color: white;
+            width: 26px;
+            height: 26px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            margin-right: 6px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #2c2c2c;
+            display: flex;
+            align-items: baseline;
+            flex-wrap: wrap;
+        }
+
+        .label-hint {
+            font-weight: 400;
+            color: #8a8a8a;
+            font-size: 0.8rem;
+            margin-left: 4px;
+        }
+
+        input, select, textarea {
+            font-family: inherit;
+            font-size: 1rem;
+            padding: 12px 14px;
+            border: 1.5px solid #e2e2da;
+            border-radius: 12px;
+            background: #fafaf8;
+            transition: 0.2s ease;
+            outline: none;
+            color: #1a1a1a;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            border-color: #b85a3f;
+            background: #ffffff;
+            box-shadow: 0 0 0 3px rgba(184, 90, 63, 0.08);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .radio-group, .check-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .radio-group label, .check-group label {
+            font-weight: 400;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.95rem;
+            color: #2c2c2c;
+        }
+
+        input[type="radio"], input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #b85a3f;
+        }
+
+        .inline-hint {
+            font-size: 0.8rem;
+            color: #8a8a8a;
+            margin-left: 4px;
+            font-weight: 400;
+        }
+
+        .submit-row {
+            margin-top: 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .btn-submit {
+            background: #1a1a1a;
+            color: white;
+            border: none;
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 14px 38px;
+            border-radius: 40px;
+            cursor: pointer;
+            letter-spacing: 0.4px;
+            transition: 0.2s ease;
+            width: 100%;
+            max-width: 300px;
+            text-align: center;
+        }
+
+        .btn-submit:hover {
+            background: #b85a3f;
+        }
+
+        .footer-note {
+            text-align: center;
+            font-size: 0.8rem;
+            color: #9a9a9a;
+            margin-top: 18px;
+        }
+
+        hr {
+            border: 0.5px solid #ecece5;
+            margin: 20px 0 8px;
+        }
+
+        @media (max-width: 500px) {
+            body {
+                padding: 12px;
+            }
+            .form-container {
+                padding: 20px 16px;
+            }
+            h1 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1>一對一精準評估問卷</h1>
+        <p class="subtitle">評估唔係算命，係睇證據。請你盡量詳細填寫，我哋會根據你嘅資料，度身訂做屬於你嘅評估流程。</p>
+
+        <form id="assessmentForm">
+            <!-- 基本資料 -->
+            <div class="section">
+                <div class="section-title"><span class="section-number">1</span> 基本資料</div>
+                <div class="form-group">
+                    <label>你叫咩名？</label>
+                    <input type="text" id="name" placeholder="例如：陳大文" required>
+                </div>
+                <div class="form-group">
+                    <label>今年幾歲？</label>
+                    <input type="number" id="age" placeholder="例如：38" min="10" max="120" required>
+                </div>
+                <div class="form-group">
+                    <label>身高（cm）/ 體重（kg）</label>
+                    <div style="display: flex; gap: 12px;">
+                        <input type="number" id="height" placeholder="身高 cm" step="0.1" style="width: 50%;">
+                        <input type="number" id="weight" placeholder="體重 kg" step="0.1" style="width: 50%;">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>聯絡方式（電話或電郵）</label>
+                    <input type="text" id="contact" placeholder="方便我哋同你預約時間">
+                </div>
+            </div>
+
+            <!-- 身體狀況 -->
+            <div class="section">
+                <div class="section-title"><span class="section-number">2</span> 身體狀況</div>
+                <div class="form-group">
+                    <label>你目前身上邊度唔舒服？<span class="label-hint">（痛、酸、扯住、卡住、麻痺…）</span></label>
+                    <textarea id="currentPain" placeholder="例如：右邊膝頭內側上落樓梯會痛，左邊條腰長期酸軟..." required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>呢啲問題持續咗幾耐？</label>
+                    <select id="duration">
+                        <option value="">請選擇</option>
+                        <option value="<1month">少於1個月</option>
+                        <option value="1-3months">1-3個月</option>
+                        <option value="3-6months">3-6個月</option>
+                        <option value="6-12months">6-12個月</option>
+                        <option value=">1year">超過1年</option>
+                        <option value="fluctuating">時好時壞好多年</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>有冇開過刀、受過傷？<span class="label-hint">（骨折、拗柴、車禍、跌親…即使係好耐之前）</span></label>
+                    <textarea id="injuries" placeholder="請列出年份、位置、詳情"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>有冇被診斷過任何疾病？</label>
+                    <textarea id="diagnosis" placeholder="例如：椎間盤突出、高血壓、糖尿病、自體免疫疾病…"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>有冇長期食緊藥？</label>
+                    <textarea id="medication" placeholder="藥名、食咗幾耐"></textarea>
+                </div>
+            </div>
+
+            <!-- 生活與運動 -->
+            <div class="section">
+                <div class="section-title"><span class="section-number">3</span> 生活與運動習慣</div>
+                <div class="form-group">
+                    <label>你嘅工作型態主要係？</label>
+                    <select id="workType">
+                        <option value="">請選擇</option>
+                        <option value="sedentary">久坐（Office、司機）</option>
+                        <option value="standing">久站（零售、教育）</option>
+                        <option value="mixed">半坐半企</option>
+                        <option value="physical">重度體力勞動</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>每日大概坐幾耐？</label>
+                    <input type="text" id="dailySitting" placeholder="例如：10小時（連同食飯、坐車）">
+                </div>
+                <div class="form-group">
+                    <label>有冇運動習慣？做開咩運動？</label>
+                    <textarea id="exerciseHabit" placeholder="例如：一星期跑兩次步、做瑜伽、健身舉鐵、冇運動..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>你著開咩鞋多？</label>
+                    <select id="shoeType">
+                        <option value="">請選擇</option>
+                        <option value="sneakers">波鞋/運動鞋</option>
+                        <option value="flats">平底鞋/皮鞋</option>
+                        <option value="heels">高跟鞋</option>
+                        <option value="slippers">拖鞋/赤腳</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 呼吸、內臟與睡眠 -->
+            <div class="section">
+                <div class="section-title"><span class="section-number">4</span> 呼吸、內臟與睡眠</div>
+                <div class="form-group">
+                    <label>你放鬆坐喺度，吸一啖氣，係邊度脹起先？</label>
+                    <select id="breathPattern">
+                        <option value="">請選擇</option>
+                        <option value="chest">心口/膊頭升起</option>
+                        <option value="belly">肚脹起</option>
+                        <option value="both">兩樣都有</option>
+                        <option value="unsure">唔清楚</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>有冇以下腸胃問題？<span class="label-hint">（可選多項）</span></label>
+                    <div class="check-group">
+                        <label><input type="checkbox" name="gutIssue" value="bloating"> 胃脹</label>
+                        <label><input type="checkbox" name="gutIssue" value="acid"> 胃酸倒流</label>
+                        <label><input type="checkbox" name="gutIssue" value="pain"> 胃痛</label>
+                        <label><input type="checkbox" name="gutIssue" value="constipation"> 便秘</label>
+                        <label><input type="checkbox" name="gutIssue" value="ibs"> 腸易激/肚屙</label>
+                        <label><input type="checkbox" name="gutIssue" value="none"> 以上皆無</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>有冇試過咳、打乞嚏或者跳躍時漏尿？</label>
+                    <select id="leakage">
+                        <option value="">請選擇</option>
+                        <option value="never">從未試過</option>
+                        <option value="sometimes">間中</option>
+                        <option value="frequent">經常</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>你覺得自己容易俾突然嘅聲音嚇親嗎？<span class="label-hint">（例如突然嘅電話響、閂門聲）</span></label>
+                    <select id="startle">
+                        <option value="">請選擇</option>
+                        <option value="yes">係，經常會嚇一跳</option>
+                        <option value="no">唔會，冇乜感覺</option>
+                        <option value="sometimes">視乎心情</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>睡眠品質如何？</label>
+                    <select id="sleepQuality">
+                        <option value="">請選擇</option>
+                        <option value="good">好快瞓著，一覺天光</option>
+                        <option value="hardToFallAsleep">難入睡，個腦停唔到</option>
+                        <option value="wakeUp">成日扎醒，或者去廁所</option>
+                        <option value="tired">瞓好耐但起身都好攰</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>朝早醒咗，你覺得個口同條頸係放鬆嘅，定係咬實牙關、膊頭聳起？</label>
+                    <select id="morningTension">
+                        <option value="">請選擇</option>
+                        <option value="relaxed">放鬆</option>
+                        <option value="tense">咬實牙、膊頭緊</option>
+                        <option value="unsure">冇留意</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- 心態與自我認知 -->
+            <div class="section">
+                <div class="section-title"><span class="section-number">5</span> 心態與自我認知</div>
+                <div class="form-group">
+                    <label>你覺得自己係一個容易緊張、諗嘢多嘅人，定係比較放鬆大安旨意嘅人？</label>
+                    <select id="personality">
+                        <option value="">請選擇</option>
+                        <option value="anxious">容易緊張，成日諗嘢</option>
+                        <option value="calm">大安旨意，好少煩惱</option>
+                        <option value="both">一半一半</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>用一句說話形容你覺得身體俾你最大嘅困擾係咩？</label>
+                    <input type="text" id="selfDescription" placeholder="例如：我覺得自己未老先衰，條腰硬過塊板">
+                </div>
+            </div>
+
+            <hr>
+            <p style="font-size:0.9rem; color:#4a4a4a; margin: 12px 0;">
+                下一步，我會根據你嘅答案，引導你影幾張相或者拍段片俾我——我需要睇你嘅腳板、企姿同活動幅度。評估唔係憑空猜測，係收集客觀證據。
+            </p>
+
+            <div class="submit-row">
+                <button type="button" class="btn-submit" id="submitBtn">📋 提交問卷，預約評估</button>
+                <div class="footer-note">我哋會喺24小時內聯絡你</div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('submitBtn').addEventListener('click', function() {
+            const form = document.getElementById('assessmentForm');
+            const name = document.getElementById('name').value.trim();
+            const age = document.getElementById('age').value.trim();
+            const currentPain = document.getElementById('currentPain').value.trim();
+
+            if (!name || !age || !currentPain) {
+                alert('請最少填寫姓名、年齡，同埋你目前嘅身體不適。呢啲資料係必要嘅，多謝合作。');
+                return;
+            }
+
+            // 收集所有資料
+            const formData = new FormData(form);
+            const data = {};
+            formData.forEach((value, key) => {
+                if (data[key]) {
+                    if (Array.isArray(data[key])) {
+                        data[key].push(value);
+                    } else {
+                        data[key] = [data[key], value];
+                    }
+                } else {
+                    // 處理 checkboxes 同名情況
+                    const checkboxes = form.querySelectorAll(`[name="${key}"]`);
+                    if (checkboxes.length > 1) {
+                        const checkedValues = [];
+                        checkboxes.forEach(cb => { if (cb.checked) checkedValues.push(cb.value); });
+                        if (checkedValues.length > 0) {
+                            data[key] = checkedValues;
+                        } else {
+                            data[key] = value;
+                        }
+                    } else {
+                        data[key] = value;
+                    }
+                }
+            });
+
+            console.log('評估資料：', data);
+            alert(`多謝你，${name}！\n\n我哋已經收到你嘅詳細資料。\n\n我哋會喺24小時內透過你所留嘅聯絡方式聯繫你，確定第一次嘅「60分鐘精準評估」時間。\n\n到時見！`);
+            
+            // 實際使用時可替換為真正的 API 提交邏輯
+            // fetch('/api/assessment', { method: 'POST', body: JSON.stringify(data) })
+        });
+    </script>
+</body>
+</html>

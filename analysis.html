@@ -1,640 +1,118 @@
-<!DOCTYPE html>
-<html lang="zh-HK">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>一對一精準評估問卷 | Chill Club</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+<script>
+    // ============================================
+    // ⚠️ 將下面呢行換成你 Apps Script 部署後嘅真實網址
+    // ============================================
+    const GOOGLE_SHEET_API_URL = "https://script.google.com/macros/s/AKfycbw7qdTbJFVwOllB-z9D0HeHcsEL0_rbveMlnauYgneC7KhgnOWWf7TrUErBdVQB9bb_Bw/exec";
+
+    const BOOKING_URL = "https://myfreetime.io/shop/chillclubonmore?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAcGRvZgJleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA85MzY2MTk3NDMzOTI0NTkAAacDTGRl7I1EFasFcUj9PleQ31bK1L8hm9WrOYHJuZucAxLg0C1-2WBg3-c03A_aem_Sr8INfqSvAmAEasDJqcfHw";
+
+    document.getElementById('submitBtn').addEventListener('click', async function() {
+        const btn = this;
+        const name = document.getElementById('name').value.trim();
+        const age = document.getElementById('age').value.trim();
+        const currentPain = document.getElementById('currentPain').value.trim();
+
+        // 基本驗證
+        if (!name || !age || !currentPain) {
+            alert('請最少填寫姓名、年齡，同埋你目前嘅身體不適。呢啲資料係必要嘅，多謝合作。');
+            return;
         }
 
-        body {
-            background: #f5f5f0;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans TC", "Microsoft JhengHei", sans-serif;
-            padding: 20px;
-            color: #1a1a1a;
-            line-height: 1.5;
-        }
-
-        .form-container {
-            max-width: 700px;
-            margin: 0 auto;
-            background: #ffffff;
-            border-radius: 20px;
-            padding: 30px 24px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-        }
-
-        h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-            margin-bottom: 6px;
-            color: #111;
-        }
-
-        .subtitle {
-            font-size: 0.95rem;
-            color: #6b6b6b;
-            margin-bottom: 28px;
-            border-left: 4px solid #c7512e;
-            padding-left: 14px;
-        }
-
-        .section {
-            margin-top: 28px;
-            margin-bottom: 24px;
-        }
-
-        .section-title {
-            font-size: 1.15rem;
-            font-weight: 700;
-            letter-spacing: 0.3px;
-            margin-bottom: 14px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            border-bottom: 2px solid #ecece5;
-            padding-bottom: 8px;
-        }
-
-        .section-number {
-            background: #1a1a1a;
-            color: white;
-            width: 26px;
-            height: 26px;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.9rem;
-            margin-right: 6px;
-        }
-
-        .form-group {
-            margin-bottom: 18px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 6px;
-            color: #2c2c2c;
-            display: flex;
-            align-items: baseline;
-            flex-wrap: wrap;
-        }
-
-        .label-hint {
-            font-weight: 400;
-            color: #8a8a8a;
-            font-size: 0.8rem;
-            margin-left: 4px;
-        }
-
-        input,
-        select,
-        textarea {
-            font-family: inherit;
-            font-size: 1rem;
-            padding: 12px 14px;
-            border: 1.5px solid #e2e2da;
-            border-radius: 12px;
-            background: #fafaf8;
-            transition: 0.2s ease;
-            outline: none;
-            color: #1a1a1a;
-        }
-
-        input:focus,
-        select:focus,
-        textarea:focus {
-            border-color: #b85a3f;
-            background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(184, 90, 63, 0.08);
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
-
-        .check-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            align-items: center;
-        }
-
-        .check-group label {
-            font-weight: 400;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            font-size: 0.95rem;
-            color: #2c2c2c;
-        }
-
-        input[type="checkbox"] {
-            width: 18px;
-            height: 18px;
-            accent-color: #b85a3f;
-        }
-
-        .submit-row {
-            margin-top: 32px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .btn-submit {
-            background: #1a1a1a;
-            color: white;
-            border: none;
-            font-size: 1.1rem;
-            font-weight: 600;
-            padding: 14px 38px;
-            border-radius: 40px;
-            cursor: pointer;
-            letter-spacing: 0.4px;
-            transition: 0.2s ease;
-            width: 100%;
-            max-width: 300px;
-            text-align: center;
-        }
-
-        .btn-submit:hover {
-            background: #b85a3f;
-        }
-
-        .btn-submit:disabled {
-            background: #999;
-            cursor: not-allowed;
-        }
-
-        .footer-note {
-            text-align: center;
-            font-size: 0.8rem;
-            color: #9a9a9a;
-            margin-top: 18px;
-        }
-
-        hr {
-            border: 0.5px solid #ecece5;
-            margin: 20px 0 8px;
-        }
-
-        /* 彈窗樣式 */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .modal-overlay.active {
-            display: flex;
-        }
-
-        .modal-box {
-            background: #ffffff;
-            border-radius: 20px;
-            padding: 32px 24px;
-            max-width: 480px;
-            width: 90%;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .modal-icon {
-            font-size: 3rem;
-            margin-bottom: 12px;
-        }
-
-        .modal-box h2 {
-            font-size: 1.4rem;
-            margin-bottom: 8px;
-            color: #111;
-        }
-
-        .modal-box p {
-            font-size: 0.95rem;
-            color: #555;
-            margin-bottom: 20px;
-            line-height: 1.6;
-        }
-
-        .btn-booking {
-            display: inline-block;
-            background: #c7512e;
-            color: white;
-            font-weight: 700;
-            font-size: 1.1rem;
-            padding: 16px 36px;
-            border-radius: 40px;
-            text-decoration: none;
-            letter-spacing: 0.5px;
-            transition: 0.2s ease;
-            margin-bottom: 16px;
-        }
-
-        .btn-booking:hover {
-            background: #a84122;
-            transform: translateY(-1px);
-        }
-
-        .booking-steps {
-            text-align: left;
-            background: #f9f9f5;
-            border-radius: 14px;
-            padding: 16px 18px;
-            margin: 16px 0;
-            font-size: 0.9rem;
-            color: #444;
-            line-height: 1.7;
-        }
-
-        .booking-steps span {
-            font-weight: 700;
-            color: #1a1a1a;
-        }
-
-        .btn-close-modal {
-            background: none;
-            border: 1.5px solid #ccc;
-            color: #666;
-            padding: 10px 28px;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        .btn-close-modal:hover {
-            background: #f0f0f0;
-        }
-
-        .loading-spinner {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid #fff;
-            border-radius: 50%;
-            border-top-color: transparent;
-            animation: spin 0.6s linear infinite;
-            margin-right: 8px;
-            vertical-align: middle;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
-        }
-
-        @media (max-width: 500px) {
-            body {
-                padding: 12px;
-            }
-            .form-container {
-                padding: 20px 16px;
-            }
-            h1 {
-                font-size: 1.5rem;
-            }
-            .modal-box {
-                padding: 24px 18px;
-            }
-        }
-    </style>
-</head>
-<body>
-    <div class="form-container">
-        <h1>一對一精準評估問卷</h1>
-        <p class="subtitle">評估唔係算命，係睇證據。請你盡量詳細填寫，之後我會親自引導你完成整個評估流程。</p>
-
-        <form id="assessmentForm">
-            <!-- 基本資料 -->
-            <div class="section">
-                <div class="section-title"><span class="section-number">1</span> 基本資料</div>
-                <div class="form-group">
-                    <label>你叫咩名？</label>
-                    <input type="text" id="name" placeholder="例如：陳大文" required>
-                </div>
-                <div class="form-group">
-                    <label>今年幾歲？</label>
-                    <input type="number" id="age" placeholder="例如：38" min="10" max="120" required>
-                </div>
-                <div class="form-group">
-                    <label>身高（cm）/ 體重（kg）</label>
-                    <div style="display: flex; gap: 12px;">
-                        <input type="number" id="height" placeholder="身高 cm" step="0.1" style="width: 50%;">
-                        <input type="number" id="weight" placeholder="體重 kg" step="0.1" style="width: 50%;">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>聯絡方式（電話或電郵）</label>
-                    <input type="text" id="contact" placeholder="方便我哋同你確認預約">
-                </div>
-            </div>
-
-            <!-- 身體狀況 -->
-            <div class="section">
-                <div class="section-title"><span class="section-number">2</span> 身體狀況</div>
-                <div class="form-group">
-                    <label>你目前身上邊度唔舒服？<span class="label-hint">（痛、酸、扯住、卡住、麻痺…）</span></label>
-                    <textarea id="currentPain" placeholder="例如：右邊膝頭內側上落樓梯會痛，左邊條腰長期酸軟..." required></textarea>
-                </div>
-                <div class="form-group">
-                    <label>呢啲問題持續咗幾耐？</label>
-                    <select id="duration">
-                        <option value="">請選擇</option>
-                        <option value="少於1個月">少於1個月</option>
-                        <option value="1-3個月">1-3個月</option>
-                        <option value="3-6個月">3-6個月</option>
-                        <option value="6-12個月">6-12個月</option>
-                        <option value="超過1年">超過1年</option>
-                        <option value="時好時壞好多年">時好時壞好多年</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>有冇開過刀、受過傷？<span class="label-hint">（骨折、拗柴、車禍、跌親…即使係好耐之前）</span></label>
-                    <textarea id="injuries" placeholder="請列出年份、位置、詳情"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>有冇被診斷過任何疾病？</label>
-                    <textarea id="diagnosis" placeholder="例如：椎間盤突出、高血壓、糖尿病、自體免疫疾病…"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>有冇長期食緊藥？</label>
-                    <textarea id="medication" placeholder="藥名、食咗幾耐"></textarea>
-                </div>
-            </div>
-
-            <!-- 生活與運動 -->
-            <div class="section">
-                <div class="section-title"><span class="section-number">3</span> 生活與運動習慣</div>
-                <div class="form-group">
-                    <label>你嘅工作型態主要係？</label>
-                    <select id="workType">
-                        <option value="">請選擇</option>
-                        <option value="久坐">久坐（Office、司機）</option>
-                        <option value="久站">久站（零售、教育）</option>
-                        <option value="半坐半企">半坐半企</option>
-                        <option value="重度體力勞動">重度體力勞動</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>每日大概坐幾耐？</label>
-                    <input type="text" id="dailySitting" placeholder="例如：10小時（連同食飯、坐車）">
-                </div>
-                <div class="form-group">
-                    <label>有冇運動習慣？做開咩運動？</label>
-                    <textarea id="exerciseHabit" placeholder="例如：一星期跑兩次步、做瑜伽、健身舉鐵、冇運動..."></textarea>
-                </div>
-                <div class="form-group">
-                    <label>你著開咩鞋多？</label>
-                    <select id="shoeType">
-                        <option value="">請選擇</option>
-                        <option value="波鞋/運動鞋">波鞋/運動鞋</option>
-                        <option value="平底鞋/皮鞋">平底鞋/皮鞋</option>
-                        <option value="高跟鞋">高跟鞋</option>
-                        <option value="拖鞋/赤腳">拖鞋/赤腳</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- 呼吸、內臟與睡眠 -->
-            <div class="section">
-                <div class="section-title"><span class="section-number">4</span> 呼吸、內臟與睡眠</div>
-                <div class="form-group">
-                    <label>你放鬆坐喺度，吸一啖氣，係邊度脹起先？</label>
-                    <select id="breathPattern">
-                        <option value="">請選擇</option>
-                        <option value="心口/膊頭升起">心口/膊頭升起</option>
-                        <option value="肚脹起">肚脹起</option>
-                        <option value="兩樣都有">兩樣都有</option>
-                        <option value="唔清楚">唔清楚</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>有冇以下腸胃問題？<span class="label-hint">（可選多項）</span></label>
-                    <div class="check-group">
-                        <label><input type="checkbox" name="gutIssue" value="胃脹"> 胃脹</label>
-                        <label><input type="checkbox" name="gutIssue" value="胃酸倒流"> 胃酸倒流</label>
-                        <label><input type="checkbox" name="gutIssue" value="胃痛"> 胃痛</label>
-                        <label><input type="checkbox" name="gutIssue" value="便秘"> 便秘</label>
-                        <label><input type="checkbox" name="gutIssue" value="腸易激/肚屙"> 腸易激/肚屙</label>
-                        <label><input type="checkbox" name="gutIssue" value="以上皆無"> 以上皆無</label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>有冇試過咳、打乞嚏或者跳躍時漏尿？</label>
-                    <select id="leakage">
-                        <option value="">請選擇</option>
-                        <option value="從未試過">從未試過</option>
-                        <option value="間中">間中</option>
-                        <option value="經常">經常</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>你覺得自己容易俾突然嘅聲音嚇親嗎？<span class="label-hint">（例如突然嘅電話響、閂門聲）</span></label>
-                    <select id="startle">
-                        <option value="">請選擇</option>
-                        <option value="係，經常會嚇一跳">係，經常會嚇一跳</option>
-                        <option value="唔會，冇乜感覺">唔會，冇乜感覺</option>
-                        <option value="視乎心情">視乎心情</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>睡眠品質如何？</label>
-                    <select id="sleepQuality">
-                        <option value="">請選擇</option>
-                        <option value="好快瞓著，一覺天光">好快瞓著，一覺天光</option>
-                        <option value="難入睡，個腦停唔到">難入睡，個腦停唔到</option>
-                        <option value="成日扎醒，或者去廁所">成日扎醒，或者去廁所</option>
-                        <option value="瞓好耐但起身都好攰">瞓好耐但起身都好攰</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>朝早醒咗，你覺得個口同條頸係放鬆嘅，定係咬實牙關、膊頭聳起？</label>
-                    <select id="morningTension">
-                        <option value="">請選擇</option>
-                        <option value="放鬆">放鬆</option>
-                        <option value="咬實牙、膊頭緊">咬實牙、膊頭緊</option>
-                        <option value="冇留意">冇留意</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- 心態與自我認知 -->
-            <div class="section">
-                <div class="section-title"><span class="section-number">5</span> 心態與自我認知</div>
-                <div class="form-group">
-                    <label>你覺得自己係一個容易緊張、諗嘢多嘅人，定係比較放鬆大安旨意嘅人？</label>
-                    <select id="personality">
-                        <option value="">請選擇</option>
-                        <option value="容易緊張，成日諗嘢">容易緊張，成日諗嘢</option>
-                        <option value="大安旨意，好少煩惱">大安旨意，好少煩惱</option>
-                        <option value="一半一半">一半一半</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>用一句說話形容你覺得身體俾你最大嘅困擾係咩？</label>
-                    <input type="text" id="selfDescription" placeholder="例如：我覺得自己未老先衰，條腰硬過塊板">
-                </div>
-            </div>
-
-            <hr>
-            <p style="font-size:0.9rem; color:#4a4a4a; margin: 12px 0;">
-                下一步，我會根據你嘅答案，引導你影幾張相或者拍段片俾我——我需要睇你嘅腳板、企姿同活動幅度。評估唔係憑空猜測，係收集客觀證據。
-            </p>
-
-            <div class="submit-row">
-                <button type="button" class="btn-submit" id="submitBtn">📋 提交問卷，立即預約</button>
-                <div class="footer-note">提交後會自動跳轉到預約系統</div>
-            </div>
-        </form>
-    </div>
-
-    <!-- 成功提交彈窗 + 預約教學 -->
-    <div class="modal-overlay" id="successModal">
-        <div class="modal-box">
-            <div class="modal-icon">✅</div>
-            <h2>問卷已收到！</h2>
-            <p>多謝你嘅詳細資料。<br>而家可以㩒下面個掣，去我哋嘅預約系統，揀一個你最方便嘅時間。</p>
-
-            <div class="booking-steps">
-                <p><span>📌 預約教學（好簡單）：</span></p>
-                <p>1️⃣ 㩒「前往預約系統」掣</p>
-                <p>2️⃣ 揀你想做嘅項目（例如：一對一評估）</p>
-                <p>3️⃣ 揀日期同時間</p>
-                <p>4️⃣ 填返你嘅名同聯絡資料</p>
-                <p>5️⃣ 確認預約 → 搞掂！</p>
-            </div>
-
-            <a href="https://myfreetime.io/shop/chillclubonmore?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAcGRvZgJleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA85MzY2MTk3NDMzOTI0NTkAAacDTGRl7I1EFasFcUj9PleQ31bK1L8hm9WrOYHJuZucAxLg0C1-2WBg3-c03A_aem_Sr8INfqSvAmAEasDJqcfHw"
-               target="_blank" class="btn-booking" id="bookingLink">
-                🔗 前往預約系統
-            </a>
-
-            <br>
-            <button class="btn-close-modal" id="closeModal">關閉視窗</button>
-        </div>
-    </div>
-
-    <script>
-        // ============================================
-        // ⚠️ 請將下面呢個網址，換成你嘅 Google Apps Script 部署網址
-        // ============================================
-        const GOOGLE_SHEET_API_URL = "https://script.google.com/macros/s/AKfycbzxjDwAv_0mveE3mNcf7rVyG49QT4nBSa1jYlyD_dm3IdLjC86FJycAYDopo3e0JFYAVw/exec";
-
-        const BOOKING_URL = "https://myfreetime.io/shop/chillclubonmore?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAcGRvZgJleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA85MzY2MTk3NDMzOTI0NTkAAacDTGRl7I1EFasFcUj9PleQ31bK1L8hm9WrOYHJuZucAxLg0C1-2WBg3-c03A_aem_Sr8INfqSvAmAEasDJqcfHw";
-
-        document.getElementById('submitBtn').addEventListener('click', async function() {
-            const btn = this;
-            const name = document.getElementById('name').value.trim();
-            const age = document.getElementById('age').value.trim();
-            const currentPain = document.getElementById('currentPain').value.trim();
-
-            // 基本驗證
-            if (!name || !age || !currentPain) {
-                alert('請最少填寫姓名、年齡，同埋你目前嘅身體不適。呢啲資料係必要嘅，多謝合作。');
-                return;
-            }
-
-            // 收集複選框資料（腸胃問題）
-            const gutIssues = [];
-            document.querySelectorAll('input[name="gutIssue"]:checked').forEach(cb => {
+        // 收集複選框資料（腸胃問題）
+        const gutIssues = [];
+        document.querySelectorAll('input[name="gutIssue"]:checked').forEach(cb => {
+            if (cb.value !== '以上皆無') {
                 gutIssues.push(cb.value);
+            }
+        });
+
+        // 如果勾選咗「以上皆無」而且冇其他選項
+        if (gutIssues.length === 0) {
+            const noneChecked = document.querySelector('input[name="gutIssue"][value="以上皆無"]:checked');
+            if (noneChecked) {
+                gutIssues.push('無');
+            }
+        }
+
+        // 整理發送資料
+        const data = {
+            name: name,
+            age: age,
+            height: document.getElementById('height').value.trim(),
+            weight: document.getElementById('weight').value.trim(),
+            contact: document.getElementById('contact').value.trim(),
+            currentPain: currentPain,
+            duration: document.getElementById('duration').value,
+            injuries: document.getElementById('injuries').value.trim(),
+            diagnosis: document.getElementById('diagnosis').value.trim(),
+            medication: document.getElementById('medication').value.trim(),
+            workType: document.getElementById('workType').value,
+            dailySitting: document.getElementById('dailySitting').value.trim(),
+            exerciseHabit: document.getElementById('exerciseHabit').value.trim(),
+            shoeType: document.getElementById('shoeType').value,
+            breathPattern: document.getElementById('breathPattern').value,
+            gutIssue: gutIssues.join('、'),
+            leakage: document.getElementById('leakage').value,
+            startle: document.getElementById('startle').value,
+            sleepQuality: document.getElementById('sleepQuality').value,
+            morningTension: document.getElementById('morningTension').value,
+            personality: document.getElementById('personality').value,
+            selfDescription: document.getElementById('selfDescription').value.trim()
+        };
+
+        // 顯示載入中狀態
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loading-spinner"></span>提交中…';
+
+        try {
+            console.log('發送資料：', data);
+
+            const response = await fetch(GOOGLE_SHEET_API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
             });
 
-            // 整理發送資料
-            const data = {
-                name: name,
-                age: age,
-                height: document.getElementById('height').value.trim(),
-                weight: document.getElementById('weight').value.trim(),
-                contact: document.getElementById('contact').value.trim(),
-                currentPain: currentPain,
-                duration: document.getElementById('duration').value,
-                injuries: document.getElementById('injuries').value.trim(),
-                diagnosis: document.getElementById('diagnosis').value.trim(),
-                medication: document.getElementById('medication').value.trim(),
-                workType: document.getElementById('workType').value,
-                dailySitting: document.getElementById('dailySitting').value.trim(),
-                exerciseHabit: document.getElementById('exerciseHabit').value.trim(),
-                shoeType: document.getElementById('shoeType').value,
-                breathPattern: document.getElementById('breathPattern').value,
-                gutIssue: gutIssues.join('、'),
-                leakage: document.getElementById('leakage').value,
-                startle: document.getElementById('startle').value,
-                sleepQuality: document.getElementById('sleepQuality').value,
-                morningTension: document.getElementById('morningTension').value,
-                personality: document.getElementById('personality').value,
-                selfDescription: document.getElementById('selfDescription').value.trim()
-            };
+            const result = await response.json();
+            console.log('伺服器回應：', result);
 
-            // 顯示載入中狀態
-            btn.disabled = true;
-            btn.innerHTML = '<span class="loading-spinner"></span>提交中…';
-
-            try {
-                // 發送到 Google Sheets
-                const response = await fetch(GOOGLE_SHEET_API_URL, {
-                    method: 'POST',
-                    mode: 'no-cors',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                console.log('資料已發送：', data);
-
-                // 無論如何都顯示成功彈窗（因 no-cors 模式下無法讀取回應）
+            if (result.status === 'success') {
+                // 成功，顯示預約彈窗
                 document.getElementById('successModal').classList.add('active');
-
-            } catch (error) {
-                console.error('發送失敗：', error);
-                // 即使發送失敗，仍然顯示預約彈窗
+            } else {
+                console.error('儲存失敗：', result.message);
+                // 即使失敗都顯示預約彈窗
                 document.getElementById('successModal').classList.add('active');
-            } finally {
-                btn.disabled = false;
-                btn.innerHTML = '📋 提交問卷，立即預約';
             }
-        });
 
-        // 關閉彈窗
-        document.getElementById('closeModal').addEventListener('click', function() {
+        } catch (error) {
+            console.error('發送失敗：', error);
+            // 顯示預約彈窗，唔好令客戶白等
+            document.getElementById('successModal').classList.add('active');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = '📋 提交問卷，立即預約';
+        }
+    });
+
+    // 關閉彈窗
+    document.getElementById('closeModal').addEventListener('click', function() {
+        document.getElementById('successModal').classList.remove('active');
+    });
+
+    // 點擊彈窗背景也可關閉
+    document.getElementById('successModal').addEventListener('click', function(e) {
+        if (e.target === this) {
+            this.classList.remove('active');
+        }
+    });
+
+    // 點擊預約連結後關閉彈窗
+    document.getElementById('bookingLink').addEventListener('click', function() {
+        setTimeout(function() {
             document.getElementById('successModal').classList.remove('active');
-        });
-
-        // 點擊彈窗背景也可關閉
-        document.getElementById('successModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.classList.remove('active');
-            }
-        });
-
-        // 點擊預約連結後關閉彈窗
-        document.getElementById('bookingLink').addEventListener('click', function() {
-            setTimeout(function() {
-                document.getElementById('successModal').classList.remove('active');
-            }, 500);
-        });
-    </script>
-</body>
-</html>
+        }, 500);
+    });
+</script>

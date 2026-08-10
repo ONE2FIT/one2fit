@@ -536,119 +536,58 @@
     </div>
 
     <script>
-    // ============================================
-    // ⚠️ 將下面呢行換成你 Apps Script 部署後嘅真實網址
-    // ============================================
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw7qdTbJFVwOllB-z9D0HeHcsEL0_rbveMlnauYgneC7KhgnOWWf7TrUErBdVQB9bb_Bw/exec";
-
-    const BOOKING_URL = "https://myfreetime.io/shop/chillclubonmore?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAcGRvZgJleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA85MzY2MTk3NDMzOTI0NTkAAacDTGRl7I1EFasFcUj9PleQ31bK1L8hm9WrOYHJuZucAxLg0C1-2WBg3-c03A_aem_Sr8INfqSvAmAEasDJqcfHw";
+    // 換成你啱啱測試成功嗰個 Apps Script 網址
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxmFc7H9WFoit_EbXUy2XVF0E8-xgSHuDWagYnP8jyAarKziGYw9vSXK6n-v8MTwFB1mw/exec";
+    const BOOKING_URL = "https://myfreetime.io/shop/chillclubonmore";
 
     document.addEventListener('DOMContentLoaded', function() {
-
         const submitBtn = document.getElementById('submitBtn');
         const successModal = document.getElementById('successModal');
         const closeModal = document.getElementById('closeModal');
-        const bookingLink = document.getElementById('bookingLink');
 
         if (!submitBtn) {
-            console.error('搵唔到提交按鈕');
+            alert('錯誤：搵唔到提交按鈕！');
             return;
         }
 
         submitBtn.addEventListener('click', function() {
-            const btn = this;
             const name = document.getElementById('name').value.trim();
             const age = document.getElementById('age').value.trim();
             const currentPain = document.getElementById('currentPain').value.trim();
 
-            // 基本驗證
             if (!name || !age || !currentPain) {
-                alert('請最少填寫姓名、年齡，同埋你目前嘅身體不適。');
+                alert('請填寫姓名、年齡同身體不適');
                 return;
             }
 
-            // 收集複選框資料（腸胃問題）
-            const gutIssues = [];
-            document.querySelectorAll('input[name="gutIssue"]:checked').forEach(cb => {
-                if (cb.value !== '以上皆無') gutIssues.push(cb.value);
-            });
-            if (gutIssues.length === 0) {
-                const noneChecked = document.querySelector('input[name="gutIssue"][value="以上皆無"]:checked');
-                if (noneChecked) gutIssues.push('無');
-            }
+            // 建立測試 URL（只發送最基本嘅三個欄位）
+            const testURL = SCRIPT_URL + '?name=' + encodeURIComponent(name) +
+                '&age=' + encodeURIComponent(age) +
+                '&currentPain=' + encodeURIComponent(currentPain) +
+                '&r=' + Math.random();
 
-            // 用 GET 方式建立 URL（同你成功嗰個網頁一樣嘅做法）
-            let requestURL = SCRIPT_URL + '?';
-            requestURL += 'name=' + encodeURIComponent(name);
-            requestURL += '&age=' + encodeURIComponent(age);
-            requestURL += '&height=' + encodeURIComponent(document.getElementById('height').value.trim());
-            requestURL += '&weight=' + encodeURIComponent(document.getElementById('weight').value.trim());
-            requestURL += '&contact=' + encodeURIComponent(document.getElementById('contact').value.trim());
-            requestURL += '&currentPain=' + encodeURIComponent(currentPain);
-            requestURL += '&duration=' + encodeURIComponent(document.getElementById('duration').value);
-            requestURL += '&injuries=' + encodeURIComponent(document.getElementById('injuries').value.trim());
-            requestURL += '&diagnosis=' + encodeURIComponent(document.getElementById('diagnosis').value.trim());
-            requestURL += '&medication=' + encodeURIComponent(document.getElementById('medication').value.trim());
-            requestURL += '&workType=' + encodeURIComponent(document.getElementById('workType').value);
-            requestURL += '&dailySitting=' + encodeURIComponent(document.getElementById('dailySitting').value.trim());
-            requestURL += '&exerciseHabit=' + encodeURIComponent(document.getElementById('exerciseHabit').value.trim());
-            requestURL += '&shoeType=' + encodeURIComponent(document.getElementById('shoeType').value);
-            requestURL += '&breathPattern=' + encodeURIComponent(document.getElementById('breathPattern').value);
-            requestURL += '&gutIssue=' + encodeURIComponent(gutIssues.join('、'));
-            requestURL += '&leakage=' + encodeURIComponent(document.getElementById('leakage').value);
-            requestURL += '&startle=' + encodeURIComponent(document.getElementById('startle').value);
-            requestURL += '&sleepQuality=' + encodeURIComponent(document.getElementById('sleepQuality').value);
-            requestURL += '&morningTension=' + encodeURIComponent(document.getElementById('morningTension').value);
-            requestURL += '&personality=' + encodeURIComponent(document.getElementById('personality').value);
-            requestURL += '&selfDescription=' + encodeURIComponent(document.getElementById('selfDescription').value.trim());
-            requestURL += '&r=' + Math.random(); // 防止快取
+            console.log('發送 URL：', testURL);
 
-            // 顯示載入中
-            btn.disabled = true;
-            btn.innerHTML = '<span class="loading-spinner"></span>提交中…';
-
-            // 用 Image 技巧繞過 CORS（同你成功嗰個網頁一模一樣嘅做法）
+            // 方法一：用 Image 技巧
             const img = new Image();
-            img.onload = function() {
-                // 成功，顯示預約彈窗
-                if (successModal) successModal.classList.add('active');
-                btn.disabled = false;
-                btn.innerHTML = '📋 提交問卷，立即預約';
-            };
-            img.onerror = function() {
-                // 即使「失敗」（Image 當佢係 broken image），資料其實已經發送咗出去
-                if (successModal) successModal.classList.add('active');
-                btn.disabled = false;
-                btn.innerHTML = '📋 提交問卷，立即預約';
-            };
-            img.src = requestURL;
+            img.onload = function() { console.log('Image loaded'); };
+            img.onerror = function() { console.log('Image error (但資料應該已發送)'); };
+            img.src = testURL;
 
-            // 後備：3秒後無論如何都顯示成功
-            setTimeout(function() {
-                if (successModal && !successModal.classList.contains('active')) {
-                    successModal.classList.add('active');
-                    btn.disabled = false;
-                    btn.innerHTML = '📋 提交問卷，立即預約';
-                }
-            }, 3000);
+            // 方法二：用 window.open 做終極測試
+            // 取消下面呢行註解，會打開新視窗直接睇 Apps Script 回應
+            // window.open(testURL, '_blank');
+
+            // 彈出成功視窗
+            if (successModal) successModal.classList.add('active');
+            
+            // 同時喺頁面顯示「已發送」提示
+            alert('已發送測試資料！\n\n請去 Google Sheets 檢查有冇新資料。\n\n如果都係冇，請打開瀏覽器 F12 Console 睇錯誤訊息。');
         });
 
-        // 關閉彈窗
         if (closeModal) {
             closeModal.addEventListener('click', function() {
                 if (successModal) successModal.classList.remove('active');
-            });
-        }
-        if (successModal) {
-            successModal.addEventListener('click', function(e) {
-                if (e.target === this) this.classList.remove('active');
-            });
-        }
-        if (bookingLink) {
-            bookingLink.addEventListener('click', function() {
-                setTimeout(function() {
-                    if (successModal) successModal.classList.remove('active');
-                }, 500);
             });
         }
     });

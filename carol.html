@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Carol Lau 結構性身體評估問卷</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #0b0e14;
+            font-family: 'Segoe UI', 'PingFang HK', system-ui, sans-serif;
+            padding: 20px;
+            color: #e0e4ec;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            max-width: 820px;
+            width: 100%;
+            background: #141a24;
+            border-radius: 28px;
+            padding: 32px 34px 40px;
+            border: 1px solid #2a3344;
+        }
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            border-bottom: 1px solid #232d3e;
+            padding-bottom: 14px;
+            margin-bottom: 10px;
+        }
+        h1 small {
+            font-size: 14px;
+            font-weight: 400;
+            color: #7e8aa3;
+            display: block;
+            margin-top: 4px;
+        }
+        .intro {
+            background: #111923;
+            padding: 16px 20px;
+            border-radius: 14px;
+            border-left: 4px solid #4f7cff;
+            margin: 16px 0 24px 0;
+            font-size: 15px;
+            line-height: 1.6;
+            color: #c8d6f0;
+        }
+        .section {
+            background: #111923;
+            border-radius: 16px;
+            padding: 18px 20px 22px;
+            margin-bottom: 18px;
+            border: 1px solid #1e283a;
+        }
+        .section h2 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #8bb3ff;
+            margin-bottom: 4px;
+        }
+        .section .sub {
+            font-size: 13px;
+            color: #6a7da0;
+            margin-bottom: 14px;
+        }
+        .q {
+            margin-bottom: 16px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid #1a2433;
+        }
+        .q:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        .q label {
+            display: block;
+            font-size: 14px;
+            font-weight: 500;
+            color: #d8e0f0;
+            margin-bottom: 4px;
+            line-height: 1.4;
+        }
+        .q .hint {
+            font-size: 13px;
+            color: #6a7da0;
+            margin-bottom: 6px;
+            font-weight: 400;
+        }
+        .q textarea,
+        .q input[type="text"],
+        .q input[type="number"] {
+            width: 100%;
+            padding: 10px 14px;
+            border-radius: 10px;
+            border: 1px solid #2a3344;
+            background: #0f151f;
+            color: #e0e4ec;
+            font-size: 14px;
+            font-family: inherit;
+            resize: vertical;
+            transition: 0.2s;
+        }
+        .q textarea:focus,
+        .q input:focus {
+            border-color: #4f7cff;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(79, 124, 255, 0.15);
+        }
+        .q textarea {
+            min-height: 52px;
+        }
+        .q .options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px 12px;
+            margin-top: 4px;
+        }
+        .q .options label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 400;
+            font-size: 14px;
+            color: #c8d6f0;
+            cursor: pointer;
+        }
+        .q .options input[type="radio"],
+        .q .options input[type="checkbox"] {
+            accent-color: #4f7cff;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+        }
+        .btn-row {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+        }
+        .btn {
+            padding: 12px 28px;
+            border: none;
+            border-radius: 30px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            font-family: inherit;
+        }
+        .btn-primary {
+            background: #4f7cff;
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background: #3b66e0;
+            transform: scale(1.02);
+        }
+        .btn-secondary {
+            background: #1f2a3e;
+            color: #c0ceec;
+        }
+        .btn-secondary:hover {
+            background: #2d3b55;
+        }
+        .btn-success {
+            background: #3edb8a;
+            color: #0b0e14;
+        }
+        .btn-success:hover {
+            background: #2cc47a;
+            transform: scale(1.02);
+        }
+        .status {
+            margin-top: 16px;
+            padding: 12px 18px;
+            border-radius: 12px;
+            font-size: 14px;
+            display: none;
+        }
+        .status.show {
+            display: block;
+        }
+        .status.success {
+            background: #1a2f2a;
+            border: 1px solid #3edb8a44;
+            color: #8ce0b0;
+        }
+        .status.error {
+            background: #2f1a1a;
+            border: 1px solid #ff5a4a44;
+            color: #f0a090;
+        }
+        .footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #5f6f8a;
+            text-align: center;
+            border-top: 1px solid #1e283a;
+            padding-top: 16px;
+        }
+        .footer strong {
+            color: #8bb3ff;
+        }
+        @media (max-width: 500px) {
+            .container {
+                padding: 18px 16px 28px;
+            }
+            .q .options {
+                flex-direction: column;
+                gap: 4px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>
+            🧍 結構性身體評估問卷
+            <small>Carol Lau  ·  由下往上 · 足踝優先</small>
+        </h1>
+
+        <div class="intro">
+            <strong>📋 點樣填？</strong><br />
+            你逐條答真，答到幾多得幾多，唔使急、唔使揀啱先答。<br />
+            答得唔準確都唔緊要，有一句講一句。<br />
+            答完我先至幫你分型、對症。
+        </div>
+
+        <form id="questionnaireForm">
+            <!-- ==================== 一、呼吸 ==================== -->
+            <div class="section">
+                <h2>🌬️ 一、呼吸（最核心，呢度最關鍵）</h2>
+                <div class="sub">呢一part影響最大，請盡量詳細</div>
+
+                <div class="q">
+                    <label>1. 你一日入面，有幾多時間覺得「用鼻唔夠氣」？</label>
+                    <div class="hint">全日都係？定係某啲時候（靜落嚟、緊張、做嘢）先特別嚴重？</div>
+                    <textarea name="q1" placeholder="例如：朝早起身最明顯，或者全日都係咁……"></textarea>
+                </div>
+
+                <div class="q">
+                    <label>2. 你覺唔覺自己成日要「長嘆一口氣」先至舒服？</label>
+                    <div class="options">
+                        <label><input type="radio" name="q2" value="經常" /> 經常</label>
+                        <label><input type="radio" name="q2" value="間中" /> 間中</label>
+                        <label><input type="radio" name="q2" value="很少" /> 很少</label>
+                        <label><input type="radio" name="q2" value="從未" /> 從未</label>
+                    </div>
+                </div>
+
+                <div class="q">
+                    <label>3. 你打喊露（哈欠）多唔多？一日大概打幾多次？</label>
+                    <input type="text" name="q3" placeholder="例如：5-10次／好少／成日打……" />
+                </div>
+
+                <div class="q">
+                    <label>4. 瞓覺嗰陣，屋企人有冇話你會突然停咗呼吸幾秒、然後大吸一口？</label>
+                    <div class="options">
+                        <label><input type="radio" name="q4" value="有，經常" /> 有，經常</label>
+                        <label><input type="radio" name="q4" value="有，間中" /> 有，間中</label>
+                        <label><input type="radio" name="q4" value="冇聽過" /> 冇聽過</label>
+                        <label><input type="radio" name="q4" value="唔肯定" /> 唔肯定</label>
+                    </div>
+                </div>
+
+                <div class="q">
+                    <label>5. 你個鼻邊一面成日塞？</label>
+                    <div class="options">
+                        <label><input type="radio" name="q5" value="左邊" /> 左邊</label>
+                        <label><input type="radio" name="q5" value="右邊" /> 右邊</label>
+                        <label><input type="radio" name="q5" value="兩邊都塞" /> 兩邊都塞</label>
+                        <label><input type="radio" name="q5" value="冇塞但吸唔入" /> 冇塞但係吸唔入</label>
+                    </div>
+                </div>
+
+                <div class="q">
+                    <label>6. 你試下慢慢「吐氣吐到盡」，去到最盡嗰一下，個肚係咪會縮入去？</label>
+                    <div class="options">
+                        <label><input type="radio" name="q6" value="會，縮入去" /> 會，縮入去</label>
+                        <label><input type="radio" name="q6" value="頂住，郁唔到" /> 頂住，郁都唔郁</label>
+                        <label><input type="radio" name="q6" value="唔肯定" /> 唔肯定</label>
+                    </div>
+                </div>
+
+                <div class="q">
+                    <label>7. 你用口呼吸嘅時候，覺唔覺個肩頸即刻會哽起、會縮上去？</label>
+                    <div class="options">
+                        <label><input type="radio" name="q7" value="會，好明顯" /> 會，好明顯</label>
+                        <label><input type="radio" name="q7" value="有少少" /> 有少少</label>
+                        <label><input type="radio" name="q7" value="唔覺" /> 唔覺</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==================== 二、睡眠 ==================== -->
+            <div class="section">
+                <h2>😴 二、睡眠</h2>
+
+                <div class="q">
+                    <label>8. 你講「晚上瞓不了」，係入唔到眠（攤喺度好耐），定係半夜成日醒？</label>
+                    <div class="options">
+                        <label><input type="radio" name="q8" value="入唔到眠" /> 入唔到眠</label>
+                        <label><input type="radio" name="q8" value="半夜成日醒" /> 半夜成日醒</label>
+                        <label><input type="radio" name="q8" value="兩樣都有" /> 兩樣都有</label>
+                        <label><input type="radio" name="q8" value="其他" /> 其他</label>
+                    </div>
+                </div>
+
+                <div class="q">
+                    <label>9. 你通常幾點瞓？幾點醒？一晚大概瞓幾多個鐘？</label>
+                    <input type="text" name="q9" placeholder="例如：12點瞓，7點醒，約7小時" />
+                </div>
+
+                <div class="q">
+                    <label>10. 起身嗰下，係咪成個人又攰又痛，好似冇瞓過咁？</label>
+                    <div class="options">
+                        <label><input type="radio" name="q10" value="經常" /> 經常</label>
+                        <label><input type="radio" name="q10" value="間中" /> 間中</label>
+                        <label><input type="radio" name="q10" value="很少" /> 很少</label>
+                    </div>
+                </div>
+
+                <div class="q">
+                    <label>11. 你瞓覺要唔要枕好高嘅枕頭？定係一個就夠？</label>
+                    <input type="text" name="q11" placeholder="例如：要枕兩個先瞓到／一個扁枕頭就得……" />
+                </div>
+
+                <div class="q">
+                    <label>12. 你慣咗側邊瞓、仰瞓定係趴喺度瞓？</label>
+                    <div class="options">
+                        <label><input type="radio" name="q12" value="側邊瞓" /> 側邊瞓</label>
+                        <label><input type="radio" name="q12" value="仰瞓" /> 仰瞓</label>
+                        <label><input type="radio" name="q12" value="趴瞓" /> 趴瞓</label>
+                        <label><input type="radio" name="q12" value="成日轉" /> 成日轉</label>
+                    </div>
+                </div>
+
+                <div class="q">
+                    <label>13. 你有冇試過半夜醒咗，覺得個心口／個心卜卜跳、好驚、喘唔到氣？</label>
+                    <div class="options">
+                        <label><input type="radio" name="q13" value="有，試過" /> 有，試過</label>
+                        <label><input type="radio" name="q13" value="冇" /> 冇</label>
+                        <label><input type="radio" name="q13" value="唔肯定" /> 唔肯定</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==================== 三、頸肩心口 ==================== -->
+            <div class="section">
+                <h2>🦴 三、頸、肩、心口（C7同胸廓）</h2>
+
+                <div class="q">
+                    <label>14. 你個頸痛，係痛喺後面、側邊（鎖骨上面）、定係膊頭？可唔可以指到一個最痛嘅位？</label>
+                    <textarea name="q14" placeholder="例如：右邊頸後面近頭骨位置最痛……"></textarea>
+                </div>
+
+                <div class="q">
+                    <label>15. 個痛係痠、揦、扯、定係麻？</label>
+                    <div class="options">
+                        <label><input type="checkbox" name="q15_ac" value="痠" /> 痠</label>
+                        <label><input type="checkbox" name="q15_ac" value="揦" /> 揦</label>
+                        <label><input type="checkbox" name="q15_ac" value="扯" /> 扯</label>
+                        <label><input type="checkbox" name="q15_ac" value="麻" /> 麻</label>
+                        <label><input type="checkbox" name="q15_ac" value="其他" /> 其他</label>
+                    </div>
+                </div>
+
+                <div class="q">
+                    <label>16. 你有冇試過手指、手臂會麻？係邊幾隻手指？</label>
+                    <input type="text" name="q16" placeholder="例如：右手尾指同無名指／冇試過……" />
+                </div>
+
+                <div class="q">
+                    <label>17. 心口痛嗰個位，係喺正中間（胸骨後面）定係偏左？有冇食飯、深呼吸、壓落去會加重？</label>
+                    <textarea name="q17" placeholder="例如：正中間偏左，深呼吸會扯住……"></textarea>
+                </div>
+
+                <div class="q">
+                    <label>18. 你試下慢慢、好細力咁向後仰頭，除咗卡住，係邊度最卡？</label>
+                    <div class="options">
+                        <label><input type="radio" name="q18" value="前面喉嚨到胸骨嗰條線" /> 前面（喉嚨到胸骨）</label>
+                        <label><input type="radio" name="q18" value="後面頸" /> 後面頸</label>
+                        <label><input type="radio" name="q18" value="兩邊都有" /> 兩邊都有</label>
+                        <label><input type="radio" name="q18" value="唔覺有卡" /> 唔覺有卡</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==================== 四、姿勢日常 ==================== -->
+            <div class="section">
+                <h2>🧑‍💻 四、姿勢同日常</h2>
+
+                <div class="q">
+                    <label>19. 你返工係咪長期坐、長期對住電腦／手機？一日大概坐幾多個鐘？</label>
+                    <input type="text" name="q19" placeholder="例如：8-10小時" />
+                </div>
+
+                <div class="q">
+                    <label>20. 你坐嗰陣，個頭係咪傾向伸前、向下（烏低頭）？</label>
+                    <div class="options">
+                        <label><input type="radio" name="q20" value="經常" /> 經常</label>
+                        <label><input type="radio" name="q20" value="間中" /> 間中</label>
+                        <label><input type="radio" name="q20" value="很少" /> 很少</label>
+                    </div>
+                </div>
+
+                <div class="q">
+                    <label>21. 你企起身，自己覺唔覺成日要「凹背」或者膊頭縮上去先至企得住？</label>
+                    <div class="options">
+                        <label><input type="radio" name="q21" value="經常" /> 經常</label>
+                        <label><input type="radio" name="q21" value="間中" /> 間中</label>
+                        <label><input type="radio" name="q21" value="很少" /> 很少</label>
+                    </div>
+                </div>
+
+                <div class="q">
+                    <label>22. 你有冇試過突然間暈一暈、頭重重，尤其係企起身或者望完手機嘅時候？</label>
+                    <div class="options">
+                        <label><input type="radio" name="q22" value="有，試過" /> 有，試過</label>
+                        <label><input type="radio" name="q22" value="冇" /> 冇</label>
+                        <label><input type="radio" name="q22" value="間中" /> 間中</label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ==================== 五、腸胃神經 ==================== -->
+            <div class="section">
+                <h2>🧠 五、腸胃同神經系統</h2>
+
+                <div class="q">
+                    <label>23. 你胃有冇成日谷氣、胃脹、反酸？</label>
+                    <div class="options">
+                        <label><input type="radio" name="q23" value="經常" /> 經常</label>
+                        <label><input type="radio" name="q23" value="間中" /> 間中</label>
+                        <label><input type="radio" name="q23" value="很少" /> 很少</label>
+                        <label><input type="radio" name="q23" value="從未" /> 從未</label>
+                    </div>
+                </div>
+
+                <div class="q">
+                    <label>24. 你大小便規律嗎？有冇便秘或者個肚成日頂住？</label>
+                    <textarea name="q24" placeholder="例如：有時便秘，三四日一次……"></textarea>
+                </div>
+
+                <div class="q">
+                    <label>25. 你有冇成日覺得眼乾、口乾？</label>
+                    <div class="options">
+                        <label><input type="radio" name="q25" value="經常" /> 經常</label>
+                        <label><input type="radio" name="q25" value="間中" /> 間中</label>
+                        <label><input type="radio" name="q25" value="很少" /> 很少</label>
+                    </div>
+                </div>
+
+                <div class="q">
+                    <label>26. 你係咪一個比較易緊張、易焦慮、成日諗好多嘢嘅人？</label>
+                    <div class="options">
+                        <label><input type="radio" name="q26" value="係，好易緊張" /> 係，好易緊張</label>
+                        <label><input type="radio" name="q26" value="有時" /> 有時</label>
+                        <label><input type="radio" name="q26" value="唔係，算放鬆" /> 唔係，算放鬆</label>
+                    </div>
+                </div>
+
+                <div class="q">
+                    <label>27. 你平時有冇做開咩運動、瑜伽、普拉提、健身？</label>
+                    <input type="text" name="q27" placeholder="例如：一星期兩次瑜伽／冇做開……" />
+                </div>
+            </div>
+
+            <!-- ===== 額外：你叫咩名？（電郵結果要用） ===== -->
+            <div class="section" style="border-color: #4f7cff55;">
+                <h2>📧 結果傳送</h2>
+                <div class="q">
+                    <label>你嘅稱呼（方便我哋跟進）</label>
+                    <input type="text" name="client_name" placeholder="例如：Carol" />
+                </div>
+            </div>
+
+            <!-- ===== 按鈕 ===== -->
+            <div class="btn-row">
+                <button type="button" class="btn btn-secondary" onclick="resetForm()">🗑️ 清空全部</button>
+                <button type="button" class="btn btn-primary" onclick="previewResults()">👁️ 預覽結果</button>
+                <button type="button" class="btn btn-success" onclick="sendEmail()">📧 傳送至電郵</button>
+            </div>
+
+            <div id="statusMessage" class="status"></div>
+        </form>
+
+        <div class="footer">
+            <strong>低級功能決定高級功能</strong> · 由下往上 · 足踝優先 · Carol Lau
+        </div>
+    </div>
+
+    <script>
+        // =============================================================
+        // 問卷邏輯：收集答案 → 格式化 → 電郵傳送
+        // 目標電郵：dicky791970@gmail.com
+        // =============================================================
+
+        const TARGET_EMAIL = 'dicky791970@gmail.com';
+
+        function getFormData() {
+            const form = document.getElementById('questionnaireForm');
+            const formData = new FormData(form);
+            const data = {};
+            for (let [key, value] of formData.entries()) {
+                if (data[key]) {
+                    if (Array.isArray(data[key])) {
+                        data[key].push(value);
+                    } else {
+                        data[key] = [data[key], value];
+                    }
+                } else {
+                    data[key] = value;
+                }
+            }
+            return data;
+        }
+
+        function formatResults(data) {
+            const qMap = {
+                q1: '1. 用鼻唔夠氣嘅情況',
+                q2: '2. 長嘆一口氣',
+                q3: '3. 打喊露次數',
+                q4: '4. 睡眠窒息（家人觀察）',
+                q5: '5. 鼻塞情況',
+                q6: '6. 吐氣到盡肚嘅反應',
+                q7: '7. 口呼吸肩頸反應',
+                q8: '8. 睡眠問題類型',
+                q9: '9. 睡眠時段及時長',
+                q10: '10. 起身疲勞感',
+                q11: '11. 枕頭高度',
+                q12: '12. 睡姿',
+                q13: '13. 半夜心悸',
+                q14: '14. 頸痛位置',
+                q15_ac: '15. 痛嘅性質（可多選）',
+                q16: '16. 手指/手臂麻痺',
+                q17: '17. 心口痛',
+                q18: '18. 後仰卡住位置',
+                q19: '19. 每日坐嘅時數',
+                q20: '20. 坐姿頭部前傾',
+                q21: '21. 企姿凹背/縮膊',
+                q22: '22. 頭暈',
+                q23: '23. 胃脹/反酸',
+                q24: '24. 大小便規律',
+                q25: '25. 眼乾口乾',
+                q26: '26. 緊張焦慮程度',
+                q27: '27. 現有運動習慣',
+                client_name: '稱呼'
+            };
+
+            let lines = [];
+            const name = data.client_name || '未填';
+            lines.push('📋 Carol Lau 結構性身體評估問卷');
+            lines.push('📅 ' + new Date().toLocaleString('zh-HK'));
+            lines.push('👤 稱呼：' + name);
+            lines.push('━'.repeat(40));
+
+            for (let [key, val] of Object.entries(data)) {
+                if (key === 'client_name') continue;
+                const label = qMap[key] || key;
+                if (val === undefined || val === null || val === '') continue;
+                let displayVal = val;
+                if (Array.isArray(val)) {
+                    displayVal = val.join('、');
+                }
+                lines.push(`${label}：${displayVal}`);
+            }
+
+            lines.push('━'.repeat(40));
+            lines.push('📌 此評估由 Carol Lau 結構性問卷系統產生');
+            lines.push('🦶 足踝優先 · 由下往上 · 低級功能決定高級功能');
+
+            return lines.join('\n');
+        }
+
+        function showStatus(msg, type) {
+            const el = document.getElementById('statusMessage');
+            el.textContent = msg;
+            el.className = 'status show ' + type;
+        }
+
+        function previewResults() {
+            const data = getFormData();
+            const text = formatResults(data);
+            // 開新視窗顯示
+            const win = window.open('', '_blank', 'width=700,height=600,scrollbars=yes');
+            if (!win) {
+                showStatus('⚠️ 彈出視窗被擋，請允許彈出視窗後再試。', 'error');
+                return;
+            }
+            win.document.write('<pre style="font-family:monospace;background:#0b0e14;color:#e0e4ec;padding:24px;white-space:pre-wrap;word-break:break-all;">' +
+                text + '</pre>');
+            win.document.title = '問卷結果預覽';
+            showStatus('✅ 已開啟預覽視窗', 'success');
+        }
+
+        function sendEmail() {
+            const data = getFormData();
+            const text = formatResults(data);
+            const name = data.client_name || '客戶';
+
+            // 檢查有冇基本內容
+            const hasContent = Object.keys(data).some(k => k !== 'client_name' && data[k] && data[k] !== '');
+            if (!hasContent) {
+                showStatus('⚠️ 問卷尚未填寫，請至少回答部分問題再傳送。', 'error');
+                return;
+            }
+
+            // 方法：用 mailto 產生電郵（最簡單，唔使後台）
+            const subject = encodeURIComponent('Carol Lau 結構性評估問卷 - ' + name);
+            const body = encodeURIComponent(text);
+            const mailtoLink = 'mailto:' + TARGET_EMAIL + '?subject=' + subject + '&body=' + body;
+
+            // 開啓電郵客戶端
+            window.location.href = mailtoLink;
+
+            showStatus('📧 已開啟電郵視窗，請檢查內容後傳送。如果冇彈出，請手動複製結果貼上。', 'success');
+
+            // 同時 copy 到 clipboard 做後備
+            navigator.clipboard.writeText(text).then(() => {
+                // 唔洗額外通知，已 copy
+            }).catch(() => {
+                // 唔支援 clipboard 就由佢
+            });
+
+            // 顯示結果俾人 copy
+            setTimeout(() => {
+                const confirmMsg = '📋 結果已複製到剪貼簿。\n\n如果電郵冇彈出，你可以：\n1. 貼上結果\n2. 傳送至 dicky791970@gmail.com\n\n要而家睇結果嗎？';
+                if (confirm(confirmMsg)) {
+                    previewResults();
+                }
+            }, 500);
+        }
+
+        function resetForm() {
+            if (!confirm('確定要清空所有答案嗎？')) return;
+            const form = document.getElementById('questionnaireForm');
+            form.reset();
+            // 清空 textarea 同 input
+            const inputs = form.querySelectorAll('textarea, input[type="text"], input[type="number"]');
+            inputs.forEach(el => el.value = '');
+            showStatus('🗑️ 已清空所有答案', 'success');
+            setTimeout(() => {
+                const el = document.getElementById('statusMessage');
+                el.className = 'status';
+            }, 2000);
+        }
+
+        // 幫手：自動將 checkbox group 嘅值 combine
+        document.querySelectorAll('.q .options input[type="checkbox"]').forEach(cb => {
+            cb.addEventListener('change', function() {
+                // 冇額外嘢要做，form data 會自動處理 array
+            });
+        });
+    </script>
+</body>
+</html>

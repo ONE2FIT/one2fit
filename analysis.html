@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>一對一精準評估問卷 | Chill Club</title>
+    <title>一對一精準評估問卷 | ONE2FIT</title>
     <style>
         * {
             margin: 0;
@@ -40,7 +40,7 @@
             font-size: 0.95rem;
             color: #6b6b6b;
             margin-bottom: 28px;
-            border-left: 4px solid #c7512e;
+            border-left: 4px solid #2E7D32;
             padding-left: 14px;
         }
 
@@ -97,6 +97,12 @@
             margin-left: 4px;
         }
 
+        .required-star {
+            color: #c7512e;
+            margin-left: 2px;
+            font-weight: 700;
+        }
+
         input,
         select,
         textarea {
@@ -109,14 +115,15 @@
             transition: 0.2s ease;
             outline: none;
             color: #1a1a1a;
+            width: 100%;
         }
 
         input:focus,
         select:focus,
         textarea:focus {
-            border-color: #b85a3f;
+            border-color: #2E7D32;
             background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(184, 90, 63, 0.08);
+            box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.08);
         }
 
         textarea {
@@ -138,12 +145,25 @@
             gap: 4px;
             font-size: 0.95rem;
             color: #2c2c2c;
+            cursor: pointer;
         }
 
         input[type="checkbox"] {
             width: 18px;
             height: 18px;
-            accent-color: #b85a3f;
+            accent-color: #2E7D32;
+            flex-shrink: 0;
+        }
+
+        .checkbox-error {
+            color: #c7512e;
+            font-size: 0.8rem;
+            margin-top: 4px;
+            display: none;
+        }
+
+        .checkbox-error.show {
+            display: block;
         }
 
         .submit-row {
@@ -170,7 +190,7 @@
         }
 
         .btn-submit:hover {
-            background: #b85a3f;
+            background: #2E7D32;
         }
 
         .btn-submit:disabled {
@@ -190,7 +210,7 @@
             margin: 20px 0 8px;
         }
 
-        /* 彈窗樣式 */
+        /* ===== 彈窗樣式 ===== */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -236,9 +256,25 @@
             line-height: 1.6;
         }
 
-        .btn-booking {
+        .modal-box .highlight-box {
+            background: #f0f7f0;
+            border-left: 4px solid #2E7D32;
+            padding: 14px 16px;
+            text-align: left;
+            font-size: 0.9rem;
+            color: #1a1a1a;
+            margin: 12px 0 20px 0;
+            border-radius: 4px;
+            line-height: 1.8;
+        }
+
+        .modal-box .highlight-box strong {
+            color: #1B5E20;
+        }
+
+        .btn-email {
             display: inline-block;
-            background: #c7512e;
+            background: #2E7D32;
             color: white;
             font-weight: 700;
             font-size: 1.1rem;
@@ -248,27 +284,14 @@
             letter-spacing: 0.5px;
             transition: 0.2s ease;
             margin-bottom: 16px;
+            border: none;
+            cursor: pointer;
+            width: 100%;
         }
 
-        .btn-booking:hover {
-            background: #a84122;
+        .btn-email:hover {
+            background: #1B5E20;
             transform: translateY(-1px);
-        }
-
-        .booking-steps {
-            text-align: left;
-            background: #f9f9f5;
-            border-radius: 14px;
-            padding: 16px 18px;
-            margin: 16px 0;
-            font-size: 0.9rem;
-            color: #444;
-            line-height: 1.7;
-        }
-
-        .booking-steps span {
-            font-weight: 700;
-            color: #1a1a1a;
         }
 
         .btn-close-modal {
@@ -284,24 +307,6 @@
 
         .btn-close-modal:hover {
             background: #f0f0f0;
-        }
-
-        .loading-spinner {
-            display: inline-block;
-            width: 16px;
-            height: 16px;
-            border: 2px solid #fff;
-            border-radius: 50%;
-            border-top-color: transparent;
-            animation: spin 0.6s linear infinite;
-            margin-right: 8px;
-            vertical-align: middle;
-        }
-
-        @keyframes spin {
-            to {
-                transform: rotate(360deg);
-            }
         }
 
         @media (max-width: 500px) {
@@ -323,43 +328,43 @@
 <body>
     <div class="form-container">
         <h1>一對一精準評估問卷</h1>
-        <p class="subtitle">評估唔係算命，係睇證據。請你盡量詳細填寫，之後我會親自引導你完成整個評估流程。</p>
+        <p class="subtitle">評估唔係算命，係睇證據。請你盡量詳細填寫每條問題，之後我會親自引導你完成整個評估流程。</p>
 
         <form id="assessmentForm">
-            <!-- 基本資料 -->
+            <!-- ===== 基本資料 ===== -->
             <div class="section">
                 <div class="section-title"><span class="section-number">1</span> 基本資料</div>
                 <div class="form-group">
-                    <label>你叫咩名？</label>
+                    <label>你叫咩名？<span class="required-star">*</span></label>
                     <input type="text" id="name" placeholder="例如：陳大文" required>
                 </div>
                 <div class="form-group">
-                    <label>今年幾歲？</label>
+                    <label>今年幾歲？<span class="required-star">*</span></label>
                     <input type="number" id="age" placeholder="例如：38" min="10" max="120" required>
                 </div>
                 <div class="form-group">
                     <label>身高（cm）/ 體重（kg）</label>
                     <div style="display: flex; gap: 12px;">
-                        <input type="number" id="height" placeholder="身高 cm" step="0.1" style="width: 50%;">
-                        <input type="number" id="weight" placeholder="體重 kg" step="0.1" style="width: 50%;">
+                        <input type="number" id="height" placeholder="身高 cm" step="0.1" style="width: 50%;" required>
+                        <input type="number" id="weight" placeholder="體重 kg" step="0.1" style="width: 50%;" required>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>聯絡方式（whatsapp 電話號碼）</label>
-                    <input type="text" id="contact" placeholder="方便我哋同你確認預約">
+                    <label>聯絡方式（whatsapp 電話號碼）<span class="required-star">*</span></label>
+                    <input type="text" id="contact" placeholder="例如：9123 4567" required>
                 </div>
             </div>
 
-            <!-- 身體狀況 -->
+            <!-- ===== 身體狀況 ===== -->
             <div class="section">
                 <div class="section-title"><span class="section-number">2</span> 身體狀況</div>
                 <div class="form-group">
-                    <label>你目前身上邊度唔舒服？<span class="label-hint">（痛、酸、扯住、卡住、麻痺…）</span></label>
+                    <label>你目前身上邊度唔舒服？<span class="label-hint">（痛、酸、扯住、卡住、麻痺…）</span><span class="required-star">*</span></label>
                     <textarea id="currentPain" placeholder="例如：右邊膝頭內側上落樓梯會痛，左邊條腰長期酸軟..." required></textarea>
                 </div>
                 <div class="form-group">
-                    <label>呢啲問題持續咗幾耐？</label>
-                    <select id="duration">
+                    <label>呢啲問題持續咗幾耐？<span class="required-star">*</span></label>
+                    <select id="duration" required>
                         <option value="">請選擇</option>
                         <option value="少於1個月">少於1個月</option>
                         <option value="1-3個月">1-3個月</option>
@@ -371,24 +376,24 @@
                 </div>
                 <div class="form-group">
                     <label>有冇開過刀、受過傷？<span class="label-hint">（骨折、拗柴、車禍、跌親…即使係好耐之前）</span></label>
-                    <textarea id="injuries" placeholder="請列出年份、位置、詳情"></textarea>
+                    <textarea id="injuries" placeholder="請列出年份、位置、詳情（如冇請填「冇」）" required></textarea>
                 </div>
                 <div class="form-group">
                     <label>有冇被診斷過任何疾病？</label>
-                    <textarea id="diagnosis" placeholder="例如：椎間盤突出、高血壓、糖尿病、自體免疫疾病…"></textarea>
+                    <textarea id="diagnosis" placeholder="例如：椎間盤突出、高血壓、糖尿病、自體免疫疾病…（如冇請填「冇」）" required></textarea>
                 </div>
                 <div class="form-group">
                     <label>有冇長期食緊藥？</label>
-                    <textarea id="medication" placeholder="藥名、食咗幾耐"></textarea>
+                    <textarea id="medication" placeholder="藥名、食咗幾耐（如冇請填「冇」）" required></textarea>
                 </div>
             </div>
 
-            <!-- 生活與運動 -->
+            <!-- ===== 生活與運動 ===== -->
             <div class="section">
                 <div class="section-title"><span class="section-number">3</span> 生活與運動習慣</div>
                 <div class="form-group">
-                    <label>你嘅工作型態主要係？</label>
-                    <select id="workType">
+                    <label>你嘅工作型態主要係？<span class="required-star">*</span></label>
+                    <select id="workType" required>
                         <option value="">請選擇</option>
                         <option value="久坐">久坐（Office、司機）</option>
                         <option value="久站">久站（零售、教育）</option>
@@ -397,16 +402,16 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>每日大概坐幾耐？</label>
-                    <input type="text" id="dailySitting" placeholder="例如：10小時（連同食飯、坐車）">
+                    <label>每日大概坐幾耐？<span class="required-star">*</span></label>
+                    <input type="text" id="dailySitting" placeholder="例如：10小時（連同食飯、坐車）" required>
                 </div>
                 <div class="form-group">
-                    <label>有冇運動習慣？做開咩運動？</label>
-                    <textarea id="exerciseHabit" placeholder="例如：一星期跑兩次步、做瑜伽、健身舉鐵、冇運動..."></textarea>
+                    <label>有冇運動習慣？做開咩運動？<span class="required-star">*</span></label>
+                    <textarea id="exerciseHabit" placeholder="例如：一星期跑兩次步、做瑜伽、健身舉鐵、冇運動..." required></textarea>
                 </div>
                 <div class="form-group">
-                    <label>你著開咩鞋多？</label>
-                    <select id="shoeType">
+                    <label>你著開咩鞋多？<span class="required-star">*</span></label>
+                    <select id="shoeType" required>
                         <option value="">請選擇</option>
                         <option value="波鞋/運動鞋">波鞋/運動鞋</option>
                         <option value="平底鞋/皮鞋">平底鞋/皮鞋</option>
@@ -416,12 +421,12 @@
                 </div>
             </div>
 
-            <!-- 呼吸、內臟與睡眠 -->
+            <!-- ===== 呼吸、內臟與睡眠 ===== -->
             <div class="section">
                 <div class="section-title"><span class="section-number">4</span> 呼吸、內臟與睡眠</div>
                 <div class="form-group">
-                    <label>你放鬆坐喺度，吸一啖氣，係邊度脹起先？</label>
-                    <select id="breathPattern">
+                    <label>你放鬆坐喺度，吸一啖氣，係邊度脹起先？<span class="required-star">*</span></label>
+                    <select id="breathPattern" required>
                         <option value="">請選擇</option>
                         <option value="心口/膊頭升起">心口/膊頭升起</option>
                         <option value="肚脹起">肚脹起</option>
@@ -430,8 +435,8 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>有冇以下腸胃問題？<span class="label-hint">（可選多項）</span></label>
-                    <div class="check-group">
+                    <label>有冇以下腸胃問題？<span class="label-hint">（可選多項）</span><span class="required-star">*</span></label>
+                    <div class="check-group" id="gutGroup">
                         <label><input type="checkbox" name="gutIssue" value="胃脹"> 胃脹</label>
                         <label><input type="checkbox" name="gutIssue" value="胃酸倒流"> 胃酸倒流</label>
                         <label><input type="checkbox" name="gutIssue" value="胃痛"> 胃痛</label>
@@ -439,10 +444,11 @@
                         <label><input type="checkbox" name="gutIssue" value="腸易激/肚屙"> 腸易激/肚屙</label>
                         <label><input type="checkbox" name="gutIssue" value="以上皆無"> 以上皆無</label>
                     </div>
+                    <div class="checkbox-error" id="gutError">請至少選擇一項</div>
                 </div>
                 <div class="form-group">
-                    <label>有冇試過咳、打乞嚏或者跳躍時漏尿？</label>
-                    <select id="leakage">
+                    <label>有冇試過咳、打乞嚏或者跳躍時漏尿？<span class="required-star">*</span></label>
+                    <select id="leakage" required>
                         <option value="">請選擇</option>
                         <option value="從未試過">從未試過</option>
                         <option value="間中">間中</option>
@@ -450,8 +456,8 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>你覺得自己容易俾突然嘅聲音嚇親嗎？<span class="label-hint">（例如突然嘅電話響、閂門聲）</span></label>
-                    <select id="startle">
+                    <label>你覺得自己容易俾突然嘅聲音嚇親嗎？<span class="label-hint">（例如突然嘅電話響、閂門聲）</span><span class="required-star">*</span></label>
+                    <select id="startle" required>
                         <option value="">請選擇</option>
                         <option value="係，經常會嚇一跳">係，經常會嚇一跳</option>
                         <option value="唔會，冇乜感覺">唔會，冇乜感覺</option>
@@ -459,8 +465,8 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>睡眠品質如何？</label>
-                    <select id="sleepQuality">
+                    <label>睡眠品質如何？<span class="required-star">*</span></label>
+                    <select id="sleepQuality" required>
                         <option value="">請選擇</option>
                         <option value="好快瞓著，一覺天光">好快瞓著，一覺天光</option>
                         <option value="難入睡，個腦停唔到">難入睡，個腦停唔到</option>
@@ -469,8 +475,8 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>朝早醒咗，你覺得個口同條頸係放鬆嘅，定係咬實牙關、膊頭聳起？</label>
-                    <select id="morningTension">
+                    <label>朝早醒咗，你覺得個口同條頸係放鬆嘅，定係咬實牙關、膊頭聳起？<span class="required-star">*</span></label>
+                    <select id="morningTension" required>
                         <option value="">請選擇</option>
                         <option value="放鬆">放鬆</option>
                         <option value="咬實牙、膊頭緊">咬實牙、膊頭緊</option>
@@ -479,12 +485,12 @@
                 </div>
             </div>
 
-            <!-- 心態與自我認知 -->
+            <!-- ===== 心態與自我認知 ===== -->
             <div class="section">
                 <div class="section-title"><span class="section-number">5</span> 心態與自我認知</div>
                 <div class="form-group">
-                    <label>你覺得自己係一個容易緊張、諗嘢多嘅人，定係比較放鬆大安旨意嘅人？</label>
-                    <select id="personality">
+                    <label>你覺得自己係一個容易緊張、諗嘢多嘅人，定係比較放鬆大安旨意嘅人？<span class="required-star">*</span></label>
+                    <select id="personality" required>
                         <option value="">請選擇</option>
                         <option value="容易緊張，成日諗嘢">容易緊張，成日諗嘢</option>
                         <option value="大安旨意，好少煩惱">大安旨意，好少煩惱</option>
@@ -492,8 +498,8 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>用一句說話形容你覺得身體俾你最大嘅困擾係咩？</label>
-                    <input type="text" id="selfDescription" placeholder="例如：我覺得自己未老先衰，條腰硬過塊板">
+                    <label>用一句說話形容你覺得身體俾你最大嘅困擾係咩？<span class="required-star">*</span></label>
+                    <input type="text" id="selfDescription" placeholder="例如：我覺得自己未老先衰，條腰硬過塊板" required>
                 </div>
             </div>
 
@@ -503,32 +509,29 @@
             </p>
 
             <div class="submit-row">
-                <button type="button" class="btn-submit" id="submitBtn">📋 提交問卷，立即預約</button>
-                <div class="footer-note">提交後會自動跳轉到預約系統</div>
+                <button type="button" class="btn-submit" id="submitBtn">📋 提交問卷，開啟 Email</button>
+                <div class="footer-note">提交後會開啟你嘅 Email App</div>
             </div>
         </form>
     </div>
 
-    <!-- 成功提交彈窗 + 預約教學 -->
+    <!-- ===== 成功提交彈窗 ===== -->
     <div class="modal-overlay" id="successModal">
         <div class="modal-box">
-            <div class="modal-icon">✅</div>
-            <h2>問卷已收到！</h2>
-            <p>多謝你嘅詳細資料。<br>而家可以㩒下面個掣，去我哋嘅預約系統，揀一個你最方便嘅時間。</p>
+            <div class="modal-icon">📧</div>
+            <h2>問卷內容已準備好！</h2>
+            <p>資料已經整理好，而家請你幫手做最後一步：</p>
 
-            <div class="booking-steps">
-                <p><span>📌 預約教學（好簡單）：</span></p>
-                <p>1️⃣ 㩒「前往預約系統」掣</p>
-                <p>2️⃣ 揀你想做嘅項目（例如：一對一評估）</p>
-                <p>3️⃣ 揀日期同時間</p>
-                <p>4️⃣ 填返你嘅名同聯絡資料</p>
-                <p>5️⃣ 確認預約 → 搞掂！</p>
+            <div class="highlight-box">
+                <strong>📌 操作步驟（好簡單）：</strong><br><br>
+                1️⃣ 㩒下面嘅 <strong>「📧 開啟 Email 傳送」</strong> 掣<br>
+                2️⃣ 你嘅 Email App 會自動打開<br>
+                3️⃣ 收件人已經填好：<strong>one2fitshop@gmail.com</strong><br>
+                4️⃣ 直接㩒 <strong>「傳送」</strong> 就得 🎉<br><br>
+                <span style="color:#555; font-size:0.85rem;">💡 如果 Email 冇自動打開，可以複製收件人地址，手動貼上就得。</span>
             </div>
 
-            <a href="https://myfreetime.io/shop/chillclubonmore?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAcGRvZgJleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA85MzY2MTk3NDMzOTI0NTkAAacDTGRl7I1EFasFcUj9PleQ31bK1L8hm9WrOYHJuZucAxLg0C1-2WBg3-c03A_aem_Sr8INfqSvAmAEasDJqcfHw"
-               target="_blank" class="btn-booking" id="bookingLink">
-                🔗 前往預約系統
-            </a>
+            <button class="btn-email" id="openEmailBtn">📧 開啟 Email 傳送</button>
 
             <br>
             <button class="btn-close-modal" id="closeModal">關閉視窗</button>
@@ -537,116 +540,194 @@
 
     <script>
     // ============================================
-    // ✅ 換成你啱啱測試成功嗰個 Apps Script 網址
+    // 設定 Email 收件人
     // ============================================
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxmFc7H9WFoit_EbXUy2XVF0E8-xgSHuDWagYnP8jyAarKziGYw9vSXK6n-v8MTwFB1mw/exec";
-
-    const BOOKING_URL = "https://myfreetime.io/shop/chillclubonmore?utm_source=ig&utm_medium=social&utm_content=link_in_bio&fbclid=PAcGRvZgJleHRuA2FlbQIxMQBzcnRjBmFwcF9pZA85MzY2MTk3NDMzOTI0NTkAAacDTGRl7I1EFasFcUj9PleQ31bK1L8hm9WrOYHJuZucAxLg0C1-2WBg3-c03A_aem_Sr8INfqSvAmAEasDJqcfHw";
+    const RECIPIENT_EMAIL = "one2fitshop@gmail.com";
 
     document.addEventListener('DOMContentLoaded', function() {
         const submitBtn = document.getElementById('submitBtn');
+        const openEmailBtn = document.getElementById('openEmailBtn');
         const successModal = document.getElementById('successModal');
         const closeModal = document.getElementById('closeModal');
-        const bookingLink = document.getElementById('bookingLink');
+        const form = document.getElementById('assessmentForm');
 
-        if (!submitBtn) {
-            console.error('搵唔到提交按鈕');
-            return;
+        // ===== 檢查複選框 =====
+        function validateCheckboxes() {
+            const checked = document.querySelectorAll('input[name="gutIssue"]:checked');
+            const errorEl = document.getElementById('gutError');
+            if (checked.length === 0) {
+                errorEl.classList.add('show');
+                return false;
+            } else {
+                errorEl.classList.remove('show');
+                return true;
+            }
         }
 
-        submitBtn.addEventListener('click', function() {
-            const btn = this;
-            const name = document.getElementById('name').value.trim();
-            const age = document.getElementById('age').value.trim();
-            const currentPain = document.getElementById('currentPain').value.trim();
+        // 複選框變更時隱藏錯誤
+        document.querySelectorAll('input[name="gutIssue"]').forEach(cb => {
+            cb.addEventListener('change', function() {
+                const errorEl = document.getElementById('gutError');
+                const checked = document.querySelectorAll('input[name="gutIssue"]:checked');
+                if (checked.length > 0) {
+                    errorEl.classList.remove('show');
+                }
+            });
+        });
 
-            if (!name || !age || !currentPain) {
-                alert('請最少填寫姓名、年齡，同埋你目前嘅身體不適。');
+        // ===== 提交按鈕 =====
+        submitBtn.addEventListener('click', function() {
+            // 檢查複選框
+            if (!validateCheckboxes()) {
+                // 碌到去複選框位置
+                document.getElementById('gutGroup').scrollIntoView({ behavior: 'smooth', block: 'center' });
                 return;
             }
 
-            // 收集複選框資料
-            const gutIssues = [];
-            document.querySelectorAll('input[name="gutIssue"]:checked').forEach(cb => {
-                if (cb.value !== '以上皆無') gutIssues.push(cb.value);
+            // 檢查其他 required 欄位（瀏覽器會自動檢查，但確保一下）
+            const requiredFields = form.querySelectorAll('[required]');
+            let allValid = true;
+            requiredFields.forEach(field => {
+                if (!field.value || field.value.trim() === '') {
+                    allValid = false;
+                    field.style.borderColor = '#c7512e';
+                } else {
+                    field.style.borderColor = '';
+                }
             });
-            if (gutIssues.length === 0) {
-                const noneChecked = document.querySelector('input[name="gutIssue"][value="以上皆無"]:checked');
-                if (noneChecked) gutIssues.push('無');
+
+            if (!allValid) {
+                alert('請填寫所有標示 * 嘅問題 🙏');
+                return;
             }
 
-            // 建立 URL（GET 方式）
-            const params = new URLSearchParams();
-            params.append('name', name);
-            params.append('age', age);
-            params.append('height', document.getElementById('height').value.trim());
-            params.append('weight', document.getElementById('weight').value.trim());
-            params.append('contact', document.getElementById('contact').value.trim());
-            params.append('currentPain', currentPain);
-            params.append('duration', document.getElementById('duration').value);
-            params.append('injuries', document.getElementById('injuries').value.trim());
-            params.append('diagnosis', document.getElementById('diagnosis').value.trim());
-            params.append('medication', document.getElementById('medication').value.trim());
-            params.append('workType', document.getElementById('workType').value);
-            params.append('dailySitting', document.getElementById('dailySitting').value.trim());
-            params.append('exerciseHabit', document.getElementById('exerciseHabit').value.trim());
-            params.append('shoeType', document.getElementById('shoeType').value);
-            params.append('breathPattern', document.getElementById('breathPattern').value);
-            params.append('gutIssue', gutIssues.join('、'));
-            params.append('leakage', document.getElementById('leakage').value);
-            params.append('startle', document.getElementById('startle').value);
-            params.append('sleepQuality', document.getElementById('sleepQuality').value);
-            params.append('morningTension', document.getElementById('morningTension').value);
-            params.append('personality', document.getElementById('personality').value);
-            params.append('selfDescription', document.getElementById('selfDescription').value.trim());
+            // 收集所有資料
+            const data = {
+                name: document.getElementById('name').value.trim(),
+                age: document.getElementById('age').value.trim(),
+                height: document.getElementById('height').value.trim(),
+                weight: document.getElementById('weight').value.trim(),
+                contact: document.getElementById('contact').value.trim(),
+                currentPain: document.getElementById('currentPain').value.trim(),
+                duration: document.getElementById('duration').value,
+                injuries: document.getElementById('injuries').value.trim(),
+                diagnosis: document.getElementById('diagnosis').value.trim(),
+                medication: document.getElementById('medication').value.trim(),
+                workType: document.getElementById('workType').value,
+                dailySitting: document.getElementById('dailySitting').value.trim(),
+                exerciseHabit: document.getElementById('exerciseHabit').value.trim(),
+                shoeType: document.getElementById('shoeType').value,
+                breathPattern: document.getElementById('breathPattern').value,
+                gutIssues: Array.from(document.querySelectorAll('input[name="gutIssue"]:checked')).map(cb => cb.value).join('、') || '無',
+                leakage: document.getElementById('leakage').value,
+                startle: document.getElementById('startle').value,
+                sleepQuality: document.getElementById('sleepQuality').value,
+                morningTension: document.getElementById('morningTension').value,
+                personality: document.getElementById('personality').value,
+                selfDescription: document.getElementById('selfDescription').value.trim()
+            };
 
-            const requestURL = SCRIPT_URL + '?' + params.toString();
+            // 製作郵件標題
+            const subject = `📋 評估問卷回覆 - ${data.name}`;
 
-            btn.disabled = true;
-            btn.innerHTML = '提交中…';
+            // 製作郵件內容
+            const body = `
+        ═══════════════════════════════════
+        🟢 ONE2FIT 一對一精準評估問卷
+        ═══════════════════════════════════
 
-            console.log('發送 URL：', requestURL);
+        📅 提交日期：${new Date().toLocaleString('zh-HK')}
 
-            // 方法一：Image 技巧
-            const img = new Image();
-            img.onload = function() { console.log('發送成功（Image onload）'); };
-            img.onerror = function() { console.log('發送完成（Image onerror，資料應已送達）'); };
-            img.src = requestURL;
+        ─── 1. 基本資料 ───
+        姓名：${data.name}
+        年齡：${data.age}
+        身高：${data.height} cm
+        體重：${data.weight} kg
+        聯絡方式：${data.contact}
 
-            // 方法二：fetch 後備
-            fetch(requestURL, { mode: 'no-cors' })
-                .then(() => console.log('fetch 完成'))
-                .catch(() => console.log('fetch 完成（catch）'));
+        ─── 2. 身體狀況 ───
+        不適位置：${data.currentPain}
+        持續時間：${data.duration}
+        受傷史：${data.injuries || '冇'}
+        疾病診斷：${data.diagnosis || '冇'}
+        長期藥物：${data.medication || '冇'}
 
-            // 顯示成功彈窗
-            if (successModal) successModal.classList.add('active');
+        ─── 3. 生活與運動習慣 ───
+        工作型態：${data.workType}
+        每日坐幾耐：${data.dailySitting}
+        運動習慣：${data.exerciseHabit}
+        鞋款：${data.shoeType}
 
-            // 3秒後強制恢復按鈕狀態
-            setTimeout(function() {
-                btn.disabled = false;
-                btn.innerHTML = '📋 提交問卷，立即預約';
-            }, 3000);
+        ─── 4. 呼吸、內臟與睡眠 ───
+        呼吸模式：${data.breathPattern}
+        腸胃問題：${data.gutIssues}
+        漏尿情況：${data.leakage}
+        容易受驚：${data.startle}
+        睡眠品質：${data.sleepQuality}
+        朝早狀態：${data.morningTension}
+
+        ─── 5. 心態與自我認知 ───
+        性格傾向：${data.personality}
+        最大困擾：${data.selfDescription}
+
+        ═══════════════════════════════════
+        此問卷由 ONE2FIT 運動康復・營養中心 發出
+        如有問題請 WhatsApp 6150 0005
+        ═══════════════════════════════════
+        `;
+
+            // 將郵件內容儲存到全域變數，供彈窗按鈕使用
+            window._emailData = {
+                to: RECIPIENT_EMAIL,
+                subject: subject,
+                body: body
+            };
+
+            // 顯示彈窗
+            successModal.classList.add('active');
         });
 
-        // 關閉彈窗
-        if (closeModal) {
-            closeModal.addEventListener('click', function() {
-                if (successModal) successModal.classList.remove('active');
+        // ===== 開啟 Email =====
+        openEmailBtn.addEventListener('click', function() {
+            const data = window._emailData;
+            if (!data) return;
+
+            // 建立 mailto 連結
+            const mailtoLink = `mailto:${data.to}?subject=${encodeURIComponent(data.subject)}&body=${encodeURIComponent(data.body)}`;
+            window.location.href = mailtoLink;
+
+            // 提示用戶
+            setTimeout(() => {
+                alert('📧 Email App 應該已經打開咗！\n\n如果冇自動打開，請檢查你嘅 Email 設定。\n\n收件人：one2fitshop@gmail.com');
+            }, 500);
+        });
+
+        // ===== 關閉彈窗 =====
+        closeModal.addEventListener('click', function() {
+            successModal.classList.remove('active');
+        });
+
+        // 點擊背景關閉
+        successModal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                this.classList.remove('active');
+            }
+        });
+
+        // ===== 輸入框即時移除錯誤樣式 =====
+        document.querySelectorAll('input, select, textarea').forEach(field => {
+            field.addEventListener('input', function() {
+                if (this.value && this.value.trim() !== '') {
+                    this.style.borderColor = '';
+                }
             });
-        }
-        if (successModal) {
-            successModal.addEventListener('click', function(e) {
-                if (e.target === this) this.classList.remove('active');
+            field.addEventListener('change', function() {
+                if (this.value && this.value.trim() !== '') {
+                    this.style.borderColor = '';
+                }
             });
-        }
-        if (bookingLink) {
-            bookingLink.addEventListener('click', function() {
-                setTimeout(function() {
-                    if (successModal) successModal.classList.remove('active');
-                }, 500);
-            });
-        }
+        });
     });
-</script>
+    </script>
 </body>
 </html>

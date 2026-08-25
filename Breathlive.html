@@ -5,19 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- Open Graph 預覽設定 -->
-    <meta property="og:title" content="錯過了前兩場？｜ONE2FIT《盆底肌進階》第三場免費直播">
-    <meta property="og:description" content="第三場 0 元聽！獨家公開盆底肌「進階啟動法」—— 從評估到有感，一次過拆解訓練無效的真正原因">
+    <meta property="og:title" content="第4場最終章｜ONE2FIT《呼吸重裝》人體核心引擎4大操作系統全拆解">
+    <meta property="og:description" content="終極免費場！一次拆解膈肌·盆底·腹·足底，獨家公開「轉化呼吸法」——讓你的訓練效果翻倍">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://one2fit.github.io/one2fit/Breathlive3">
+    <meta property="og:url" content="https://one2fit.github.io/one2fit/Breathlive4">
     
-    <title>錯過了前兩場？｜ONE2FIT《盆底肌進階》第三場免費直播</title>
+    <title>第4場最終章｜ONE2FIT《呼吸重裝》4大系統全拆解</title>
     
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", "PingFang HK", sans-serif;
-            background: #C2B29F;
-            color: #3A302A;
+            background: #0B0B0E;
+            color: #E8E0D8;
             line-height: 1.7;
             padding: 20px;
             min-height: 100vh;
@@ -28,85 +28,217 @@
         .container {
             max-width: 600px;
             margin: 0 auto;
-            background: #D9C3B0;
+            background: linear-gradient(145deg, #1A1715 0%, #2A2420 100%);
             border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 20px 60px rgba(58, 48, 42, 0.25);
-            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 20px 80px rgba(0,0,0,0.8), 0 0 40px rgba(212, 163, 89, 0.08);
+            border: 1px solid rgba(212, 163, 89, 0.15);
         }
+        /* 呼吸光暈動畫 */
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(ellipse at 30% 20%, rgba(212,163,89,0.03) 0%, transparent 60%);
+            pointer-events: none;
+            animation: breatheGlow 6s ease-in-out infinite;
+        }
+        @keyframes breatheGlow {
+            0%, 100% { opacity: 0.4; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+        .container { position: relative; }
+        .container > * { position: relative; z-index: 1; }
+        
         .header {
-            background: linear-gradient(145deg, #D9C3B0 0%, #C2B29F 100%);
+            background: linear-gradient(160deg, #1A1715 0%, #2A2420 50%, #1F1A16 100%);
             padding: 40px 30px 30px;
             text-align: center;
-            border-bottom: 2px solid rgba(58, 48, 42, 0.08);
+            border-bottom: 1px solid rgba(212, 163, 89, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+        .header::after {
+            content: '⚡';
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            font-size: 60px;
+            opacity: 0.06;
+            transform: rotate(15deg);
         }
         .header .badge {
             display: inline-block;
-            background: #B85B43;
-            color: #fff;
+            background: linear-gradient(135deg, #D4A359 0%, #B8853A 100%);
+            color: #0B0B0E;
             padding: 6px 20px;
             border-radius: 30px;
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
+            font-size: 13px;
+            font-weight: 800;
+            letter-spacing: 1px;
             margin-bottom: 16px;
+            text-transform: uppercase;
             animation: pulse 2s infinite;
         }
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.04); }
+            50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(212,163,89,0.3); }
+        }
+        .header .series-tag {
+            font-size: 11px;
+            color: rgba(232,224,216,0.4);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
         }
         .header h1 {
-            font-size: 28px;
-            font-weight: 800;
-            color: #3A302A;
+            font-size: 30px;
+            font-weight: 900;
+            color: #F5EDE5;
             margin-bottom: 4px;
             letter-spacing: 0.5px;
+            text-shadow: 0 0 40px rgba(212,163,89,0.1);
+        }
+        .header h1 .highlight {
+            background: linear-gradient(135deg, #D4A359, #F5D99B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
         .header .subtitle {
             font-size: 16px;
-            color: #5A4A3A;
+            color: #A89888;
             margin-bottom: 4px;
         }
         .header .subtitle strong {
-            color: #B85B43;
+            color: #D4A359;
+            -webkit-text-fill-color: #D4A359;
+        }
+        .header .subtitle .fire {
+            display: inline-block;
+            animation: flicker 1.5s infinite;
+        }
+        @keyframes flicker {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.1); }
+        }
+        .header .date-section {
+            margin-top: 14px;
+            background: rgba(212,163,89,0.06);
+            padding: 10px 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(212,163,89,0.08);
+        }
+        .header .date-section span {
+            font-size: 14px;
+            color: #C8B8A8;
         }
         .header .price-section {
             margin-top: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
         }
         .header .original-price {
             text-decoration: line-through;
-            color: #8A7A6A;
+            color: #6A5A4A;
             font-size: 16px;
         }
         .header .free-badge {
             display: inline-block;
-            background: #7A8B7B;
-            color: #fff;
+            background: linear-gradient(135deg, #7A8B7B 0%, #5A6B5B 100%);
+            color: #F5EDE5;
             padding: 8px 24px;
             border-radius: 30px;
             font-size: 18px;
-            font-weight: 800;
-            margin-left: 8px;
+            font-weight: 900;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 30px rgba(122,139,123,0.15);
         }
+        .header .free-badge .small {
+            font-size: 12px;
+            font-weight: 400;
+            opacity: 0.7;
+        }
+        
         .body-content { padding: 30px; }
         
+        /* 4大模塊 - 炫酷卡片 */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 24px;
+        }
+        .module-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(212,163,89,0.08);
+            border-radius: 14px;
+            padding: 16px 14px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: default;
+            position: relative;
+            overflow: hidden;
+        }
+        .module-card:hover {
+            background: rgba(212,163,89,0.06);
+            border-color: rgba(212,163,89,0.2);
+            transform: translateY(-2px);
+        }
+        .module-card .icon {
+            font-size: 28px;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .module-card .label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #D4A359;
+            letter-spacing: 0.5px;
+        }
+        .module-card .desc {
+            font-size: 11px;
+            color: #8A7A6A;
+            margin-top: 2px;
+            line-height: 1.3;
+        }
+        .module-card .energy-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #D4A359, transparent);
+            opacity: 0.3;
+        }
+        .module-card:nth-child(1) .energy-line { background: linear-gradient(90deg, transparent, #E85D3A, transparent); }
+        .module-card:nth-child(2) .energy-line { background: linear-gradient(90deg, transparent, #7A6BC4, transparent); }
+        .module-card:nth-child(3) .energy-line { background: linear-gradient(90deg, transparent, #4AA3A3, transparent); }
+        .module-card:nth-child(4) .energy-line { background: linear-gradient(90deg, transparent, #D4A359, transparent); }
+        
         .missed-box {
-            background: rgba(255,255,255,0.4);
+            background: rgba(212,163,89,0.06);
             backdrop-filter: blur(4px);
             border-radius: 16px;
             padding: 20px;
             margin-bottom: 24px;
-            border: 1px solid rgba(255,255,255,0.5);
+            border: 1px solid rgba(212,163,89,0.08);
             text-align: center;
         }
         .missed-box .big-icon { font-size: 40px; display: block; margin-bottom: 6px; }
-        .missed-box h3 { font-size: 18px; color: #3A302A; margin-bottom: 4px; }
-        .missed-box p { font-size: 14px; color: #5A4A3A; }
+        .missed-box h3 { font-size: 18px; color: #F5EDE5; margin-bottom: 4px; }
+        .missed-box h3 .highlight { color: #D4A359; }
+        .missed-box p { font-size: 14px; color: #A89888; }
         .missed-box .highlight-gold {
             display: inline-block;
-            background: #D4A359;
-            color: #3A302A;
+            background: linear-gradient(135deg, #D4A359, #B8853A);
+            color: #0B0B0E;
             padding: 2px 14px;
             border-radius: 20px;
             font-weight: 700;
@@ -114,35 +246,49 @@
         }
         
         .benefits {
-            background: rgba(255,255,255,0.35);
+            background: rgba(255,255,255,0.03);
             backdrop-filter: blur(4px);
             border-radius: 16px;
             padding: 20px;
             margin-bottom: 24px;
-            border: 1px solid rgba(255,255,255,0.4);
+            border: 1px solid rgba(212,163,89,0.06);
         }
-        .benefits h3 { font-size: 16px; color: #3A302A; margin-bottom: 12px; }
+        .benefits h3 {
+            font-size: 16px;
+            color: #D4A359;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
         .benefits ul { list-style: none; padding: 0; }
-        .benefits ul li { padding: 4px 0; font-size: 14px; color: #3A302A; }
-        .benefits ul li::before { content: "✨ "; }
+        .benefits ul li {
+            padding: 5px 0;
+            font-size: 14px;
+            color: #C8B8A8;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .benefits ul li:last-child { border-bottom: none; }
+        .benefits ul li::before { content: "⚡ "; font-size: 12px; }
+        .benefits .highlight-text { color: #F5D99B; }
         
         .why-fill {
-            background: rgba(212, 163, 89, 0.15);
+            background: rgba(212,163,89,0.06);
             border-left: 3px solid #D4A359;
             padding: 14px 18px;
             border-radius: 8px;
             margin-bottom: 28px;
             font-size: 13px;
-            color: #5A4A3A;
+            color: #A89888;
         }
-        .why-fill strong { color: #3A302A; }
+        .why-fill strong { color: #F5EDE5; }
         
         .form-group { margin-bottom: 20px; }
         .form-group label {
             display: block;
             font-weight: 700;
             font-size: 14px;
-            color: #3A302A;
+            color: #F5EDE5;
             margin-bottom: 4px;
         }
         .form-group .hint {
@@ -158,24 +304,27 @@
         .form-group input[type="email"] {
             width: 100%;
             padding: 12px 14px;
-            background: rgba(255,255,255,0.6);
-            border: 1px solid rgba(58, 48, 42, 0.15);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(212,163,89,0.12);
             border-radius: 12px;
-            color: #3A302A;
+            color: #F5EDE5;
             font-size: 15px;
             transition: border-color 0.3s, background 0.3s;
         }
+        .form-group input::placeholder { color: #5A4A3A; }
         .form-group input:focus {
             outline: none;
             border-color: #D4A359;
-            background: rgba(255,255,255,0.8);
+            background: rgba(255,255,255,0.08);
+            box-shadow: 0 0 20px rgba(212,163,89,0.05);
         }
         
         .checkbox-group, .radio-group {
-            background: rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.03);
             backdrop-filter: blur(2px);
             border-radius: 12px;
             padding: 14px;
+            border: 1px solid rgba(212,163,89,0.06);
         }
         .checkbox-group label, .radio-group label {
             display: flex;
@@ -184,7 +333,7 @@
             font-weight: 400;
             font-size: 14px;
             cursor: pointer;
-            color: #3A302A;
+            color: #C8B8A8;
         }
         .checkbox-group input[type="checkbox"],
         .radio-group input[type="radio"] {
@@ -193,16 +342,17 @@
             height: 18px;
             accent-color: #D4A359;
             flex-shrink: 0;
+            filter: invert(0.1);
         }
         .checkbox-group input[type="text"] {
             width: 60%;
             display: inline-block;
             margin-left: 8px;
             padding: 4px 10px;
-            background: rgba(255,255,255,0.4);
-            border: 1px solid rgba(58, 48, 42, 0.1);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(212,163,89,0.08);
             border-radius: 6px;
-            color: #3A302A;
+            color: #F5EDE5;
             font-size: 13px;
         }
         .checkbox-group input[type="text"]:focus {
@@ -213,70 +363,83 @@
         textarea {
             width: 100%;
             padding: 12px 14px;
-            background: rgba(255,255,255,0.6);
-            border: 1px solid rgba(58, 48, 42, 0.15);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(212,163,89,0.12);
             border-radius: 12px;
-            color: #3A302A;
+            color: #F5EDE5;
             font-size: 15px;
             font-family: inherit;
             resize: vertical;
             min-height: 80px;
             transition: border-color 0.3s, background 0.3s;
         }
+        textarea::placeholder { color: #5A4A3A; }
         textarea:focus {
             outline: none;
             border-color: #D4A359;
-            background: rgba(255,255,255,0.8);
+            background: rgba(255,255,255,0.08);
         }
         
         .submit-btn {
             width: 100%;
-            padding: 16px;
-            background: linear-gradient(135deg, #B85B43 0%, #A04A33 100%);
-            color: #fff;
+            padding: 18px;
+            background: linear-gradient(135deg, #D4A359 0%, #B8853A 100%);
+            color: #0B0B0E;
             border: none;
             border-radius: 14px;
             font-size: 18px;
-            font-weight: 800;
+            font-weight: 900;
             cursor: pointer;
-            transition: transform 0.2s, box-shadow 0.2s;
+            transition: all 0.3s ease;
             letter-spacing: 0.5px;
             margin-top: 8px;
+            text-transform: uppercase;
         }
         .submit-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(184, 91, 67, 0.35);
+            transform: translateY(-3px) scale(1.01);
+            box-shadow: 0 15px 40px rgba(212,163,89,0.3);
+        }
+        .submit-btn:active {
+            transform: translateY(0) scale(0.98);
         }
         .submit-btn:disabled {
-            background: #8A7A6A;
+            background: #3A322A;
+            color: #6A5A4A;
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
         }
         
         .success-message { display: none; text-align: center; padding: 40px 30px; }
-        .success-message .icon { font-size: 60px; margin-bottom: 16px; }
-        .success-message h2 { font-size: 22px; color: #3A302A; margin-bottom: 12px; }
-        .success-message p { color: #5A4A3A; font-size: 14px; margin-bottom: 20px; }
+        .success-message .icon { font-size: 60px; margin-bottom: 16px; display: block; }
+        .success-message h2 { font-size: 24px; color: #F5EDE5; margin-bottom: 12px; }
+        .success-message h2 .highlight { color: #D4A359; }
+        .success-message p { color: #A89888; font-size: 14px; margin-bottom: 20px; }
+        .success-message .confetti { 
+            font-size: 14px; 
+            letter-spacing: 4px; 
+            display: block; 
+            margin-bottom: 8px; 
+        }
         
         .share-box {
-            background: rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.04);
             backdrop-filter: blur(4px);
             border-radius: 12px;
             padding: 16px;
             text-align: left;
             font-size: 13px;
-            color: #3A302A;
+            color: #C8B8A8;
             margin-bottom: 20px;
             position: relative;
-            border: 1px solid rgba(255,255,255,0.4);
+            border: 1px solid rgba(212,163,89,0.06);
         }
         .copy-btn {
             position: absolute;
             top: 8px;
             right: 8px;
-            background: rgba(58, 48, 42, 0.1);
-            color: #3A302A;
+            background: rgba(212,163,89,0.1);
+            color: #D4A359;
             border: none;
             padding: 4px 12px;
             border-radius: 6px;
@@ -284,7 +447,7 @@
             font-size: 12px;
             transition: background 0.2s;
         }
-        .copy-btn:hover { background: rgba(58, 48, 42, 0.2); }
+        .copy-btn:hover { background: rgba(212,163,89,0.2); }
         
         .social-links {
             display: flex;
@@ -294,8 +457,8 @@
             flex-wrap: wrap;
         }
         .social-links a {
-            background: rgba(58, 48, 42, 0.08);
-            color: #3A302A;
+            background: rgba(212,163,89,0.08);
+            color: #D4A359;
             padding: 12px 24px;
             border-radius: 30px;
             text-decoration: none;
@@ -305,32 +468,38 @@
             align-items: center;
             gap: 8px;
             transition: background 0.2s;
+            border: 1px solid rgba(212,163,89,0.06);
         }
-        .social-links a:hover { background: rgba(58, 48, 42, 0.16); }
+        .social-links a:hover { background: rgba(212,163,89,0.15); }
         
         .error-message {
-            background: rgba(184, 91, 67, 0.15);
-            color: #B85B43;
+            background: rgba(184,91,67,0.12);
+            color: #E85D3A;
             padding: 12px;
             border-radius: 8px;
             margin-bottom: 16px;
             display: none;
             font-size: 14px;
-            border-left: 3px solid #B85B43;
+            border-left: 3px solid #E85D3A;
         }
         .footer-note {
             text-align: center;
             font-size: 12px;
-            color: #7A6A5A;
+            color: #4A3A2A;
             padding: 16px 30px 20px;
-            border-top: 1px solid rgba(58, 48, 42, 0.06);
+            border-top: 1px solid rgba(212,163,89,0.04);
         }
-        .footer-note strong { color: #B85B43; }
+        .footer-note strong { color: #D4A359; }
         
+        /* 手機微調 */
         @media (max-width: 480px) {
-            .header h1 { font-size: 22px; }
+            .header h1 { font-size: 24px; }
             .header .subtitle { font-size: 14px; }
             .body-content { padding: 20px; }
+            .modules-grid { gap: 8px; }
+            .module-card { padding: 12px 10px; }
+            .module-card .icon { font-size: 22px; }
+            .module-card .label { font-size: 12px; }
         }
     </style>
 </head>
@@ -338,38 +507,71 @@
 
 <div class="container" id="mainContent">
     <div class="header">
-        <div class="badge">🔥 第三場 · 免費直播</div>
-        <h1>錯過了前兩場？</h1>
-        <p class="subtitle">第三場，直接給你 <strong>有感的解法</strong></p>
-        <p class="subtitle" style="font-size:14px; margin-top:4px;">📅 2026年8月22日（星期六）晚上 7:00-8:00</p>
+        <div class="series-tag">⚡ 呼吸系列 · 最終章</div>
+        <div class="badge">🔥 第4場 · 終極免費場</div>
+        <h1>《<span class="highlight">呼吸重裝</span>》</h1>
+        <p class="subtitle">
+            膈肌 · 盆底 · 腹 · 足底<br>
+            <span class="fire">🔥</span> 人體核心引擎 <strong>4大操作系統</strong> 全拆解 <span class="fire">🔥</span>
+        </p>
+        <div class="date-section">
+            <span>📅 2026年8月29日（星期六）晚上 7:00-8:00</span>
+        </div>
         <div class="price-section">
             <span class="original-price">原價 $198</span>
-            <span class="free-badge">8月22日前 $0</span>
+            <span class="free-badge">8月29日前 <span class="small">$</span>0</span>
         </div>
     </div>
     
     <div class="body-content" id="formContent">
+        <!-- 4大模塊炫酷展示 -->
+        <div class="modules-grid">
+            <div class="module-card">
+                <span class="icon">🔺</span>
+                <span class="label">膈肌</span>
+                <span class="desc">吸氣的核按鈕</span>
+                <span class="energy-line"></span>
+            </div>
+            <div class="module-card">
+                <span class="icon">🔻</span>
+                <span class="label">盆底肌</span>
+                <span class="desc">承托的隱形網</span>
+                <span class="energy-line"></span>
+            </div>
+            <div class="module-card">
+                <span class="icon">⚡</span>
+                <span class="label">腹肌</span>
+                <span class="desc">順序決定成敗</span>
+                <span class="energy-line"></span>
+            </div>
+            <div class="module-card">
+                <span class="icon">🦶</span>
+                <span class="label">足底</span>
+                <span class="desc">呼吸的隱藏地基</span>
+                <span class="energy-line"></span>
+            </div>
+        </div>
+        
         <div class="missed-box">
-            <span class="big-icon">🧘</span>
-            <h3>前兩場你學了「概念」</h3>
-            <p>第三場，我們帶你 <span class="highlight-gold">由評估走到有感</span></p>
-            <p style="font-size:13px; margin-top:6px; color:#5A4A3A;">💡 獨家公開盆底肌「進階啟動法」—— 訓練無效的真正原因，一次過拆解</p>
+            <span class="big-icon">🚀</span>
+            <h3>錯過前三場？<span class="highlight">第四場才是終極解答</span></h3>
+            <p>一次串聯 <span class="highlight-gold">4大系統</span>，讓你的呼吸真正「重裝上陣」</p>
+            <p style="font-size:13px; margin-top:6px; color:#7A6A5A;">💡 獨家公開：ONE2FIT「轉化呼吸法」—— 訓練效果翻倍的關鍵</p>
         </div>
         
         <div class="benefits">
-            <h3>🎯 第三場你將會學到</h3>
+            <h3>⚡ 第四場你將會學到</h3>
             <ul>
-                <li>⑤ 腰痛、肩頸痠、步態不穩——問題可能都在同一條力線</li>
-                <li>朝早起身腰硬	唔再以為淨係床褥問題，原來關呼吸同盆底事，解決完朝早醒來鬆好多</li>
-                <li>獨家公開：ONE2FIT「底氣養成術」—— 每日 5 分鐘有感訓練</li>
-                <li>為什麼「練盆底肌」很久了，身體卻沒進步？</li>
-                <li>腰痛、肩頸痠、步態不穩——問題可能都在同一條力線</li>
+                <li><span class="highlight-text">4大系統聯動實測</span> —— 一次過檢視你的呼吸鏈完整度</li>
+                <li><span class="highlight-text">獨家公開「轉化呼吸法」</span> —— 讓膈肌的穩定力 ⇄ 吸氣力 瞬間切換</li>
+                <li>為什麼你練了1000次呼吸，體態、力量、有氧卻沒進步？</li>
+                <li>從足底到膈肌 —— 一套讓<span class="highlight-text">訓練效果翻倍</span>的完整框架</li>
             </ul>
         </div>
         
         <div class="why-fill">
             <strong>💡 為什麼要填這些資料？</strong><br>
-            第三場是 <strong>全程互動評估 + 實戰體驗</strong>。我們想在上課前了解你的身體狀況，導師才能<strong>針對性解答你的問題</strong>。你填得越仔細，收穫越大。
+            第四場是 <strong>「系統整合體驗」</strong>。我們會根據你的身體數據，即場幫你診斷 4 大系統的運作狀態。你填得越詳細，收穫越大。
         </div>
         
         <div class="error-message" id="errorMessage"></div>
@@ -398,13 +600,13 @@
                 <span class="hint">導師會根據最多人選的問題，在課堂上重點拆解</span>
                 <div class="checkbox-group">
                     <label><input type="checkbox" name="painPoints" value="腰痛 / 下背痛"> 腰痛 / 下背痛</label>
-                    <label><input type="checkbox" name="painPoints" value="骨盆前傾 / 後傾"> 骨盆前傾 / 後傾</label>
+                    <label><input type="checkbox" name="painPoints" value="頸痛 / 富貴包"> 頸痛 / 富貴包</label>
                     <label><input type="checkbox" name="painPoints" value="肩頸僵硬 / 斜方肌緊繃"> 肩頸僵硬 / 斜方肌緊繃</label>
-                    <label><input type="checkbox" name="painPoints" value="行走不穩 / 步態失衡"> 行走不穩 / 步態失衡</label>
-                    <label><input type="checkbox" name="painPoints" value="小腹凸出 / 腹部無力"> 小腹凸出 / 腹部無力</label>
-                    <label><input type="checkbox" name="painPoints" value="單邊身體感覺異常"> 單邊身體感覺異常</label>
+                    <label><input type="checkbox" name="painPoints" value="手腳冰涼 / 血液循環差"> 手腳冰涼 / 血液循環差</label>
+                    <label><input type="checkbox" name="painPoints" value="食道反流 / 胃酸倒流"> 食道反流 / 胃酸倒流</label>
+                    <label><input type="checkbox" name="painPoints" value="失眠 / 睡眠質素差"> 失眠 / 睡眠質素差</label>
                     <label><input type="checkbox" name="painPoints" value="肋骨外翻 / 體態問題"> 肋骨外翻 / 體態問題</label>
-                    <label><input type="checkbox" name="painPoints" value="運動表現（跑步、重訓、瑜伽）"> 運動表現（跑步、重訓、瑜伽）</label>
+                    <label><input type="checkbox" name="painPoints" value="運動表現（想舉更重、跑更快）"> 運動表現（想舉更重、跑更快）</label>
                     <label><input type="checkbox" name="painPoints" value="其他"> 其他：<input type="text" id="painOther" name="painOther" placeholder="請註明"></label>
                 </div>
             </div>
@@ -431,45 +633,46 @@
             
             <div class="form-group">
                 <label for="goal">7. 你最想在這堂課學到的一件事是？（選填）</label>
-                <span class="hint">例如：「我想知道為什麼我練盆底肌很久了卻沒進步」</span>
+                <span class="hint">例如：「我想知道為什麼我呼吸練很久了卻沒進步」</span>
                 <textarea id="goal" name="goal" placeholder="寫下你最想解決的問題..."></textarea>
             </div>
             
             <button type="submit" class="submit-btn" id="submitBtn">
-                🔥 立即報名 · 錯過免費就恢復 $198 🔥
+                ⚡ 立即報名 · 錯過免費即恢復 $198 ⚡
             </button>
         </form>
     </div>
     
     <div class="success-message" id="successMessage">
-        <div class="icon">🎉</div>
-        <h2>報名成功！</h2>
-        <p style="font-size:16px; font-weight:600; color:#B85B43;">錯過了前兩場？第三場，我們幫你由評估走到有感。</p>
+        <span class="confetti">✦ ✦ ✦</span>
+        <span class="icon">🚀</span>
+        <h2>報名成功！<br><span class="highlight">《呼吸重裝》最終章</span></h2>
+        <p style="font-size:16px; font-weight:600; color:#D4A359;">錯過前三場？第四場，一次幫你全部串聯。</p>
         <p>
-            我們已經收到你的報名資料，將會在 <strong>24 小時內</strong> 經 WhatsApp 發送上課連結。<br><br>
-            <strong>📅 第三場直播日期：2026年8月22日（星期六）</strong><br>
+            我們已經收到你的報名資料，將會在 <strong style="color:#F5EDE5;">24 小時內</strong> 經 WhatsApp 發送上課連結。<br><br>
+            <strong style="color:#D4A359;">📅 第四場直播日期：2026年8月29日（星期六）</strong><br>
             ⏰ 時間：晚上 7:00-8:00<br><br>
-            <span style="font-size:13px; color:#5A4A3A;">💡 直播連結將在 WhatsApp 群組發放，請留意群組信息。</span>
+            <span style="font-size:13px; color:#6A5A4A;">💡 直播連結將在 WhatsApp 群組發放，請留意群組信息。</span>
         </p>
         
-        <h3 style="font-size:16px; color:#3A302A; margin-bottom:8px; margin-top:24px;">💌 邀請朋友一起來</h3>
-        <p style="font-size:13px; color:#5A4A3A;">按下面按鈕複製訊息，轉發給身邊有需要的朋友：</p>
+        <h3 style="font-size:16px; color:#D4A359; margin-bottom:8px; margin-top:24px;">💌 邀請朋友一起來</h3>
+        <p style="font-size:13px; color:#7A6A5A;">按下面按鈕複製訊息，轉發給身邊有需要的朋友：</p>
         
         <div class="share-box" id="shareBox">
-🔥 我報名了 ONE2FIT 第三場免費直播《盆底肌進階》！錯過前兩場沒關係，第三場直接給你解法 —— 獨家公開盆底肌「進階啟動法」，由評估走到有感。
-8月22日前報名 $0，快啲一齊報名 👉 https://one2fit.github.io/one2fit/Breathlive3
+🚀 我報名了 ONE2FIT 第四場免費直播《呼吸重裝》！一次拆解膈肌·盆底·腹·足底 4大系統，獨家公開「轉化呼吸法」—— 讓訓練效果翻倍的關鍵！
+8月29日前報名 $0，快啲一齊報名 👉 https://one2fit.github.io/one2fit/Breathlive4
             <button class="copy-btn" onclick="copyShareText()">📋 複製</button>
         </div>
         
-        <h3 style="font-size:16px; color:#3A302A; margin-bottom:8px;">📲 有問題？即時聯絡我們</h3>
+        <h3 style="font-size:16px; color:#D4A359; margin-bottom:8px;">📲 有問題？即時聯絡我們</h3>
         <div class="social-links">
-            <a href="https://wa.me/85261500005?text=我想查詢《盆底肌進階》直播課程" target="_blank">💬 WhatsApp 查詢</a>
+            <a href="https://wa.me/85261500005?text=我想查詢《呼吸重裝》直播課程" target="_blank">💬 WhatsApp 查詢</a>
             <a href="https://www.instagram.com/one.2_fit/" target="_blank">📸 Instagram</a>
         </div>
     </div>
     
     <div class="footer-note">
-        ⏳ 直播結束後，第三場回放將恢復 <strong>HK$198</strong> · 現在報名，鎖定 $0
+        ⏳ 直播結束後，第四場回放將恢復 <strong>HK$198</strong> · 現在報名，鎖定 $0
     </div>
 </div>
 
@@ -554,7 +757,7 @@
         errorMessage.style.display = 'block';
         window.scrollTo({ top: 0, behavior: 'smooth' });
         submitBtn.disabled = false;
-        submitBtn.textContent = '🔥 立即報名 · 錯過免費就恢復 $198 🔥';
+        submitBtn.textContent = '⚡ 立即報名 · 錯過免費即恢復 $198 ⚡';
     }
     
     function copyShareText() {

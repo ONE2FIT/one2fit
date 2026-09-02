@@ -3,17 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+
     <!-- Open Graph 預覽設定 -->
-    <meta property="og:title" content="第5場最終章｜ONE2FIT《呼吸重裝》剪刀體態 x 呼吸力學 終極實戰">
-    <meta property="og:description" content="獨家公開「剪刀體態呼吸矯正法」—— 讓骨盆前傾、腰椎前凸、肋骨外翻的人，30分鐘內找回自然呼吸力">
+    <meta property="og:title" content="第5場｜ONE2FIT《呼吸重裝》剪刀體態 × 呼吸力學 — 從評估到矯正，一次搞定">
+    <meta property="og:description" content="獨家公開「剪刀體態呼吸矯正法」— 讓骨盆前傾、腰椎前凸、肋骨外翻的人，30分鐘內找回自然呼吸力">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://one2fit.github.io/one2fit/Breathlive5">
-    
-    <title>第5場最終章｜ONE2FIT《呼吸重裝》剪刀體態 x 呼吸力學</title>
-    
+
+    <title>第5場｜ONE2FIT《呼吸重裝》剪刀體態 × 呼吸力學</title>
+
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Microsoft JhengHei", "PingFang HK", sans-serif;
             background: #D9C3B0;
@@ -34,7 +38,6 @@
             box-shadow: 0 20px 80px rgba(58, 48, 42, 0.25), 0 0 40px rgba(212, 163, 89, 0.12);
             border: 1px solid rgba(212, 163, 89, 0.2);
         }
-        /* 呼吸光暈動畫 */
         .container::before {
             content: '';
             position: absolute;
@@ -42,17 +45,29 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(ellipse at 30% 20%, rgba(212,163,89,0.08) 0%, transparent 60%);
+            background: radial-gradient(ellipse at 30% 20%, rgba(212, 163, 89, 0.08) 0%, transparent 60%);
             pointer-events: none;
             animation: breatheGlow 6s ease-in-out infinite;
         }
         @keyframes breatheGlow {
-            0%, 100% { opacity: 0.4; transform: scale(1); }
-            50% { opacity: 1; transform: scale(1.05); }
+            0%,
+            100% {
+                opacity: 0.4;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.05);
+            }
         }
-        .container { position: relative; }
-        .container > * { position: relative; z-index: 1; }
-        
+        .container {
+            position: relative;
+        }
+        .container>* {
+            position: relative;
+            z-index: 1;
+        }
+
         .header {
             background: linear-gradient(160deg, #C2B29F 0%, #D9C3B0 50%, #C8B5A2 100%);
             padding: 40px 30px 30px;
@@ -85,12 +100,18 @@
             animation: pulse 2s infinite;
         }
         @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); box-shadow: 0 0 20px rgba(184,91,67,0.25); }
+            0%,
+            100% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+                box-shadow: 0 0 20px rgba(184, 91, 67, 0.25);
+            }
         }
         .header .series-tag {
             font-size: 11px;
-            color: rgba(58,48,42,0.4);
+            color: rgba(58, 48, 42, 0.4);
             letter-spacing: 3px;
             text-transform: uppercase;
             margin-bottom: 8px;
@@ -101,7 +122,7 @@
             color: #3A302A;
             margin-bottom: 4px;
             letter-spacing: 0.5px;
-            text-shadow: 0 0 40px rgba(212,163,89,0.1);
+            text-shadow: 0 0 40px rgba(212, 163, 89, 0.1);
         }
         .header h1 .highlight {
             background: linear-gradient(135deg, #D4A359, #B8853A);
@@ -118,20 +139,12 @@
             color: #D4A359;
             -webkit-text-fill-color: #D4A359;
         }
-        .header .subtitle .fire {
-            display: inline-block;
-            animation: flicker 1.5s infinite;
-        }
-        @keyframes flicker {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.6; transform: scale(1.1); }
-        }
         .header .date-section {
             margin-top: 14px;
-            background: rgba(212,163,89,0.1);
+            background: rgba(212, 163, 89, 0.1);
             padding: 10px 16px;
             border-radius: 12px;
-            border: 1px solid rgba(212,163,89,0.12);
+            border: 1px solid rgba(212, 163, 89, 0.12);
         }
         .header .date-section span {
             font-size: 14px;
@@ -159,24 +172,26 @@
             font-size: 18px;
             font-weight: 900;
             letter-spacing: 0.5px;
-            box-shadow: 0 0 30px rgba(122,139,123,0.15);
+            box-shadow: 0 0 30px rgba(122, 139, 123, 0.15);
         }
         .header .free-badge .small {
             font-size: 12px;
             font-weight: 400;
             opacity: 0.7;
         }
-        
-        .body-content { padding: 30px; }
-        
+
+        .body-content {
+            padding: 30px;
+        }
+
         /* 剪刀體態視覺模塊 - 暖色柔光風 */
         .scissor-visual {
-            background: rgba(255,255,255,0.25);
+            background: rgba(255, 255, 255, 0.25);
             backdrop-filter: blur(4px);
             border-radius: 16px;
             padding: 20px;
             margin-bottom: 20px;
-            border: 1px solid rgba(212,163,89,0.12);
+            border: 1px solid rgba(212, 163, 89, 0.12);
             text-align: center;
             position: relative;
             overflow: hidden;
@@ -185,7 +200,7 @@
             font-size: 64px;
             display: block;
             margin-bottom: 4px;
-            filter: drop-shadow(0 4px 20px rgba(212,163,89,0.15));
+            filter: drop-shadow(0 4px 20px rgba(212, 163, 89, 0.15));
         }
         .scissor-visual .energy-arrow {
             display: flex;
@@ -197,10 +212,10 @@
             flex-wrap: wrap;
         }
         .scissor-visual .energy-arrow .arrow-item {
-            background: rgba(122,139,123,0.12);
+            background: rgba(122, 139, 123, 0.12);
             padding: 6px 14px;
             border-radius: 20px;
-            border: 1px solid rgba(122,139,123,0.15);
+            border: 1px solid rgba(122, 139, 123, 0.15);
             font-weight: 600;
         }
         .scissor-visual .energy-arrow .arrow-item .green {
@@ -217,14 +232,14 @@
             margin-top: 8px;
         }
         .scissor-visual .pain-tags span {
-            background: rgba(184,91,67,0.08);
+            background: rgba(184, 91, 67, 0.08);
             padding: 4px 14px;
             border-radius: 20px;
             font-size: 12px;
             color: #B85B43;
-            border: 1px solid rgba(184,91,67,0.1);
+            border: 1px solid rgba(184, 91, 67, 0.1);
         }
-        
+
         /* 3大痛點卡片 */
         .pain-cards {
             display: grid;
@@ -233,35 +248,56 @@
             margin-bottom: 20px;
         }
         .pain-card {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(4px);
             border-radius: 12px;
             padding: 12px 10px;
             text-align: center;
-            border: 1px solid rgba(212,163,89,0.08);
+            border: 1px solid rgba(212, 163, 89, 0.08);
             font-size: 11px;
             color: #3A302A;
             line-height: 1.4;
         }
-        .pain-card .icon { font-size: 20px; display: block; margin-bottom: 2px; }
-        .pain-card strong { color: #B85B43; }
-        @media (max-width: 480px) {
-            .pain-cards { grid-template-columns: 1fr; }
+        .pain-card .icon {
+            font-size: 20px;
+            display: block;
+            margin-bottom: 2px;
         }
-        
+        .pain-card strong {
+            color: #B85B43;
+        }
+        @media (max-width: 480px) {
+            .pain-cards {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .missed-box {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(4px);
             border-radius: 16px;
             padding: 20px;
             margin-bottom: 20px;
-            border: 1px solid rgba(212,163,89,0.08);
+            border: 1px solid rgba(212, 163, 89, 0.08);
             text-align: center;
         }
-        .missed-box .big-icon { font-size: 40px; display: block; margin-bottom: 6px; }
-        .missed-box h3 { font-size: 18px; color: #3A302A; margin-bottom: 4px; }
-        .missed-box h3 .highlight { color: #D4A359; }
-        .missed-box p { font-size: 14px; color: #5A4A3A; }
+        .missed-box .big-icon {
+            font-size: 40px;
+            display: block;
+            margin-bottom: 6px;
+        }
+        .missed-box h3 {
+            font-size: 18px;
+            color: #3A302A;
+            margin-bottom: 4px;
+        }
+        .missed-box h3 .highlight {
+            color: #D4A359;
+        }
+        .missed-box p {
+            font-size: 14px;
+            color: #5A4A3A;
+        }
         .missed-box .highlight-gold {
             display: inline-block;
             background: linear-gradient(135deg, #D4A359, #B8853A);
@@ -271,14 +307,14 @@
             font-weight: 700;
             font-size: 14px;
         }
-        
+
         .benefits {
-            background: rgba(255,255,255,0.15);
+            background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(4px);
             border-radius: 16px;
             padding: 20px;
             margin-bottom: 20px;
-            border: 1px solid rgba(212,163,89,0.06);
+            border: 1px solid rgba(212, 163, 89, 0.06);
         }
         .benefits h3 {
             font-size: 16px;
@@ -288,19 +324,31 @@
             align-items: center;
             gap: 8px;
         }
-        .benefits ul { list-style: none; padding: 0; }
+        .benefits ul {
+            list-style: none;
+            padding: 0;
+        }
         .benefits ul li {
             padding: 5px 0;
             font-size: 14px;
             color: #3A302A;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .benefits ul li:last-child { border-bottom: none; }
-        .benefits ul li::before { content: "✦ "; font-size: 12px; color: #D4A359; }
-        .benefits .highlight-text { color: #B8853A; font-weight: 700; }
-        
+        .benefits ul li:last-child {
+            border-bottom: none;
+        }
+        .benefits ul li::before {
+            content: "✦ ";
+            font-size: 12px;
+            color: #D4A359;
+        }
+        .benefits .highlight-text {
+            color: #B8853A;
+            font-weight: 700;
+        }
+
         .why-fill {
-            background: rgba(212,163,89,0.08);
+            background: rgba(212, 163, 89, 0.08);
             border-left: 3px solid #D4A359;
             padding: 14px 18px;
             border-radius: 8px;
@@ -308,9 +356,13 @@
             font-size: 13px;
             color: #5A4A3A;
         }
-        .why-fill strong { color: #3A302A; }
-        
-        .form-group { margin-bottom: 20px; }
+        .why-fill strong {
+            color: #3A302A;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
         .form-group label {
             display: block;
             font-weight: 700;
@@ -331,29 +383,33 @@
         .form-group input[type="email"] {
             width: 100%;
             padding: 12px 14px;
-            background: rgba(255,255,255,0.3);
-            border: 1px solid rgba(212,163,89,0.15);
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(212, 163, 89, 0.15);
             border-radius: 12px;
             color: #3A302A;
             font-size: 15px;
             transition: border-color 0.3s, background 0.3s;
         }
-        .form-group input::placeholder { color: #8A7A6A; }
+        .form-group input::placeholder {
+            color: #8A7A6A;
+        }
         .form-group input:focus {
             outline: none;
             border-color: #D4A359;
-            background: rgba(255,255,255,0.4);
-            box-shadow: 0 0 20px rgba(212,163,89,0.08);
+            background: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 20px rgba(212, 163, 89, 0.08);
         }
-        
-        .checkbox-group, .radio-group {
-            background: rgba(255,255,255,0.15);
+
+        .checkbox-group,
+        .radio-group {
+            background: rgba(255, 255, 255, 0.15);
             backdrop-filter: blur(2px);
             border-radius: 12px;
             padding: 14px;
-            border: 1px solid rgba(212,163,89,0.06);
+            border: 1px solid rgba(212, 163, 89, 0.06);
         }
-        .checkbox-group label, .radio-group label {
+        .checkbox-group label,
+        .radio-group label {
             display: flex;
             align-items: center;
             padding: 4px 0;
@@ -375,8 +431,8 @@
             display: inline-block;
             margin-left: 8px;
             padding: 4px 10px;
-            background: rgba(255,255,255,0.3);
-            border: 1px solid rgba(212,163,89,0.08);
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(212, 163, 89, 0.08);
             border-radius: 6px;
             color: #3A302A;
             font-size: 13px;
@@ -385,12 +441,12 @@
             outline: none;
             border-color: #D4A359;
         }
-        
+
         textarea {
             width: 100%;
             padding: 12px 14px;
-            background: rgba(255,255,255,0.3);
-            border: 1px solid rgba(212,163,89,0.12);
+            background: rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(212, 163, 89, 0.12);
             border-radius: 12px;
             color: #3A302A;
             font-size: 15px;
@@ -399,13 +455,15 @@
             min-height: 80px;
             transition: border-color 0.3s, background 0.3s;
         }
-        textarea::placeholder { color: #8A7A6A; }
+        textarea::placeholder {
+            color: #8A7A6A;
+        }
         textarea:focus {
             outline: none;
             border-color: #D4A359;
-            background: rgba(255,255,255,0.4);
+            background: rgba(255, 255, 255, 0.4);
         }
-        
+
         .submit-btn {
             width: 100%;
             padding: 18px;
@@ -423,7 +481,7 @@
         }
         .submit-btn:hover {
             transform: translateY(-3px) scale(1.01);
-            box-shadow: 0 15px 40px rgba(212,163,89,0.3);
+            box-shadow: 0 15px 40px rgba(212, 163, 89, 0.3);
         }
         .submit-btn:active {
             transform: translateY(0) scale(0.98);
@@ -435,21 +493,39 @@
             transform: none;
             box-shadow: none;
         }
-        
-        .success-message { display: none; text-align: center; padding: 40px 30px; }
-        .success-message .icon { font-size: 60px; margin-bottom: 16px; display: block; }
-        .success-message h2 { font-size: 24px; color: #3A302A; margin-bottom: 12px; }
-        .success-message h2 .highlight { color: #D4A359; }
-        .success-message p { color: #5A4A3A; font-size: 14px; margin-bottom: 20px; }
-        .success-message .confetti { 
-            font-size: 14px; 
-            letter-spacing: 4px; 
-            display: block; 
-            margin-bottom: 8px; 
+
+        .success-message {
+            display: none;
+            text-align: center;
+            padding: 40px 30px;
         }
-        
+        .success-message .icon {
+            font-size: 60px;
+            margin-bottom: 16px;
+            display: block;
+        }
+        .success-message h2 {
+            font-size: 24px;
+            color: #3A302A;
+            margin-bottom: 12px;
+        }
+        .success-message h2 .highlight {
+            color: #D4A359;
+        }
+        .success-message p {
+            color: #5A4A3A;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .success-message .confetti {
+            font-size: 14px;
+            letter-spacing: 4px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
         .share-box {
-            background: rgba(255,255,255,0.2);
+            background: rgba(255, 255, 255, 0.2);
             backdrop-filter: blur(4px);
             border-radius: 12px;
             padding: 16px;
@@ -458,13 +534,13 @@
             color: #3A302A;
             margin-bottom: 20px;
             position: relative;
-            border: 1px solid rgba(212,163,89,0.06);
+            border: 1px solid rgba(212, 163, 89, 0.06);
         }
         .copy-btn {
             position: absolute;
             top: 8px;
             right: 8px;
-            background: rgba(212,163,89,0.15);
+            background: rgba(212, 163, 89, 0.15);
             color: #3A302A;
             border: none;
             padding: 4px 12px;
@@ -473,8 +549,10 @@
             font-size: 12px;
             transition: background 0.2s;
         }
-        .copy-btn:hover { background: rgba(212,163,89,0.25); }
-        
+        .copy-btn:hover {
+            background: rgba(212, 163, 89, 0.25);
+        }
+
         .social-links {
             display: flex;
             justify-content: center;
@@ -483,7 +561,7 @@
             flex-wrap: wrap;
         }
         .social-links a {
-            background: rgba(212,163,89,0.1);
+            background: rgba(212, 163, 89, 0.1);
             color: #3A302A;
             padding: 12px 24px;
             border-radius: 30px;
@@ -494,12 +572,14 @@
             align-items: center;
             gap: 8px;
             transition: background 0.2s;
-            border: 1px solid rgba(212,163,89,0.06);
+            border: 1px solid rgba(212, 163, 89, 0.06);
         }
-        .social-links a:hover { background: rgba(212,163,89,0.2); }
-        
+        .social-links a:hover {
+            background: rgba(212, 163, 89, 0.2);
+        }
+
         .error-message {
-            background: rgba(184,91,67,0.12);
+            background: rgba(184, 91, 67, 0.12);
             color: #B85B43;
             padding: 12px;
             border-radius: 8px;
@@ -513,201 +593,301 @@
             font-size: 12px;
             color: #6A5A4A;
             padding: 16px 30px 20px;
-            border-top: 1px solid rgba(212,163,89,0.08);
+            border-top: 1px solid rgba(212, 163, 89, 0.08);
         }
-        .footer-note strong { color: #D4A359; }
-        
+        .footer-note strong {
+            color: #D4A359;
+        }
+
         @media (max-width: 480px) {
-            .header h1 { font-size: 24px; }
-            .header .subtitle { font-size: 14px; }
-            .body-content { padding: 20px; }
-            .pain-cards { grid-template-columns: 1fr; }
+            .header h1 {
+                font-size: 24px;
+            }
+            .header .subtitle {
+                font-size: 14px;
+            }
+            .body-content {
+                padding: 20px;
+            }
+            .pain-cards {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="container" id="mainContent">
-    <div class="header">
-        <div class="series-tag">✦ 呼吸系列 · 終極實戰篇</div>
-        <div class="badge">🔥 第5場 · 最終章</div>
-        <h1>《<span class="highlight">呼吸重裝</span>》</h1>
-        <p class="subtitle">
-            <span class="fire">✧</span> 剪刀體態 × 呼吸力學 <span class="fire">✧</span><br>
-            <strong>從評估到矯正</strong>，一次搞定你的身體代償
-        </p>
-        <div class="date-section">
-            <span>📅 2026年9月12日（星期六）晚上 7:00-8:00</span>
-        </div>
-        <div class="price-section">
-            <span class="original-price">原價 $198</span>
-            <span class="free-badge">8月29日前 <span class="small">$</span>0</span>
-        </div>
-    </div>
-    
-    <div class="body-content" id="formContent">
-        <!-- 剪刀體態視覺模塊 -->
-        <div class="scissor-visual">
-            <span class="body-icon">🧘</span>
-            <div style="font-size:14px; font-weight:700; color:#3A302A; margin-bottom:4px;">剪刀體態 · 呼吸力學評估</div>
-            <div class="energy-arrow">
-                <span class="arrow-item"><span class="green">⬆</span> 骨盆前傾 → 膈肌失能</span>
-                <span class="arrow-item"><span class="gold">⬇</span> 腰椎前凸 → 呼吸卡住</span>
-                <span class="arrow-item"><span class="green">⟳</span> 肋骨外翻 → 肩頸代償</span>
+    <div class="container" id="mainContent">
+        <div class="header">
+            <div class="series-tag">✦ 呼吸系列 · 第5場</div>
+            <div class="badge">🔥 終極實戰篇</div>
+            <h1>《<span class="highlight">呼吸重裝</span>》</h1>
+            <p class="subtitle">
+                <span class="fire">✧</span> 剪刀體態 × 呼吸力學 <span class="fire">✧</span><br>
+                <strong>從評估到矯正</strong>，一次搞定你的身體代償
+            </p>
+            <div class="date-section">
+                <span>📅 2026年9月5日（星期六）晚上 7:00-8:00 實時 LIVE</span>
             </div>
-            <div class="pain-tags">
-                <span>⚠️ 吸越多越缺氧</span>
-                <span>⚠️ 肩頸永遠緊繃</span>
-                <span>⚠️ 核心練不起來</span>
+            <div class="price-section">
+                <span class="original-price">原價 $198</span>
+                <span class="free-badge">9月5日前 <span class="small">$</span>0</span>
             </div>
         </div>
-        
-        <!-- 3大痛點卡片 -->
-        <div class="pain-cards">
-            <div class="pain-card">
-                <span class="icon">🔺</span>
-                <strong>腰椎往前推</strong><br>呼吸就卡住？<br>剪刀體態讓你的膈肌失能！
-            </div>
-            <div class="pain-card">
-                <span class="icon">🔻</span>
-                <strong>胸椎變直</strong><br>肋骨外翻<br>吸越多，肩頸反而越緊？
-            </div>
-            <div class="pain-card">
-                <span class="icon">⚡</span>
-                <strong>骨盆前傾</strong><br>的人 90% 都有<br>慢性缺氧問題！
-            </div>
-        </div>
-        
-        <div class="missed-box">
-            <span class="big-icon">🚀</span>
-            <h3>錯過前四場？<span class="highlight">第五場才是終極解答</span></h3>
-            <p>獨家公開 <span class="highlight-gold">「剪刀體態呼吸矯正法」</span></p>
-            <p style="font-size:13px; margin-top:6px; color:#6A5A4A;">💡 讓骨盆前傾、腰椎前凸、肋骨外翻的人，30分鐘內找回自然呼吸力</p>
-        </div>
-        
-        <div class="benefits">
-            <h3>✦ 第五場你將會學到</h3>
-            <ul>
-                <li><span class="highlight-text">剪刀體態 x 呼吸力學 完整評估</span> —— 一次檢視你的身體代償鏈</li>
-                <li><span class="highlight-text">獨家公開「剪刀體態呼吸矯正法」</span> —— 從骨盆後傾到胸廓擴張，重建三位一體呼吸力</li>
-                <li>為什麼你練了1000次呼吸，體態、力量、有氧卻沒進步？</li>
-                <li>從足底到膈肌 —— 一套讓 <span class="highlight-text">訓練效果翻倍</span> 的完整框架</li>
-            </ul>
-        </div>
-        
-        <div class="why-fill">
-            <strong>💡 為什麼要填這些資料？</strong><br>
-            第五場是 <strong>「剪刀體態 x 呼吸力學 實戰體驗」</strong>。我們會根據你的身體數據，即場幫你診斷體態代償與呼吸失能的關聯。你填得越詳細，收穫越大。
-        </div>
-        
-        <div class="error-message" id="errorMessage"></div>
-        
-        <form id="registrationForm">
-            <div class="form-group">
-                <label for="name">1. 你的稱呼 *</label>
-                <span class="hint">上課的時候怎樣稱呼你？</span>
-                <input type="text" id="name" name="name" placeholder="例如：阿強 / Peter" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="whatsapp">2. WhatsApp 聯絡電話 *</label>
-                <span class="hint">上課連結會直接 WhatsApp 發送給你（我們不會亂發訊息）</span>
-                <input type="tel" id="whatsapp" name="whatsapp" placeholder="例如：61234567" required>
-            </div>
-            
-            <div class="form-group">
-                <label for="email">3. Email 電郵地址（選填）</label>
-                <span class="hint">課後筆記會電郵給你重溫</span>
-                <input type="email" id="email" name="email" placeholder="例如：yourname@gmail.com">
-            </div>
-            
-            <div class="form-group">
-                <label>4. 你是否有以下剪刀體態特徵？（可選多項）</label>
-                <span class="hint">導師會根據最多人選的問題，在課堂上重點拆解</span>
-                <div class="checkbox-group">
-                    <label><input type="checkbox" name="painPoints" value="骨盆前傾（腰椎曲度變大）"> 骨盆前傾（腰椎曲度變大）</label>
-                    <label><input type="checkbox" name="painPoints" value="肋骨外翻 / 胸椎變直"> 肋骨外翻 / 胸椎變直</label>
-                    <label><input type="checkbox" name="painPoints" value="腹部前側拉長（懸垂腹）"> 腹部前側拉長（懸垂腹）</label>
-                    <label><input type="checkbox" name="painPoints" value="肩頸僵硬 / 斜方肌緊繃"> 肩頸僵硬 / 斜方肌緊繃</label>
-                    <label><input type="checkbox" name="painPoints" value="腰痛 / 下背痛"> 腰痛 / 下背痛</label>
-                    <label><input type="checkbox" name="painPoints" value="呼吸短淺 / 容易喘"> 呼吸短淺 / 容易喘</label>
-                    <label><input type="checkbox" name="painPoints" value="運動表現卡關（想舉更重、跑更快）"> 運動表現卡關（想舉更重、跑更快）</label>
-                    <label><input type="checkbox" name="painPoints" value="其他"> 其他：<input type="text" id="painOther" name="painOther" placeholder="請註明"></label>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label>5. 你從哪裡認識我們的？</label>
-                <span class="hint">純粹好奇，想知道哪里的朋友最有眼光 😎</span>
-                <div class="radio-group">
-                    <label><input type="radio" name="source" value="WhatsApp 群組"> WhatsApp 群組</label>
-                    <label><input type="radio" name="source" value="Facebook / Instagram"> Facebook / Instagram</label>
-                    <label><input type="radio" name="source" value="朋友介紹"> 朋友介紹</label>
-                    <label><input type="radio" name="source" value="其他"> 其他</label>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label>6. 你有上過 Gavin Sir 的課嗎？（選填）</label>
-                <span class="hint">幫助我們了解你的基礎，調整教學節奏</span>
-                <div class="radio-group">
-                    <label><input type="radio" name="previousCourse" value="有，想再複習深化"> 有，想再複習深化</label>
-                    <label><input type="radio" name="previousCourse" value="沒有，這次是第一次接觸"> 沒有，這次是第一次接觸</label>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label for="goal">7. 你最想在這堂課學到的一件事是？（選填）</label>
-                <span class="hint">例如：「我想知道為什麼我呼吸練很久了，體態卻沒改變」</span>
-                <textarea id="goal" name="goal" placeholder="寫下你最想解決的問題..."></textarea>
-            </div>
-            
-            <button type="submit" class="submit-btn" id="submitBtn">
-                ✦ 立即報名 · 錯過免費即恢復 $198 ✦
-            </button>
-        </form>
-    </div>
-    
-    <div class="success-message" id="successMessage">
-        <span class="confetti">✦ ✦ ✦</span>
-        <span class="icon">🚀</span>
-        <h2>報名成功！<br><span class="highlight">《呼吸重裝》第五場 · 最終章</span></h2>
-        <p style="font-size:16px; font-weight:600; color:#D4A359;">剪刀體態 × 呼吸力學 — 從評估到矯正，一次搞定。</p>
-        <p>
-            我們已經收到你的報名資料，將會在 <strong style="color:#3A302A;">24 小時內</strong> 經 WhatsApp 發送上課連結。<br><br>
-            <strong style="color:#D4A359;">📅 第五場直播日期：2026年9月12日（星期六）</strong><br>
-            ⏰ 時間：晚上 7:00-8:00<br><br>
-            <span style="font-size:13px; color:#6A5A4A;">💡 直播連結將在 WhatsApp 群組發放，請留意群組信息。</span>
-        </p>
-        
-        <h3 style="font-size:16px; color:#D4A359; margin-bottom:8px; margin-top:24px;">💌 邀請朋友一起來</h3>
-        <p style="font-size:13px; color:#6A5A4A;">按下面按鈕複製訊息，轉發給身邊有需要的朋友：</p>
-        
-        <div class="share-box" id="shareBox">
-🚀 我報名了 ONE2FIT 第五場免費直播《呼吸重裝：剪刀體態 x 呼吸力學》！獨家公開「剪刀體態呼吸矯正法」—— 讓骨盆前傾、腰椎前凸、肋骨外翻的人，30分鐘內找回自然呼吸力！
-9月12日前報名 $0，快啲一齊報名 👉 https://one2fit.github.io/one2fit/Breathlive5
-            <button class="copy-btn" onclick="copyShareText()">📋 複製</button>
-        </div>
-        
-        <h3 style="font-size:16px; color:#D4A359; margin-bottom:8px;">📲 有問題？即時聯絡我們</h3>
-        <div class="social-links">
-            <a href="https://wa.me/85261500005?text=我想查詢《呼吸重裝》第五場直播課程" target="_blank">💬 WhatsApp 查詢</a>
-            <a href="https://www.instagram.com/one.2_fit/" target="_blank">📸 Instagram</a>
-        </div>
-    </div>
-    
-    <div class="footer-note">
-        ⏳ 直播結束後，第五場回放將恢復 <strong>HK$198</strong> · 現在報名，鎖定 $0
-    </div>
-</div>
 
-<script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw6dQfKiZy_6GG84UXSA5LQyUD5PU7b6XNb0wMd92L2qH1tfRWQWsCDGBvvpgfnQ91xHw/exec";
-    
-    const form = document.getElementById('registrationForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const errorMessage = document.getElementById('errorMessage');
-    const formContent = document.getElementById('formContent');
-    const successMessage = document.getElementById('successMessage');
-    
-    form.addEventListener
+        <div class="body-content" id="formContent">
+            <!-- 剪刀體態視覺模塊 -->
+            <div class="scissor-visual">
+                <span class="body-icon">🧘</span>
+                <div style="font-size:14px; font-weight:700; color:#3A302A; margin-bottom:4px;">剪刀體態 · 呼吸力學評估</div>
+                <div class="energy-arrow">
+                    <span class="arrow-item"><span class="green">⬆</span> 骨盆前傾 → 膈肌失能</span>
+                    <span class="arrow-item"><span class="gold">⬇</span> 腰椎前凸 → 呼吸卡住</span>
+                    <span class="arrow-item"><span class="green">⟳</span> 肋骨外翻 → 肩頸代償</span>
+                </div>
+                <div class="pain-tags">
+                    <span>⚠️ 吸越多越缺氧</span>
+                    <span>⚠️ 肩頸永遠緊繃</span>
+                    <span>⚠️ 核心練不起來</span>
+                </div>
+            </div>
+
+            <!-- 3大痛點卡片 -->
+            <div class="pain-cards">
+                <div class="pain-card">
+                    <span class="icon">🔺</span>
+                    <strong>腰椎往前推</strong><br>呼吸就卡住？<br>剪刀體態讓你的膈肌失能！
+                </div>
+                <div class="pain-card">
+                    <span class="icon">🔻</span>
+                    <strong>胸椎變直</strong><br>肋骨外翻<br>吸越多，肩頸反而越緊？
+                </div>
+                <div class="pain-card">
+                    <span class="icon">⚡</span>
+                    <strong>骨盆前傾</strong><br>的人 90% 都有<br>慢性缺氧問題！
+                </div>
+            </div>
+
+            <div class="missed-box">
+                <span class="big-icon">🚀</span>
+                <h3>錯過前四場？<span class="highlight">第五場才是終極解答</span></h3>
+                <p>獨家公開 <span class="highlight-gold">「剪刀體態呼吸矯正法」</span></p>
+                <p style="font-size:13px; margin-top:6px; color:#6A5A4A;">💡 讓骨盆前傾、腰椎前凸、肋骨外翻的人，30分鐘內找回自然呼吸力</p>
+            </div>
+
+            <div class="benefits">
+                <h3>✦ 第五場你將會學到</h3>
+                <ul>
+                    <li><span class="highlight-text">剪刀體態 × 呼吸力學 完整評估</span> —— 一次檢視你的身體代償鏈</li>
+                    <li><span class="highlight-text">獨家公開「剪刀體態呼吸矯正法」</span> —— 從骨盆後傾到胸廓擴張，重建三位一體呼吸力</li>
+                    <li>為什麼你練了1000次呼吸，體態、力量、有氧卻沒進步？</li>
+                    <li>從足底到膈肌 —— 一套讓 <span class="highlight-text">訓練效果翻倍</span> 的完整框架</li>
+                </ul>
+            </div>
+
+            <div class="why-fill">
+                <strong>💡 為什麼要填這些資料？</strong><br>
+                第五場是 <strong>「剪刀體態 × 呼吸力學 實戰體驗」</strong>。我們會根據你的身體數據，即場幫你診斷體態代償與呼吸失能的關聯。你填得越詳細，收穫越大。
+            </div>
+
+            <div class="error-message" id="errorMessage"></div>
+
+            <form id="registrationForm">
+                <div class="form-group">
+                    <label for="name">1. 你的稱呼 *</label>
+                    <span class="hint">上課的時候怎樣稱呼你？</span>
+                    <input type="text" id="name" name="name" placeholder="例如：阿強 / Peter" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="whatsapp">2. WhatsApp 聯絡電話 *</label>
+                    <span class="hint">上課連結會直接 WhatsApp 發送給你（我們不會亂發訊息）</span>
+                    <input type="tel" id="whatsapp" name="whatsapp" placeholder="例如：61234567" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">3. Email 電郵地址（選填）</label>
+                    <span class="hint">課後筆記會電郵給你重溫</span>
+                    <input type="email" id="email" name="email" placeholder="例如：yourname@gmail.com">
+                </div>
+
+                <div class="form-group">
+                    <label>4. 你是否有以下剪刀體態特徵？（可選多項）</label>
+                    <span class="hint">導師會根據最多人選的問題，在課堂上重點拆解</span>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="painPoints" value="骨盆前傾（腰椎曲度變大）"> 骨盆前傾（腰椎曲度變大）</label>
+                        <label><input type="checkbox" name="painPoints" value="肋骨外翻 / 胸椎變直"> 肋骨外翻 / 胸椎變直</label>
+                        <label><input type="checkbox" name="painPoints" value="腹部前側拉長（懸垂腹）"> 腹部前側拉長（懸垂腹）</label>
+                        <label><input type="checkbox" name="painPoints" value="肩頸僵硬 / 斜方肌緊繃"> 肩頸僵硬 / 斜方肌緊繃</label>
+                        <label><input type="checkbox" name="painPoints" value="腰痛 / 下背痛"> 腰痛 / 下背痛</label>
+                        <label><input type="checkbox" name="painPoints" value="呼吸短淺 / 容易喘"> 呼吸短淺 / 容易喘</label>
+                        <label><input type="checkbox" name="painPoints" value="運動表現卡關（想舉更重、跑更快）"> 運動表現卡關（想舉更重、跑更快）</label>
+                        <label><input type="checkbox" name="painPoints" value="其他"> 其他：<input type="text" id="painOther" name="painOther" placeholder="請註明"></label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>5. 你從哪裡認識我們的？</label>
+                    <span class="hint">純粹好奇，想知道哪里的朋友最有眼光 😎</span>
+                    <div class="radio-group">
+                        <label><input type="radio" name="source" value="WhatsApp 群組"> WhatsApp 群組</label>
+                        <label><input type="radio" name="source" value="Facebook / Instagram"> Facebook / Instagram</label>
+                        <label><input type="radio" name="source" value="朋友介紹"> 朋友介紹</label>
+                        <label><input type="radio" name="source" value="其他"> 其他</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>6. 你有上過 Gavin Sir 的課嗎？（選填）</label>
+                    <span class="hint">幫助我們了解你的基礎，調整教學節奏</span>
+                    <div class="radio-group">
+                        <label><input type="radio" name="previousCourse" value="有，想再複習深化"> 有，想再複習深化</label>
+                        <label><input type="radio" name="previousCourse" value="沒有，這次是第一次接觸"> 沒有，這次是第一次接觸</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="goal">7. 你最想在這堂課學到的一件事是？（選填）</label>
+                    <span class="hint">例如：「我想知道為什麼我呼吸練了很久，體態卻沒改變」</span>
+                    <textarea id="goal" name="goal" placeholder="寫下你最想解決的問題..."></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn" id="submitBtn">
+                    ✦ 立即報名 · 錯過免費即恢復 $198 ✦
+                </button>
+            </form>
+        </div>
+
+        <div class="success-message" id="successMessage">
+            <span class="confetti">✦ ✦ ✦</span>
+            <span class="icon">🚀</span>
+            <h2>報名成功！<br><span class="highlight">《呼吸重裝》第五場 · 終極實戰篇</span></h2>
+            <p style="font-size:16px; font-weight:600; color:#D4A359;">剪刀體態 × 呼吸力學 — 從評估到矯正，一次搞定。</p>
+            <p>
+                我們已經收到你的報名資料，將會在 <strong style="color:#3A302A;">24 小時內</strong> 經 WhatsApp 發送上課連結。<br><br>
+                <strong style="color:#D4A359;">📅 第五場直播日期：2026年9月5日（星期六）</strong><br>
+                ⏰ 時間：晚上 7:00-8:00<br><br>
+                <span style="font-size:13px; color:#6A5A4A;">💡 直播連結將在 WhatsApp 群組發放，請留意群組信息。</span>
+            </p>
+
+            <h3 style="font-size:16px; color:#D4A359; margin-bottom:8px; margin-top:24px;">💌 邀請朋友一起來</h3>
+            <p style="font-size:13px; color:#6A5A4A;">按下面按鈕複製訊息，轉發給身邊有需要的朋友：</p>
+
+            <div class="share-box" id="shareBox">
+                🚀 我報名了 ONE2FIT 第五場免費直播《呼吸重裝：剪刀體態 x 呼吸力學》！獨家公開「剪刀體態呼吸矯正法」—— 讓骨盆前傾、腰椎前凸、肋骨外翻的人，30分鐘內找回自然呼吸力！
+                9月5日前報名 $0，快啲一齊報名 👉 https://one2fit.github.io/one2fit/Breathlive5
+                <button class="copy-btn" onclick="copyShareText()">📋 複製</button>
+            </div>
+
+            <h3 style="font-size:16px; color:#D4A359; margin-bottom:8px;">📲 有問題？即時聯絡我們</h3>
+            <div class="social-links">
+                <a href="https://wa.me/85261500005?text=我想查詢《呼吸重裝》第五場直播課程" target="_blank">💬 WhatsApp 查詢</a>
+                <a href="https://www.instagram.com/one.2_fit/" target="_blank">📸 Instagram</a>
+            </div>
+        </div>
+
+        <div class="footer-note">
+            ⏳ 直播結束後，第五場回放將恢復 <strong>HK$198</strong> · 現在報名，鎖定 $0
+        </div>
+    </div>
+
+    <script>
+        const SCRIPT_URL =
+            "https://script.google.com/macros/s/AKfycbw6dQfKiZy_6GG84UXSA5LQyUD5PU7b6XNb0wMd92L2qH1tfRWQWsCDGBvvpgfnQ91xHw/exec";
+
+        const form = document.getElementById('registrationForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const errorMessage = document.getElementById('errorMessage');
+        const formContent = document.getElementById('formContent');
+        const successMessage = document.getElementById('successMessage');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const whatsapp = document.getElementById('whatsapp').value.trim();
+
+            if (!name || !whatsapp) {
+                showError('請填寫稱呼及 WhatsApp 電話，這兩項是必須的。');
+                return;
+            }
+
+            if (!/^\d{8}$/.test(whatsapp)) {
+                showError('請輸入有效的 8 位數香港電話號碼。');
+                return;
+            }
+
+            const painCheckboxes = document.querySelectorAll('input[name="painPoints"]:checked');
+            const painPoints = Array.from(painCheckboxes).map(cb => cb.value);
+            const painOther = document.getElementById('painOther').value.trim();
+            if (painOther) painPoints.push('其他：' + painOther);
+            const painPointsStr = painPoints.join(', ');
+
+            const sourceRadio = document.querySelector('input[name="source"]:checked');
+            const source = sourceRadio ? sourceRadio.value : '';
+
+            const courseRadio = document.querySelector('input[name="previousCourse"]:checked');
+            const previousCourse = courseRadio ? courseRadio.value : '';
+
+            const email = document.getElementById('email').value.trim();
+            const goal = document.getElementById('goal').value.trim();
+            const timestamp = new Date().toLocaleString('zh-HK', { timeZone: 'Asia/Hong_Kong' });
+
+            submitBtn.disabled = true;
+            submitBtn.textContent = '⏳ 提交中...';
+            errorMessage.style.display = 'none';
+
+            let requestURL = SCRIPT_URL + '?';
+            requestURL += 'name=' + encodeURIComponent(name);
+            requestURL += '&whatsapp=' + encodeURIComponent(whatsapp);
+            requestURL += '&email=' + encodeURIComponent(email);
+            requestURL += '&painPoints=' + encodeURIComponent(painPointsStr);
+            requestURL += '&source=' + encodeURIComponent(source);
+            requestURL += '&previousCourse=' + encodeURIComponent(previousCourse);
+            requestURL += '&goal=' + encodeURIComponent(goal);
+            requestURL += '&timestamp=' + encodeURIComponent(timestamp);
+            requestURL += '&r=' + Math.random();
+
+            const img = new Image();
+            img.onload = showSuccess;
+            img.onerror = showSuccess;
+            img.src = requestURL;
+
+            setTimeout(function() {
+                if (successMessage.style.display === 'none' || !successMessage.style.display) {
+                    showSuccess();
+                }
+            }, 3000);
+        });
+
+        function showSuccess() {
+            formContent.style.display = 'none';
+            successMessage.style.display = 'block';
+            document.querySelector('.header .badge').textContent = '🎉 報名成功';
+            document.querySelector('.header .badge').style.background = '#7A8B7B';
+            document.querySelector('.header .free-badge').textContent = '✅ 已報名';
+        }
+
+        function showError(msg) {
+            errorMessage.textContent = msg;
+            errorMessage.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            submitBtn.disabled = false;
+            submitBtn.textContent = '✦ 立即報名 · 錯過免費即恢復 $198 ✦';
+        }
+
+        function copyShareText() {
+            const shareBox = document.getElementById('shareBox');
+            const text = shareBox.textContent.replace('📋 複製', '').trim();
+            navigator.clipboard.writeText(text).then(function() {
+                const btn = document.querySelector('.copy-btn');
+                btn.textContent = '✅ 已複製';
+                setTimeout(function() { btn.textContent = '📋 複製'; }, 2000);
+            }).catch(function() {
+                alert('請手動複製上面的文字');
+            });
+        }
+    </script>
+
+</body>
+</html>

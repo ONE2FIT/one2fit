@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="zh-HK">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>教練功能評估 × 產品配對系統 v1.1（含詳細操作）</title>
+<style>
+  :root{
+    --green:#2E7D32; --green-l:#C8E6C9; --green-m:#81C784;
+    --gold:#C9A84C; --red:#C62828; --orange:#EF6C00; --yellow:#F9A825;
+    --bg:#F5F8F0; --card:#FDFBF7; --text:#1B3A1B; --text2:#3A5A3A; --muted:#666;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,"PingFang HK","Microsoft JhengHei",sans-serif;
+    background:var(--bg);color:var(--text);line-height:1.6;font-size:14px}
+  header{background:var(--green);color:#fff;padding:20px 24px;position:sticky;top:0;z-index:100;
+    box-shadow:0 2px 12px rgba(0,0,0,.15)}
+  header h1{font-size:20px;font-weight:700}
+  header p{font-size:12px;opacity:.85;margin-top:4px}
+  .wrap{display:flex;max-width:1500px;margin:0 auto;gap:20px;padding:20px}
+  main{flex:1;min-width:0}
+  aside{width:320px;flex-shrink:0;position:sticky;top:90px;align-self:flex-start;
+    max-height:calc(100vh - 110px);overflow-y:auto}
+  section{background:var(--card);border-radius:16px;padding:20px;margin-bottom:20px;
+    box-shadow:0 4px 20px rgba(0,0,0,.06)}
+  section h2{font-size:17px;color:var(--green);margin-bottom:14px;padding-bottom:10px;
+    border-bottom:2px solid var(--green-l);display:flex;align-items:center;gap:8px}
+  section h2 .num{background:var(--green);color:#fff;width:26px;height:26px;border-radius:50%;
+    display:inline-flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0}
+  .layer{margin-bottom:16px;border:1px solid #E0E8DC;border-radius:12px;overflow:hidden}
+  .layer-head{background:var(--green-l);padding:10px 14px;font-weight:700;font-size:13px;
+    color:var(--text);cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+  .layer-head .badge{background:#fff;border-radius:20px;padding:2px 10px;font-size:11px;font-weight:600}
+  .layer-body{padding:8px 12px;display:none}
+  .layer-body.open{display:block}
+  .item{display:grid;grid-template-columns:28px 1fr 160px 28px 28px;gap:8px;align-items:start;
+    padding:6px 0;border-bottom:1px dashed #E8EDE4;font-size:13px}
+  .item:last-child{border-bottom:none}
+  .item .id{font-size:11px;color:var(--muted);font-weight:600;padding-top:2px}
+  .item .name{font-weight:600}
+  .item .name small{display:block;font-weight:400;color:var(--muted);font-size:11px;margin-top:1px}
+  .item .standard{font-size:11px;color:var(--text2);background:#F0F5EC;border-radius:6px;
+    padding:3px 6px;line-height:1.4}
+  .item input[type=checkbox]{width:18px;height:18px;accent-color:var(--green);cursor:pointer;margin-top:2px}
+  .info-btn{width:20px;height:20px;border-radius:50%;background:var(--green-l);color:var(--green);
+    border:none;font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;
+    justify-content:center;margin-top:2px;transition:all .15s;font-family:inherit}
+  .info-btn:hover{background:var(--green);color:#fff;transform:scale(1.15)}
+  .item.abnormal{background:#FFF3E0;border-radius:6px;margin:2px -6px;padding:6px 6px}
+  .item.abnormal .name{color:var(--red)}
+  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+  .form-row.full{grid-template-columns:1fr}
+  label{display:block;font-size:12px;font-weight:600;color:var(--text2);margin-bottom:4px}
+  input[type=text],input[type=number],select{width:100%;padding:8px 10px;border:1px solid #D5E0D0;
+    border-radius:8px;font-size:14px;font-family:inherit;background:#fff}
+  textarea{width:100%;padding:8px 10px;border:1px solid #D5E0D0;border-radius:8px;
+    font-size:13px;font-family:inherit;background:#fff;min-height:60px;resize:vertical}
+  .redflag{background:#FFEBEE;border:1px solid #FFCDD2;border-radius:10px;padding:12px;margin-top:8px}
+  .redflag label{display:flex;align-items:flex-start;gap:8px;font-weight:400;font-size:13px;
+    color:var(--red);margin-bottom:6px;cursor:pointer}
+  .redflag input{accent-color:var(--red);width:16px;height:16px;flex-shrink:0;margin-top:3px}
+  .sidebar-card{background:var(--card);border-radius:16px;padding:16px;margin-bottom:14px;
+    box-shadow:0 4px 20px rgba(0,0,0,.06)}
+  .sidebar-card h3{font-size:13px;color:var(--green);margin-bottom:10px;
+    text-transform:uppercase;letter-spacing:.5px}
+  .score-big{font-size:42px;font-weight:800;line-height:1;color:var(--green)}
+  .score-big small{font-size:16px;font-weight:600;color:var(--muted)}
+  .grade{display:inline-block;padding:4px 14px;border-radius:20px;font-weight:700;
+    font-size:13px;margin-top:6px}
+  .grade.green{background:var(--green-l);color:var(--green)}
+  .grade.yellow{background:#FFF9C4;color:#F57F17}
+  .grade.orange{background:#FFE0B2;color:#E65100}
+  .grade.red{background:#FFCDD2;color:var(--red)}
+  .bar{height:8px;border-radius:4px;background:#E8EDE4;margin-top:10px;overflow:hidden}
+  .bar-inner{height:100%;border-radius:4px;transition:width .3s,background .3s}
+  .layer-stat{display:flex;justify-content:space-between;font-size:12px;padding:4px 0;
+    border-bottom:1px solid #F0F5EC}
+  .layer-stat:last-child{border-bottom:none}
+  .layer-stat b{color:var(--red)}
+  .btn{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;border-radius:10px;
+    border:none;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;
+    transition:all .15s;text-decoration:none}
+  .btn-primary{background:var(--green);color:#fff}
+  .btn-primary:hover{background:#1B5E20}
+  .btn-gold{background:var(--gold);color:#fff}
+  .btn-outline{background:#fff;color:var(--green);border:1.5px solid var(--green)}
+  .btn-outline:hover{background:var(--green-l)}
+  .btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+  .product-card{border:1px solid #E0E8DC;border-radius:12px;padding:14px;margin-bottom:12px;
+    background:#fff;position:relative}
+  .product-card.recommended{border:2px solid var(--green);background:#F8FDF6}
+  .product-card h4{font-size:14px;color:var(--green);margin-bottom:6px;display:flex;
+    justify-content:space-between;align-items:center}
+  .product-card .cat{font-size:10px;background:var(--green-l);color:var(--green);
+    padding:1px 8px;border-radius:10px;font-weight:600}
+  .product-card .row{display:flex;gap:6px;font-size:12px;margin-bottom:4px;flex-wrap:wrap}
+  .product-card .row .k{color:var(--muted);flex-shrink:0;min-width:52px}
+  .product-card .row .v{color:var(--text)}
+  .product-card .warn{color:var(--red);font-weight:600}
+  .product-card .match{font-size:11px;background:#FFF9C4;color:#F57F17;padding:2px 8px;
+    border-radius:8px;display:inline-block;margin-top:4px}
+  .rec-badge{position:absolute;top:-8px;right:12px;background:var(--green);color:#fff;
+    font-size:10px;font-weight:700;padding:2px 10px;border-radius:10px}
+  .empty{text-align:center;padding:30px;color:var(--muted);font-size:13px}
+  .card-table{width:100%;border-collapse:collapse;font-size:12px;margin-top:8px}
+  .card-table th,.card-table td{border:1px solid #D5E0D0;padding:6px 8px;text-align:left;vertical-align:top}
+  .card-table th{background:var(--green-l);font-weight:700;font-size:11px}
+  .filter-row{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+  .filter-btn{padding:6px 14px;border-radius:20px;border:1.5px solid #D5E0D0;background:#fff;
+    font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;color:var(--text2)}
+  .filter-btn.active{background:var(--green);color:#fff;border-color:var(--green)}
+  .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:var(--text);
+    color:#fff;padding:10px 20px;border-radius:10px;font-size:13px;opacity:0;pointer-events:none;
+    transition:opacity .2s;z-index:999}
+  .toast.show{opacity:1}
+
+  /* Modal */
+  .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;
+    display:none;align-items:center;justify-content:center;padding:20px}
+  .modal-overlay.show{display:flex}
+  .modal{background:#fff;border-radius:16px;max-width:640px;width:100%;max-height:85vh;
+    overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.3);animation:modalIn .2s ease}
+  @keyframes modalIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  .modal-head{background:var(--green);color:#fff;padding:16px 20px;border-radius:16px 16px 0 0;
+    display:flex;justify-content:space-between;align-items:flex-start;position:sticky;top:0;z-index:2}
+  .modal-head h3{font-size:16px;font-weight:700;line-height:1.4}
+  .modal-head .sub{font-size:12px;opacity:.85;margin-top:2px}
+  .modal-close{background:rgba(255,255,255,.2);border:none;color:#fff;width:28px;height:28px;
+    border-radius:50%;font-size:16px;cursor:pointer;flex-shrink:0;margin-left:12px;
+    display:flex;align-items:center;justify-content:center;font-family:inherit}
+  .modal-close:hover{background:rgba(255,255,255,.35)}
+  .modal-body{padding:20px}
+  .modal-section{margin-bottom:16px}
+  .modal-section h4{font-size:13px;color:var(--green);margin-bottom:6px;display:flex;
+    align-items:center;gap:6px;font-weight:700}
+  .modal-section h4 .ico{font-size:15px}
+  .modal-section ul{list-style:none;padding-left:0}
+  .modal-section ul li{padding:4px 0 4px 20px;position:relative;font-size:13px;
+    color:var(--text2);line-height:1.55}
+  .modal-section ul li::before{content:'▸';position:absolute;left:4px;color:var(--green-m);font-weight:700}
+  .modal-section .std-box{background:#F0F5EC;border-radius:8px;padding:10px 12px;
+    font-size:13px;color:var(--text);border-left:3px solid var(--green)}
+  .modal-section .warn-box{background:#FFEBEE;border-radius:8px;padding:10px 12px;
+    font-size:13px;color:var(--red);border-left:3px solid var(--red)}
+  .modal-section .tip-box{background:#FFF9C4;border-radius:8px;padding:10px 12px;
+    font-size:13px;color:#F57F17;border-left:3px solid var(--yellow)}
+  .modal-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px;padding-top:12px;
+    border-top:1px dashed #D5E0D0}
+  .modal-meta span{font-size:11px;background:var(--green-l);color:var(--green);
+    padding:3px 10px;border-radius:10px;font-weight:600}
+  @media print{
+    header,aside,.btn-row,.filter-row,.info-btn,.modal-overlay{display:none!important}
+    body{background:#fff;font-size:11px}
+    .wrap{display:block;padding:0}
+    section{box-shadow:none;border:1px solid #ccc;page-break-inside:avoid;margin-bottom:10px}
+    .layer-body{display:block!important}
+    .product-card{page-break-inside:avoid}
+    .item{grid-template-columns:24px 1fr 140px 24px!important}
+  }
+  @media(max-width:900px){
+    .wrap{flex-direction:column}
+    aside{width:100%;position:static;max-height:none}
+    .form-row{grid-template-columns:1fr}
+    .item{grid-template-columns:24px 1fr 24px 24px;gap:6px}
+    .item .standard{display:none}
+    .modal{max-height:92vh}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🧠 教練功能評估 × 產品配對系統</h1>
+  <p>80 項評估 · 39 項產品 · 六步閉環 SOP · 每項評估附詳細操作彈窗</p>
+</header>
+
+<div class="wrap">
+<main>
+
+<!-- STEP 1 -->
+<section>
+  <h2><span class="num">1</span>客戶資料 + 主訴 + 紅色警號</h2>
+  <div class="form-row">
+    <div><label>姓名</label><input type="text" id="cName" placeholder="客戶姓名"></div>
+    <div><label>日期</label><input type="text" id="cDate" placeholder="YYYY-MM-DD"></div>
+    <div><label>年齡</label><input type="number" id="cAge" placeholder="歲"></div>
+    <div><label>性別</label>
+      <select id="cSex"><option value="">請選擇</option><option>男</option><option>女</option></select>
+    </div>
+    <div><label>身高 (cm)</label><input type="number" id="cH" placeholder="cm"></div>
+    <div><label>體重 (kg)</label><input type="number" id="cW" placeholder="kg"></div>
+    <div><label>腰圍 (cm)</label><input type="number" id="cWaist" placeholder="cm"></div>
+    <div><label>主要主訴</label>
+      <select id="cChief">
+        <option value="">請選擇</option>
+        <option>疲勞</option><option>體態</option><option>情緒</option>
+        <option>疼痛</option><option>睡眠</option><option>腸胃</option><option>其他</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-row full">
+    <div><label>病史 / 用藥</label><textarea id="cHx" placeholder="高血壓、糖尿病、甲狀腺、自體免疫、用藥..."></textarea></div>
+  </div>
+  <div class="redflag">
+    <strong style="color:var(--red);font-size:13px;">🚨 紅色警號（任何一項 → 暫停產品建議，先轉介）</strong>
+    <label><input type="checkbox" class="rf" data-rf="持續胸痛"> 持續胸痛</label>
+    <label><input type="checkbox" class="rf" data-rf="呼吸困難"> 呼吸困難</label>
+    <label><input type="checkbox" class="rf" data-rf="不明原因體重下降"> 不明原因體重下降</label>
+    <label><input type="checkbox" class="rf" data-rf="持續發燒"> 持續發燒</label>
+    <label><input type="checkbox" class="rf" data-rf="嚴重水腫"> 嚴重水腫</label>
+    <label><input type="checkbox" class="rf" data-rf="血壓持續偏高≥140/90"> 血壓持續偏高 ≥140/90</label>
+    <label><input type="checkbox" class="rf" data-rf="情緒嚴重低落"> 情緒嚴重低落</label>
+    <label><input type="checkbox" class="rf" data-rf="鞏膜明顯黃染"> 鞏膜明顯黃染</label>
+    <label><input type="checkbox" class="rf" data-rf="其他紅色警號"> 其他：<input type="text" id="rfOther" style="width:180px;display:inline-block;padding:2px 6px;font-size:12px" placeholder="請註明"></label>
+  </div>
+</section>
+
+<!-- STEP 2 -->
+<section>
+  <h2><span class="num">2</span>80 項評估（勾選 = 異常，ⓘ = 詳細操作）</h2>
+  <div id="assessWrap"></div>
+</section>
+
+<!-- STEP 3 -->
+<section>
+  <h2><span class="num">3</span>總評分分級</h2>
+  <div id="gradeWrap"></div>
+</section>
+
+<!-- STEP 4 -->
+<section>
+  <h2><span class="num">4</span>異常聚類 + 主問題選擇</h2>
+  <div id="clusterWrap"></div>
+</section>
+
+<!-- STEP 5 -->
+<section>
+  <h2><span class="num">5</span>產品門檻匹配 + 排除</h2>
+  <div class="filter-row" id="filterRow">
+    <button class="filter-btn active" data-f="all">全部 39 項</button>
+    <button class="filter-btn" data-f="rec">✅ 只顯示推薦</button>
+    <button class="filter-btn" data-f="base">基礎營養</button>
+    <button class="filter-btn" data-f="sport">運動營養</button>
+    <button class="filter-btn" data-f="immune">免疫腸道</button>
+    <button class="filter-btn" data-f="bone">骨骼關節睡眠</button>
+    <button class="filter-btn" data-f="beauty">抗衰美容</button>
+    <button class="filter-btn" data-f="special">特殊補充</button>
+  </div>
+  <div id="productWrap"></div>
+</section>
+
+<!-- STEP 6 -->
+<section>
+  <h2><span class="num">6</span>產品建議卡 + 復評日期</h2>
+  <div id="cardWrap"><div class="empty">完成評估後，系統會自動生成產品建議卡</div></div>
+  <div class="btn-row">
+    <button class="btn btn-primary" onclick="generateCard()">📋 生成建議卡</button>
+    <button class="btn btn-gold" onclick="window.print()">🖨️ 列印 / 匯出 PDF</button>
+    <button class="btn btn-outline" onclick="resetAll()">🔄 重置</button>
+  </div>
+</section>
+
+</main>
+
+<!-- SIDEBAR -->
+<aside>
+  <div class="sidebar-card">
+    <h3>📊 實時評分</h3>
+    <div class="score-big" id="sideScore">0<small> / 80</small></div>
+    <div class="grade green" id="sideGrade">🟢 綠</div>
+    <div class="bar"><div class="bar-inner" id="sideBar" style="width:0%;background:var(--green)"></div></div>
+    <div id="sideLayers" style="margin-top:12px"></div>
+  </div>
+  <div class="sidebar-card">
+    <h3>🚨 紅色警號</h3>
+    <div id="sideRed" style="font-size:13px;color:var(--muted)">未發現</div>
+  </div>
+  <div class="sidebar-card">
+    <h3>💊 推薦產品</h3>
+    <div id="sideProducts" style="font-size:13px;color:var(--muted)">完成評估後顯示</div>
+  </div>
+  <div class="sidebar-card">
+    <h3>📅 復評日期</h3>
+    <div id="sideReview" style="font-size:13px">—</div>
+  </div>
+</aside>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">
+    <div class="modal-head">
+      <div>
+        <h3 id="modalTitle">評估名稱</h3>
+        <div class="sub" id="modalSub">評估編碼</div>
+      </div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============================================================
+   資料層：80 項評估 + 詳細操作
+   ============================================================ */
+const LAYERS = {
+  1:{name:'第一層：結構功能',short:'結構'},
+  2:{name:'第二層：能量代謝',short:'能量'},
+  3:{name:'第三層：發炎免疫',short:'發炎'},
+  4:{name:'第四層：腸道吸收',short:'腸道'},
+  5:{name:'第五層：荷爾蒙生活',short:'荷爾蒙'}
+};
+
+const ASSESS = [
+/* ===== 第一層 結構功能 24 項 ===== */
+{id:'S01',layer:1,name:'小腿圍',method:'軟尺量小腿最粗處',std:'男<34cm / 女<33cm',code:'S1',
+ detail:{prep:['軟尺一條','客戶放鬆站立，雙腳與肩同寬'],
+  steps:['請客戶捲起褲管，露出小腿最粗位置','軟尺環繞小腿最粗處（通常在腓腸肌肌腹）','軟尺貼皮膚但唔好勒緊','讀取數值，精確到 0.1cm','左右腳各測一次，取較大值'],
+  judge:'男 <34cm 或 女 <33cm → 肌少症風險，蛋白質攝取不足或活動量太低',
+  errors:['軟尺勒太緊，讀數偏細','客戶站姿不穩，小腿肌肉未放鬆','只測一邊，忽略左右差異'],
+  tip:'小腿圍係肌少症嘅簡單篩查指標。如果客戶小腿圍偏低，要先處理蛋白質攝取，唔好一開始就做高強度訓練。'}},
+{id:'S02',layer:1,name:'握力',method:'握力計，左右各測2次取高',std:'男<28kg / 女<18kg',code:'S2',
+ detail:{prep:['握力計一部','客戶坐姿，肩部放鬆，手肘屈曲90°'],
+  steps:['調校握力計把手闊度，約中指第二節','客戶用最大力握緊，持續3秒','讀取數值','休息30秒，同一手再測一次','換另一隻手，重複以上步驟','左右手各取最高值'],
+  judge:'男 <28kg 或 女 <18kg → 整體肌力不足，可能蛋白質不足、神經肌肉功能下降',
+  errors:['握力計把手太闊或太窄','客戶未盡全力','測量時手臂未固定，用身體代償'],
+  tip:'握力係整體肌力嘅「窗口」。握力低嘅客戶，訓練時要由低強度開始，同時補充蛋白質。'}},
+{id:'S03',layer:1,name:'步速',method:'4米直線行走計時',std:'<0.8 m/s',code:'S3',
+ detail:{prep:['4米直線距離（可用膠紙 marking）','計時器','客戶穿平底鞋'],
+  steps:['客戶站在起點，雙腳併攏','講「開始」時啟動計時器，客戶以正常速度行走','行到4米終點時停止計時','記錄時間（秒）','計算：4 ÷ 時間 = 步速（m/s）','重複一次，取較快時間'],
+  judge:'<0.8 m/s → 活動能力下降，跌倒風險增加，可能肌力或神經控制不足',
+  errors:['客戶刻意行快或行慢','距離量度不準','地面濕滑或不平'],
+  tip:'步速係「第六生命體徵」。步速慢嘅客戶，要先處理下肢力線同神經控制，唔好急住加訓練量。'}},
+{id:'S04',layer:1,name:'閉眼單腳站立',method:'雙手叉腰，合眼抬腳15cm',std:'<10秒 / 大幅晃動',code:'A1',
+ detail:{prep:['計時器','客戶穿平底鞋，站在平坦地面','旁邊有牆或椅，以防跌倒'],
+  steps:['客戶雙手叉腰，雙腳與肩同寬','請客戶合上眼睛','抬起一隻腳，離地約15cm','開始計時','當客戶腳落地、開眼、或雙手離開腰部時停止計時','記錄秒數，左右腳各測一次'],
+  judge:'<10秒 或 大幅晃動 → 前庭／頂葉／小腦功能下降，視覺代償嚴重',
+  errors:['客戶偷偷開眼','抬腳高度不足15cm','旁邊有人扶住，影響結果'],
+  tip:'呢個測試反映「視覺代償」。閉眼企唔穩嘅人，平時好依賴視覺維持平衡，神經系統長期超負荷。'}},
+{id:'S05',layer:1,name:'輪替運動',method:'左右手交替翻轉10秒',std:'左右差>20%',code:'A2',
+ detail:{prep:['計時器','客戶坐姿，雙手放在大腿上'],
+  steps:['示範動作：手掌向上→向下→向上，快速翻轉','客戶左手先做，計時10秒，數次數','休息10秒','客戶右手做，計時10秒，數次數','計算左右差異百分比'],
+  judge:'左右差 >20% → 胼胝體／小腦協調差，左右腦溝通效率低',
+  errors:['客戶動作幅度太大，變成整個手臂移動','計時不準','客戶越做越慢，沒有記錄前後差異'],
+  tip:'呢個測試反映左右腦溝通。差異大嘅人，做交叉動作訓練（如對側手腳碰）會有幫助。'}},
+{id:'S06',layer:1,name:'眼球追蹤',method:'手指移動，頭不動只眼追',std:'跳動 / 頭代償',code:'A3',
+ detail:{prep:['教練手指（或一支筆）','客戶坐姿，頭部固定'],
+  steps:['教練手指放在客戶眼前約一臂距離','客戶頭部不動，只用眼睛追蹤手指','教練手指慢慢由左至右移動','再由上至下、斜角移動','觀察客戶眼球是否順暢追蹤，頭部有否跟住郁'],
+  judge:'跳動 / 頭代償 → 枕葉／頂葉功能下降，頭眼分離能力差',
+  errors:['手指移動太快','客戶頭部冇固定','環境光線太暗'],
+  tip:'眼球追蹤差嘅人，閱讀時容易跳行、專注力差。可以做眼球追蹤訓練改善。'}},
+{id:'S07',layer:1,name:'咽反射',method:'棉簽輕碰小舌旁',std:'冇反應 / 過度',code:'A5',
+ detail:{prep:['無菌棉簽','電筒','客戶坐姿，頭部稍微後仰'],
+  steps:['請客戶張嘴，發「啊」音','用棉簽輕輕碰觸小舌旁邊的咽後壁','觀察客戶有否作嘔反應','左右兩邊各測一次'],
+  judge:'冇反應 → 腦幹／迷走神經功能下降；過度反應 → 神經敏感',
+  errors:['棉簽碰得太深，引起強烈不適','客戶緊張，影響反應','只測一邊'],
+  tip:'咽反射反映腦幹功能。反應弱嘅人，可能有吞嚥困難、胃酸不足。'}},
+{id:'S08',layer:1,name:'小舌偏向',method:'張嘴「啊」觀察',std:'偏向一邊 / 兩邊無力',code:'A6',
+ detail:{prep:['電筒','客戶坐姿，頭部正中'],
+  steps:['請客戶張嘴，發「啊」音','用電筒照亮口腔','觀察小舌（懸雍垂）的位置','正常應該在正中','如果偏向一邊，記錄偏向哪邊'],
+  judge:'偏向一邊 → 腦幹功能不對稱；兩邊都抬唔起 → 雙側腦幹功能下降',
+  errors:['客戶頭部傾斜','光線不足','客戶發「啊」音不夠用力'],
+  tip:'小舌偏向反映腦幹功能不對稱。如果同時有咽反射減弱，要轉介醫生檢查。'}},
+{id:'S09',layer:1,name:'漱口測試',method:'震動喉嚨漱口計時',std:'<10秒 / 嗆到',code:'A10',
+ detail:{prep:['一杯清水','計時器','客戶坐姿'],
+  steps:['客戶含一口水，不要吞下','教練示範：用喉嚨震動漱口（不是嘴巴漱口）','客戶開始漱口，同時計時','當客戶嗆到、吞下、或停止震動時停止計時','記錄持續秒數'],
+  judge:'<10秒 → 迷走神經功能下降，腦幹控制差',
+  errors:['客戶用嘴巴漱口，不是喉嚨震動','水量太多，容易嗆到','客戶緊張，喉嚨肌肉繃緊'],
+  tip:'漱口測試係最直接嘅迷走神經功能測試。做得耐嘅人，副交感神經張力較好。'}},
+{id:'S10',layer:1,name:'呼吸模式',method:'觀察吸氣肋骨下緣撐開',std:'冇撐開',code:'A11',
+ detail:{prep:['客戶坐姿或站姿，放鬆','教練雙手放在客戶肋骨下緣'],
+  steps:['教練雙手輕輕放在客戶肋骨下緣（約第十肋位置）','請客戶慢慢吸氣','感受肋骨下緣有否向外撐開','觀察客戶吸氣時肩膀有否聳起'],
+  judge:'冇撐開 → 膈肌功能下降，腦幹呼吸控制差',
+  errors:['教練雙手太用力，限制肋骨活動','客戶吸氣太急','客戶穿太厚衣服'],
+  tip:'膈肌係主要呼吸肌肉。如果吸氣時肋骨冇撐開，代表客戶用頸部肌肉代償呼吸，長期會頸痛。'}},
+{id:'S11',layer:1,name:'輔助呼吸肌',method:'觀察吸氣頸肌收縮',std:'明顯收縮',code:'A12',
+ detail:{prep:['客戶坐姿，解開領口','教練站在客戶側面'],
+  steps:['請客戶自然呼吸','觀察吸氣時頸部肌肉（斜角肌、胸鎖乳突肌）有否明顯收縮','正常吸氣時，頸部肌肉應該只有輕微活動','如果明顯收縮，代表膈肌無力'],
+  judge:'明顯收縮 → 膈肌無力，頸部代償呼吸',
+  errors:['客戶刻意深呼吸','環境太暗，看不清楚','客戶穿高領衣服'],
+  tip:'輔助呼吸肌過度使用，係頸痛、肩頸僵硬嘅常見原因。要先練膈肌，唔好直接放鬆頸部。'}},
+{id:'S12',layer:1,name:'胸廓活動度',method:'軟尺量吸氣前後胸圍差',std:'差<3cm',code:'B1',
+ detail:{prep:['軟尺一條','客戶站姿，雙手自然下垂'],
+  steps:['軟尺環繞乳頭水平（男士）或乳房上方（女士）','請客戶正常呼氣到底，讀取胸圍','請客戶最大吸氣，讀取胸圍','計算吸氣前後差異'],
+  judge:'差 <3cm → 胸廓壓縮，呼吸效率低',
+  errors:['軟尺位置上下移動','客戶吸氣不足','軟尺勒太緊'],
+  tip:'胸廓活動度差嘅人，呼吸淺，容易疲勞。可以透過開胸廓運動改善。'}},
+{id:'S13',layer:1,name:'胸椎活動度',method:'坐姿雙手抱胸旋轉',std:'<30°',code:'B2',
+ detail:{prep:['客戶坐姿，雙手抱胸','教練站在客戶身後'],
+  steps:['客戶雙手抱胸，骨盆固定','請客戶向左旋轉上身，記錄角度','回到正中，再向右旋轉，記錄角度','正常左右各>45°'],
+  judge:'<30° → 胸椎卡住，影響呼吸同頸椎',
+  errors:['客戶用骨盆代償旋轉','客戶頭部跟住轉','坐姿不正'],
+  tip:'胸椎卡住係寒背、頸痛嘅根源。要先開胸椎，唔好直接拉頸。'}},
+{id:'S14',layer:1,name:'肩關節活動度',method:'手臂上舉',std:'<120°',code:'B3',
+ detail:{prep:['客戶站姿','教練觀察'],
+  steps:['請客戶手臂慢慢向上舉','觀察手臂能否舉到耳側','記錄最大角度','左右各測一次'],
+  judge:'<120° → 肩關節僵硬，可能肩袖問題或胸椎卡住',
+  errors:['客戶用身體側彎代償','客戶聳肩','未測左右對比'],
+  tip:'肩關節活動度受限，要先檢查胸椎同肩胛骨活動，唔好直接拉肩。'}},
+{id:'S15',layer:1,name:'髖關節活動度',method:'坐姿體前彎',std:'手指離地>20cm',code:'B4',
+ detail:{prep:['客戶坐在地上，雙腳伸直','軟尺'],
+  steps:['客戶坐姿，雙腳伸直，腳尖向上','請客戶慢慢向前彎腰，手指觸碰腳尖','記錄手指與腳尖的距離','正常應該觸及腳趾'],
+  judge:'手指離地 >20cm → 髖關節／後腿鏈僵硬',
+  errors:['客戶膝蓋彎曲','客戶用背部代償','客戶聳肩'],
+  tip:'髖關節僵硬會影響骨盆位置，間接影響腸道蠕動。'}},
+{id:'S16',layer:1,name:'足踝/跟骨',method:'赤足站立觀察跟骨',std:'外翻 / 內翻 / 壓痛',code:'B5',
+ detail:{prep:['客戶赤足站立','教練蹲下觀察'],
+  steps:['客戶赤足站立，雙腳與肩同寬','教練從後方觀察跟骨（腳跟）是否垂直','正常跟骨應該中立，輕微外翻','按壓足底筋膜，檢查有否壓痛'],
+  judge:'外翻 / 內翻 / 壓痛 → 力線崩潰，影響全身結構',
+  errors:['客戶穿鞋觀察','客戶站姿不穩','只觀察一邊'],
+  tip:'足踝係全身力線嘅地基。跟骨外翻會令骨盆前傾、小腹凸出。要先處理足踝。'}},
+{id:'S17',layer:1,name:'骨盆位置',method:'側面觀察髂前上棘',std:'前傾 / 後傾',code:'B6',
+ detail:{prep:['客戶站姿，側面對教練','教練觀察'],
+  steps:['客戶自然站立','教練從側面觀察髂前上棘（骨盆前方凸起）與恥骨聯合的關係','正常兩者應該在同一垂直線','如果髂前上棘明顯向前，代表骨盆前傾'],
+  judge:'前傾 → 小腹凸、腰緊；後傾 → 直腸受壓、便秘',
+  errors:['客戶刻意收腹','客戶穿鬆身衣服','觀察角度不對'],
+  tip:'骨盆位置影響腹腔壓力同腸道蠕動。前傾會壓住腸道，後傾會壓住直腸。'}},
+{id:'S18',layer:1,name:'頸椎活動度',method:'前屈後仰側屈旋轉',std:'明顯受限',code:'B7',
+ detail:{prep:['客戶坐姿，頭部正中'],
+  steps:['請客戶慢慢低頭（前屈），記錄角度','慢慢抬頭（後仰），記錄角度','頭部向左側屈，記錄角度','頭部向右側屈，記錄角度','頭部向左旋轉，記錄角度','頭部向右旋轉，記錄角度'],
+  judge:'前屈<45°／後仰<45°／側屈<40°／旋轉<70° → 頸椎僵硬',
+  errors:['客戶用身體代償','動作太快','未記錄左右對比'],
+  tip:'頸椎活動度受限，可能同胸椎卡住、輔助呼吸肌過緊有關。'}},
+{id:'S19',layer:1,name:'單腳蹲',method:'單腳站立慢慢蹲',std:'膝內扣 / 無法完成',code:'B8',
+ detail:{prep:['客戶站姿，旁邊有牆或椅'],
+  steps:['客戶單腳站立','請客戶慢慢蹲下，再慢慢起身','觀察膝蓋有否向內扣','觀察客戶能否保持平衡','左右各測一次'],
+  judge:'膝內扣 / 無法完成 → 髖／膝／足踝穩定性不足',
+  errors:['客戶蹲得太快','客戶用另一隻腳借力','地面不平'],
+  tip:'單腳蹲反映下肢穩定性。膝內扣嘅人，要先處理臀肌同足踝。'}},
+{id:'S20',layer:1,name:'站姿體前彎',method:'雙腳併攏前彎',std:'明顯不對稱',code:'B9',
+ detail:{prep:['客戶站姿，雙腳併攏'],
+  steps:['請客戶慢慢向前彎腰','觀察背部左右兩側是否對稱','正常應該對稱','如果一邊高一邊低，代表脊椎側彎或骨盆不對稱'],
+  judge:'明顯不對稱 → 脊椎側彎／骨盆不對稱',
+  errors:['客戶膝蓋彎曲','客戶刻意扭曲','觀察角度不對'],
+  tip:'不對稱嘅結構會令內臟受壓，影響消化同循環。'}},
+{id:'S21',layer:1,name:'頭前傾',method:'側面觀察耳垂與肩峰',std:'耳垂前移>2cm',code:'B10',
+ detail:{prep:['客戶站姿，側面對教練'],
+  steps:['客戶自然站立','教練從側面觀察耳垂與肩峰的垂直線','正常耳垂應該對齊肩峰','如果耳垂明顯向前，代表頭前傾'],
+  judge:'耳垂前移 >2cm → 頸椎前傾、寒背',
+  errors:['客戶刻意收下巴','客戶穿高領衣服','觀察角度不對'],
+  tip:'頭前傾每增加2.5cm，頸椎負荷增加約4.5kg。要處理胸椎同深層頸屈肌。'}},
+{id:'S22',layer:1,name:'指鼻測試',method:'手指慢慢指鼻尖',std:'越近越抖 / 指唔到',code:'A4',
+ detail:{prep:['客戶坐姿','教練示範'],
+  steps:['客戶手臂伸直','請客戶慢慢用手指指自己的鼻尖','觀察手指是否穩定','越接近鼻尖時，觀察有否抖動','左右手各測一次'],
+  judge:'越近越抖 / 指唔到 → 小腦共濟失調',
+  errors:['客戶動作太快','客戶閉眼','客戶緊張'],
+  tip:'指鼻測試反映小腦協調功能。越近越抖嘅人，平衡同協調都會較差。'}},
+{id:'S23',layer:1,name:'閉眼摸鼻',method:'閉眼手指摸鼻尖',std:'偏離 / 摸唔到',code:'A8',
+ detail:{prep:['客戶坐姿，閉眼'],
+  steps:['請客戶閉上眼睛','客戶伸出手臂','請客戶用手指摸自己的鼻尖','觀察手指能否準確摸到鼻尖','左右手各測一次'],
+  judge:'偏離 / 摸唔到 → 頂葉本體感覺下降',
+  errors:['客戶偷偷開眼','客戶動作太快','客戶緊張'],
+  tip:'閉眼摸鼻反映本體感覺。偏離嘅人，身體感知能力較差，容易跌倒。'}},
+{id:'S24',layer:1,name:'直線行走',method:'沿直線行走',std:'左右晃 / 需扶',code:'A7',
+ detail:{prep:['地面畫一條直線（約3米）','客戶穿平底鞋'],
+  steps:['請客戶沿直線行走','觀察客戶是否穩定','觀察有否左右晃動','觀察是否需要扶'],
+  judge:'左右晃 / 需扶 → 前庭／小腦功能下降',
+  errors:['地面不平','客戶刻意行快','環境太窄'],
+  tip:'直線行走反映前庭同小腦整合功能。左右晃嘅人，跌倒風險較高。'}},
+
+/* ===== 第二層 能量代謝 14 項 ===== */
+{id:'E01',layer:2,name:'D1疲勞問卷',method:'8條營養紅色警號問卷',std:'D1≥5分',code:'D1',
+ detail:{prep:['問卷一份（8條問題）','筆'],
+  steps:['請客戶就以下8條問題評分：0=從來冇，1=間中，2=經常','① 瞓醒之後仲係好攰？','② 肌肉痛超過72小時都唔散？','③ 成日肚脹、胃氣多？','④ 體重早晚差超過1kg？','⑤ 情緒波動大、易忟？','⑥ 手腳冰冷？','⑦ 口乾、想飲水？','⑧ 排便唔規律？','計算總分'],
+  judge:'0-4分：正常；5-8分：輕度；9-12分：中度；13-16分：嚴重',
+  errors:['客戶理解錯問題','客戶刻意隱瞞','未逐條問，客戶自己填'],
+  tip:'D1≥5分係營養干預嘅門檻。分數越高，越需要先做消炎飲食同營養補充。'}},
+{id:'E02',layer:2,name:'飯後眼瞓',method:'餐後主觀評分',std:'極度眼瞓',code:'E2',
+ detail:{prep:['客戶剛食完一餐','觀察15-60分鐘'],
+  steps:['請客戶食完一餐後，觀察15-60分鐘內的精神狀態','問客戶：「你覺得眼唔眼瞓？」','0=精神，1=少少眼瞓，2=極度眼瞓'],
+  judge:'極度眼瞓（2分）→ 血糖大起大落，胰島素阻抗風險',
+  errors:['客戶前一晚睡眠不足','餐食本身太少','客戶刻意否認'],
+  tip:'飯後極度眼瞓係胰島素阻抗嘅典型訊號。要調整碳水結構同進食順序。'}},
+{id:'E03',layer:2,name:'腰高比',method:'腰圍÷身高',std:'>0.5',code:'E3',
+ detail:{prep:['軟尺','客戶站姿'],
+  steps:['量度腰圍（肋骨下緣與髂骨上緣中點）','量度身高','計算：腰圍 ÷ 身高','正常應該 <0.5'],
+  judge:'>0.5 → 內臟脂肪風險，代謝症候群風險增加',
+  errors:['腰圍量度位置不對','客戶收腹','身高量度不準'],
+  tip:'腰高比比BMI更準確反映內臟脂肪。腰高比 >0.5 嘅人，要先處理胰島素阻抗。'}},
+{id:'E04',layer:2,name:'靜息心率',method:'安靜坐5分鐘量',std:'>80次/分',code:'F1',
+ detail:{prep:['心率錶或血壓計','客戶安靜坐5分鐘'],
+  steps:['請客戶安靜坐5分鐘，不要說話','量度心率（或脈搏）','記錄每分鐘次數','正常60-80次/分'],
+  judge:'>80 → 交感神經亢奮；<60 → 副交感優勢（運動員正常）',
+  errors:['客戶剛運動完','客戶緊張','量度時間不足'],
+  tip:'靜息心率高反映交感神經長期開機。要處理壓力同睡眠。'}},
+{id:'E05',layer:2,name:'有氧心率測試',method:'(220-年齡)×80%維持30分鐘',std:'無法維持',code:'F3',
+ detail:{prep:['心率錶','計算目標心率：(220-年齡)×80%'],
+  steps:['計算客戶的目標心率','請客戶做有氧運動（快行、踩單車）','保持目標心率30分鐘','觀察客戶能否維持','記錄心率波動'],
+  judge:'無法維持 → 心肺功能不足，或能量代謝效率低',
+  errors:['客戶刻意衝高心率','環境太熱','客戶未食嘢'],
+  tip:'有氧心率測試反映粒線體效率。維持唔到嘅人，要先補充B群、CoQ10、鎂。'}},
+{id:'E06',layer:2,name:'手腳冰冷',method:'周邊循環觀察',std:'經常冰冷',code:'E6',
+ detail:{prep:['觀察客戶手腳','詢問客戶感受'],
+  steps:['觀察客戶手指、腳趾顏色','觸摸客戶手腳溫度','問客戶：「你係咪經常手腳冰冷？」','0=冇，1=間中，2=經常'],
+  judge:'經常冰冷 → 周邊循環差，可能甲狀腺功能低、貧血、或交感神經亢奮',
+  errors:['環境太冷','客戶剛洗手','客戶穿太少'],
+  tip:'手腳冰冷係甲狀腺功能低、貧血、或壓力大嘅常見訊號。要驗甲狀腺同鐵蛋白。'}},
+{id:'E07',layer:2,name:'體重波動',method:'早晚體重差',std:'>1kg',code:'E7',
+ detail:{prep:['體重計','客戶早晚各量一次'],
+  steps:['請客戶朝早起身（去完廁所）量體重','晚上睡前再量一次','計算兩者差異','正常應該 <1kg'],
+  judge:'>1kg → 水腫、蛋白質不足、或荷爾蒙波動',
+  errors:['客戶食完大量食物','客戶飲大量水','量度時間不固定'],
+  tip:'體重波動大係水腫嘅典型訊號。要檢查蛋白質攝取同腎功能。'}},
+{id:'E08',layer:2,name:'肌肉恢復',method:'訓練後痠痛時間',std:'>72小時',code:'E8',
+ detail:{prep:['詢問客戶訓練後感受'],
+  steps:['問客戶：「你做完運動之後，肌肉痠痛幾耐先散？」','正常24-48小時','如果超過72小時，代表恢復能力差'],
+  judge:'>72小時 → 發炎水平高、蛋白質不足、或訓練過度',
+  errors:['客戶訓練強度突然增加','客戶睡眠不足','客戶刻意誇大'],
+  tip:'恢復慢係發炎同蛋白質不足嘅訊號。要補充Omega-3同蛋白質。'}},
+{id:'E09',layer:2,name:'運動耐力',method:'運動表現自評',std:'明顯下降',code:'E9',
+ detail:{prep:['詢問客戶運動表現'],
+  steps:['問客戶：「你覺得自己嘅運動耐力有冇下降？」','比較過去3-6個月','0=冇，1=少少，2=明顯下降'],
+  judge:'明顯下降 → 能量代謝效率低、粒線體功能下降',
+  errors:['客戶最近少運動','客戶年齡增長','客戶刻意否認'],
+  tip:'運動耐力下降可能同粒線體功能、甲狀腺、或貧血有關。'}},
+{id:'E10',layer:2,name:'下午斷線',method:'下午3點精神狀態',std:'明顯斷線',code:'E10',
+ detail:{prep:['詢問客戶下午狀態'],
+  steps:['問客戶：「你下午3點左右，精神狀態點？」','0=精神，1=少少攰，2=明顯斷線'],
+  judge:'明顯斷線 → 血糖不穩、皮質醇節律亂',
+  errors:['客戶午餐食太少','客戶前一晚熬夜','客戶刻意否認'],
+  tip:'下午斷線係血糖不穩嘅典型訊號。要調整午餐結構同進食時間。'}},
+{id:'E11',layer:2,name:'晨起精神',method:'起床後1小時狀態',std:'仲攰過之前',code:'E11',
+ detail:{prep:['詢問客戶起床後狀態'],
+  steps:['問客戶：「你起床後1小時，精神狀態點？」','0=精神，1=一般，2=仲攰過之前'],
+  judge:'仲攰過之前 → 睡眠質素差、皮質醇節律亂',
+  errors:['客戶起身太急','客戶未食早餐','客戶刻意否認'],
+  tip:'晨起精神差可能同睡眠質素、皮質醇節律、或甲狀腺功能有關。'}},
+{id:'E12',layer:2,name:'食慾波動',method:'飢餓感頻率',std:'忽高忽低',code:'E12',
+ detail:{prep:['詢問客戶飢餓感'],
+  steps:['問客戶：「你嘅飢餓感係咪忽高忽低？」','0=穩定，1=少少波動，2=忽高忽低'],
+  judge:'忽高忽低 → 血糖不穩、胰島素阻抗',
+  errors:['客戶刻意節食','客戶運動量變化','客戶壓力大'],
+  tip:'飢餓感波動大係血糖不穩嘅訊號。要穩定每餐蛋白質同纖維。'}},
+{id:'E13',layer:2,name:'渴甜食',method:'甜食渴望頻率',std:'經常',code:'E13',
+ detail:{prep:['詢問客戶甜食渴望'],
+  steps:['問客戶：「你係咪經常想食甜嘢？」','0=冇，1=間中，2=經常'],
+  judge:'經常 → 血糖不穩、鉻不足、或壓力大',
+  errors:['客戶刻意否認','客戶最近節食','客戶壓力大'],
+  tip:'渴甜食可能同鉻不足、血糖不穩有關。可以補充鉻同穩定血糖。'}},
+{id:'E14',layer:2,name:'能量水平自評',method:'1-10分自評',std:'≤4分',code:'E14',
+ detail:{prep:['詢問客戶能量水平'],
+  steps:['請客戶用1-10分為自己的能量水平評分','1=極度疲勞，10=精力充沛','記錄分數'],
+  judge:'≤4分 → 能量不足，需要營養干預',
+  errors:['客戶標準不一','客戶當日狀態特殊','客戶刻意誇大'],
+  tip:'能量水平自評係最直接嘅主觀指標。≤4分嘅人，要先處理粒線體同睡眠。'}},
+
+/* ===== 第三層 發炎免疫 15 項 ===== */
+{id:'I01',layer:3,name:'C2舌苔',method:'伸舌觀察',std:'厚白 / 乳頭粗大 / 缺損',code:'C2',
+ detail:{prep:['自然光或電筒','客戶坐姿'],
+  steps:['請客戶伸出舌頭','觀察舌苔顏色、厚薄','觀察舌乳頭（小顆粒）是否均勻','正常：淡紅、薄白苔、乳頭均勻'],
+  judge:'厚白苔 → 腸道菌群失衡；乳頭粗大／缺損 → 胃酸不足',
+  errors:['客戶剛食完有色食物','光線不足','客戶伸舌太用力'],
+  tip:'舌苔係腸道健康嘅窗口。厚白苔嘅人，要先處理腸道菌群。'}},
+{id:'I02',layer:3,name:'C6水腫',method:'按壓腳踝5秒',std:'有凹痕',code:'C6',
+ detail:{prep:['客戶坐姿或躺姿','教練手指'],
+  steps:['教練用拇指按壓客戶腳踝內側或脛骨前','按壓5秒後放開','觀察有否留下凹痕','正常應該立即回彈'],
+  judge:'有凹痕 → 水腫，可能蛋白質不足、腎功能問題、或荷爾蒙波動',
+  errors:['按壓太輕','按壓時間不足','客戶剛運動完'],
+  tip:'水腫係蛋白質不足嘅典型訊號。如果持續水腫，要轉介查腎功能。'}},
+{id:'I03',layer:3,name:'C7皮膚顏色',method:'觀察膚色',std:'偏黃 / 偏灰 / 泛紅',code:'C7',
+ detail:{prep:['自然光','觀察客戶面部、手掌'],
+  steps:['觀察客戶面部膚色','觀察手掌膚色','正常：均勻、有光澤','偏黃 → 肝臟；偏灰 → 代謝差；泛紅 → 發炎'],
+  judge:'偏黃 → 肝臟問題；偏灰 → 代謝差；泛紅 → 發炎',
+  errors:['燈光有色','客戶化妝','客戶剛運動完'],
+  tip:'膚色係內臟健康嘅鏡子。偏黃要轉介肝功能，偏灰要處理代謝。'}},
+{id:'I04',layer:3,name:'傷口癒合',method:'觀察傷口癒合速度',std:'明顯慢',code:'I4',
+ detail:{prep:['詢問客戶傷口癒合情況'],
+  steps:['問客戶：「你嘅傷口通常幾耐先好？」','正常：小傷口3-7天','如果超過10天，代表癒合慢'],
+  judge:'明顯慢 → 蛋白質不足、鋅不足、或免疫力低',
+  errors:['客戶傷口太深','客戶糖尿病','客戶年齡大'],
+  tip:'傷口癒合慢係蛋白質同鋅不足嘅訊號。要補充蛋白質同鋅。'}},
+{id:'I05',layer:3,name:'感染頻率',method:'一年感冒次數',std:'>4次',code:'I5',
+ detail:{prep:['詢問客戶感染頻率'],
+  steps:['問客戶：「你一年大概感冒幾多次？」','正常：1-2次','如果超過4次，代表免疫力低'],
+  judge:'>4次 → 免疫力低，可能腸道問題、營養不足、或壓力大',
+  errors:['客戶刻意誇大','客戶有小孩（容易交叉感染）','客戶環境因素'],
+  tip:'反覆感染係免疫力低嘅訊號。要處理腸道、補充鋅同維C。'}},
+{id:'I06',layer:3,name:'牙齦',method:'觀察牙齦',std:'紅腫 / 出血',code:'I6',
+ detail:{prep:['電筒','客戶張嘴'],
+  steps:['觀察客戶牙齦顏色','正常：粉紅色','紅腫 → 發炎；出血 → 牙周病或維C不足'],
+  judge:'紅腫 / 出血 → 發炎、牙周病、維C不足',
+  errors:['客戶剛刷牙','光線不足','客戶食有色食物'],
+  tip:'牙齦健康反映全身發炎水平。牙周病同心血管疾病有關。'}},
+{id:'I07',layer:3,name:'濕疹',method:'皮膚觀察',std:'有 / 反覆',code:'I7',
+ detail:{prep:['觀察客戶皮膚'],
+  steps:['觀察客戶皮膚有否紅疹、脫皮、痕癢','問客戶是否有濕疹病史','問是否反覆發作'],
+  judge:'有 / 反覆 → 慢性發炎、腸漏、或免疫失衡',
+  errors:['客戶剛曬太陽','客戶皮膚乾燥','客戶化妝'],
+  tip:'濕疹同腸道健康有關。要修復腸道、補充Omega-3。'}},
+{id:'I08',layer:3,name:'關節痛',method:'關節活動評估',std:'有痛 / 僵硬',code:'I8',
+ detail:{prep:['詢問客戶關節狀況'],
+  steps:['問客戶：「你嘅關節有冇痛、僵硬、或啪啪聲？」','觀察客戶活動關節','0=冇，1=間中，2=經常'],
+  judge:'有痛 / 僵硬 → 發炎、軟骨磨損、或自體免疫',
+  errors:['客戶運動後正常痠痛','客戶年齡大','客戶刻意否認'],
+  tip:'關節痛可能同發炎、軟骨磨損有關。要補充Omega-3同關節寶。'}},
+{id:'I09',layer:3,name:'皮膚泛紅',method:'面部觀察',std:'容易泛紅',code:'I9',
+ detail:{prep:['觀察客戶面部'],
+  steps:['觀察客戶面部是否容易泛紅','問客戶：「你係咪容易面紅？」','0=冇，1=間中，2=經常'],
+  judge:'容易泛紅 → 發炎、微血管擴張、或玫瑰痤瘡',
+  errors:['客戶剛運動','客戶飲酒','環境太熱'],
+  tip:'面部泛紅可能同發炎、腸道問題、或壓力有關。'}},
+{id:'I10',layer:3,name:'過敏',method:'過敏史問卷',std:'有 / 反覆',code:'I10',
+ detail:{prep:['詢問客戶過敏史'],
+  steps:['問客戶：「你有冇食物敏感、鼻敏感、或皮膚敏感？」','問是否反覆發作','記錄過敏原'],
+  judge:'有 / 反覆 → 免疫失衡、腸漏',
+  errors:['客戶未確診','客戶混淆敏感同不耐受','客戶刻意否認'],
+  tip:'過敏同腸漏有關。要修復腸道、補充益生菌。'}},
+{id:'I11',layer:3,name:'慢性疼痛',method:'疼痛問卷',std:'持續>3個月',code:'I11',
+ detail:{prep:['詢問客戶疼痛史'],
+  steps:['問客戶：「你有冇邊個部位痛超過3個月？」','記錄疼痛位置、性質','0=冇，1=間中，2=持續'],
+  judge:'持續 >3個月 → 慢性發炎、神經敏感化',
+  errors:['客戶急性受傷','客戶未確診','客戶刻意誇大'],
+  tip:'慢性疼痛同中樞敏感化有關。要處理發炎同神經系統。'}},
+{id:'I12',layer:3,name:'舌下靜脈',method:'舌頭向上捲觀察',std:'怒張 / 紫暗',code:'C10',
+ detail:{prep:['自然光','客戶張嘴'],
+  steps:['請客戶舌頭向上捲，頂住上顎','觀察舌下靜脈','正常：淡藍色、不明顯','怒張 → 血液循環差；紫暗 → 血瘀'],
+  judge:'怒張 / 紫暗 → 血液循環差、血瘀',
+  errors:['光線不足','客戶舌頭捲得不夠','客戶剛食完熱嘢'],
+  tip:'舌下靜脈怒張反映血液循環。要補充Omega-3、改善循環。'}},
+{id:'I13',layer:3,name:'嘴唇顏色',method:'觀察嘴唇',std:'蒼白 / 暗紫',code:'C8',
+ detail:{prep:['自然光','觀察客戶嘴唇'],
+  steps:['觀察客戶嘴唇顏色','正常：粉紅色','蒼白 → 貧血；暗紫 → 循環差'],
+  judge:'蒼白 → 貧血；暗紫 → 循環差',
+  errors:['客戶塗唇膏','燈光有色','客戶剛食完有色食物'],
+  tip:'嘴唇顏色反映血液循環同貧血。蒼白要驗鐵蛋白。'}},
+{id:'I14',layer:3,name:'眼瞼結膜',method:'翻開下眼瞼',std:'淡紅 / 蒼白',code:'C1',
+ detail:{prep:['自然光','客戶眼睛向上看'],
+  steps:['請客戶眼睛向上看','教練輕輕翻開下眼瞼','觀察結膜顏色','正常：粉紅色','淡紅 → 輕度貧血；蒼白 → 中度貧血'],
+  judge:'淡紅 / 蒼白 → 貧血（缺鐵）',
+  errors:['光線不足','客戶眼睛乾','客戶戴隱形眼鏡'],
+  tip:'眼瞼結膜係貧血嘅簡單篩查。蒼白要轉介CBC同鐵蛋白。'}},
+{id:'I15',layer:3,name:'指甲',method:'觀察指甲',std:'脆 / 白點 / 匙狀甲',code:'C3',
+ detail:{prep:['自然光','觀察客戶指甲'],
+  steps:['觀察指甲顏色、光滑度','觀察有否白點、脆、易斷','觀察有否匙狀甲（凹陷）','正常：光滑、有光澤'],
+  judge:'脆 / 白點 → 鐵、鋅、蛋白質不足；匙狀甲 → 缺鐵',
+  errors:['客戶塗指甲油','客戶剛洗手','客戶指甲受傷'],
+  tip:'指甲反映營養狀態。白點同脆要驗鐵蛋白同血清鋅。'}},
+
+/* ===== 第四層 腸道吸收 14 項 ===== */
+{id:'G01',layer:4,name:'D3排便',method:'排便頻率問卷',std:'便秘 / 腹瀉 / 交替',code:'D3',
+ detail:{prep:['詢問客戶排便習慣'],
+  steps:['問客戶：「你幾耐排便一次？」','正常：每日1-2次，或隔日1次','問大便質地（參考布里斯托量表）','便秘 → 每週<3次；腹瀉 → 每日>3次水便；交替 → 兩者交替'],
+  judge:'便秘 / 腹瀉 / 交替 → 腸道菌群失衡、腸道蠕動異常',
+  errors:['客戶飲水不足','客戶飲食改變','客戶刻意隱瞞'],
+  tip:'排便係腸道健康嘅窗口。便秘要補纖維同鎂，腹瀉要修復腸道。'}},
+{id:'G02',layer:4,name:'腹脹',method:'腹部主觀感受',std:'經常',code:'G2',
+ detail:{prep:['詢問客戶腹脹頻率'],
+  steps:['問客戶：「你係咪經常肚脹？」','0=冇，1=間中，2=經常','問腹脹時間（飯前/飯後）'],
+  judge:'經常 → 腸道菌群失衡、SIBO、或食物不耐受',
+  errors:['客戶食得太快','客戶飲汽水','客戶便秘'],
+  tip:'腹脹係腸道菌群失衡嘅典型訊號。要處理SIBO同食物不耐受。'}},
+{id:'G03',layer:4,name:'胃氣',method:'打嗝頻率',std:'經常',code:'G3',
+ detail:{prep:['詢問客戶胃氣頻率'],
+  steps:['問客戶：「你係咪經常打嗝或放屁？」','0=冇，1=間中，2=經常','問是否有酸味或發酵味'],
+  judge:'經常 → 胃酸不足、腸道發酵、或食物不耐受',
+  errors:['客戶食得太快','客戶飲汽水','客戶刻意否認'],
+  tip:'胃氣多可能同胃酸不足有關。要檢查胃酸同消化酶。'}},
+{id:'G04',layer:4,name:'食物不耐受',method:'飲食後反應',std:'有特定食物',code:'G4',
+ detail:{prep:['詢問客戶食物反應'],
+  steps:['問客戶：「你食完某些食物會唔會唔舒服？」','記錄食物種類','記錄反應（腹脹、腹瀉、皮膚）'],
+  judge:'有特定食物 → 食物不耐受、腸漏',
+  errors:['客戶未觀察','客戶混淆敏感同不耐受','客戶刻意否認'],
+  tip:'食物不耐受同腸漏有關。要做排除飲食測試。'}},
+{id:'G05',layer:4,name:'胃酸線索',method:'反酸 / 胃脹 / 消化不良',std:'有',code:'G5',
+ detail:{prep:['詢問客戶胃酸症狀'],
+  steps:['問客戶：「你有冇反酸、胃脹、或消化不良？」','0=冇，1=間中，2=經常','問是否飯後特別明顯'],
+  judge:'有 → 胃酸不足（注意：反酸通常係胃酸不足，唔係過多）',
+  errors:['客戶食得太快','客戶食太多','客戶刻意否認'],
+  tip:'反酸通常係胃酸不足嘅訊號。要檢查胃酸，唔好盲目抑制胃酸。'}},
+{id:'G06',layer:4,name:'口氣',method:'口氣自評 / 他人反饋',std:'持續',code:'G6',
+ detail:{prep:['詢問客戶口氣情況'],
+  steps:['問客戶：「有冇人同你講過你有口氣？」','0=冇，1=間中，2=持續'],
+  judge:'持續 → 腸道菌群失衡、胃酸不足、或口腔問題',
+  errors:['客戶食完重味食物','客戶口腔衛生差','客戶刻意否認'],
+  tip:'持續口氣可能同腸道菌群失衡有關。要處理腸道同口腔衛生。'}},
+{id:'G07',layer:4,name:'飲食-麩質',method:'3日飲食日記',std:'高',code:'E7G',
+ detail:{prep:['3日飲食日記','客戶記錄'],
+  steps:['請客戶連續3日記錄所有飲食','重點標記：麵包、麵條、餅乾、蛋糕、啤酒','計算麩質攝取頻率','高：每日；中：每週3-5次；低：每週<2次'],
+  judge:'高 → 麩質攝取過多，可能引起腸道發炎',
+  errors:['客戶漏記','客戶隱瞞','客戶不清楚麩質來源'],
+  tip:'麩質係常見嘅隱藏發炎源。高攝取嘅人要考慮2-4週排除測試。'}},
+{id:'G08',layer:4,name:'飲食-加工食品',method:'3日飲食日記',std:'高',code:'E8G',
+ detail:{prep:['3日飲食日記','客戶記錄'],
+  steps:['請客戶連續3日記錄所有飲食','重點標記：香腸、火腿、罐頭、即食麵、零食','計算加工食品攝取頻率','高：每日；中：每週3-5次；低：每週<2次'],
+  judge:'高 → 加工食品攝取過多，促發炎',
+  errors:['客戶漏記','客戶隱瞞','客戶不清楚加工食品定義'],
+  tip:'加工食品含添加劑、反式脂肪、高鈉，會促發炎。要減少攝取。'}},
+{id:'G09',layer:4,name:'飲食-精製糖',method:'3日飲食日記',std:'高',code:'E9G',
+ detail:{prep:['3日飲食日記','客戶記錄'],
+  steps:['請客戶連續3日記錄所有飲食','重點標記：含糖飲品、甜品、糖果、糕點','計算精製糖攝取頻率','高：每日；中：每週3-5次；低：每週<2次'],
+  judge:'高 → 精製糖攝取過多，血糖不穩、發炎',
+  errors:['客戶漏記','客戶隱瞞','客戶不清楚隱藏糖分'],
+  tip:'精製糖係血糖不穩同發炎嘅元兇。要減少攝取，揀低GI食物。'}},
+{id:'G10',layer:4,name:'飲食-蛋白質',method:'3日飲食日記',std:'不足',code:'E10G',
+ detail:{prep:['3日飲食日記','客戶記錄'],
+  steps:['請客戶連續3日記錄所有飲食','計算每日蛋白質攝取量','正常：每公斤體重1.0-1.2g（康復期1.6-2.2g）','不足：低於每公斤體重0.8g'],
+  judge:'不足 → 蛋白質攝取不足，影響修復、免疫、肌肉',
+  errors:['客戶漏記','客戶低估蛋白質含量','客戶不清楚蛋白質來源'],
+  tip:'蛋白質不足係常見問題。要每餐20-30g，運動後補充。'}},
+{id:'G11',layer:4,name:'飲食-蔬菜纖維',method:'3日飲食日記',std:'不足',code:'E11G',
+ detail:{prep:['3日飲食日記','客戶記錄'],
+  steps:['請客戶連續3日記錄所有飲食','計算每日蔬菜攝取量','正常：每日300-500g（約3-5份）','不足：每日<200g'],
+  judge:'不足 → 膳食纖維不足，腸道菌群失衡',
+  errors:['客戶漏記','客戶低估蔬菜份量','客戶不喜歡食菜'],
+  tip:'纖維不足會令腸道菌群失衡。要每日25-30g纖維。'}},
+{id:'G12',layer:4,name:'飲食-水分',method:'3日飲食日記',std:'不足',code:'E12G',
+ detail:{prep:['3日飲食日記','客戶記錄'],
+  steps:['請客戶連續3日記錄飲水量','計算每日飲水量','正常：每日1.5-2L','不足：每日<1.5L'],
+  judge:'不足 → 脫水，影響代謝、排便、皮膚',
+  errors:['客戶漏記','客戶低估飲水量','客戶飲含糖飲品當水'],
+  tip:'水分不足會令便秘、皮膚乾、疲勞。要每日1.5-2L。'}},
+{id:'G13',layer:4,name:'24小時飲食回顧',method:'口頭回顧',std:'結構失衡',code:'E13G',
+ detail:{prep:['詢問客戶過去24小時飲食'],
+  steps:['問客戶：「你過去24小時食咗啲咩？」','記錄早餐、午餐、晚餐、小食、飲品','評估結構：蛋白質、蔬菜、碳水比例','結構失衡：蛋白質不足、蔬菜不足、碳水過多'],
+  judge:'結構失衡 → 營養不均衡，需要調整',
+  errors:['客戶記憶模糊','客戶隱瞞','客戶低估份量'],
+  tip:'24小時回顧係快速篩查。結構失衡嘅人要調整餐盤比例。'}},
+{id:'G14',layer:4,name:'外食頻率',method:'飲食習慣問卷',std:'經常',code:'E14G',
+ detail:{prep:['詢問客戶外食頻率'],
+  steps:['問客戶：「你每週外食幾多次？」','0=少（每週<3次），1=中（每週3-7次），2=經常（每週>7次）'],
+  judge:'經常 → 外食多，營養結構難控制，鈉攝取高',
+  errors:['客戶低估','客戶隱瞞','客戶定義不同'],
+  tip:'外食多嘅人要教佢點樣揀，同時補充基礎營養。'}},
+
+/* ===== 第五層 荷爾蒙生活 13 項 ===== */
+{id:'H01',layer:5,name:'D2入睡時間',method:'睡眠問卷',std:'>30分鐘',code:'D2a',
+ detail:{prep:['詢問客戶入睡時間'],
+  steps:['問客戶：「你上床之後，通常幾耐先瞓得著？」','正常：<15分鐘','15-30分鐘：輕度','>30分鐘：明顯入睡困難'],
+  judge:'>30分鐘 → 入睡困難，神經系統亢奮',
+  errors:['客戶前一晚熬夜','客戶當日壓力大','客戶刻意誇大'],
+  tip:'入睡困難同交感神經亢奮有關。要處理壓力同睡前習慣。'}},
+{id:'H02',layer:5,name:'D2夜醒次數',method:'睡眠問卷',std:'≥4次',code:'D2b',
+ detail:{prep:['詢問客戶夜醒次數'],
+  steps:['問客戶：「你一晚大概醒幾多次？」','正常：0-1次','2-3次：輕度','≥4次：明顯睡眠中斷'],
+  judge:'≥4次 → 睡眠中斷，可能血糖不穩、壓力、或環境因素',
+  errors:['客戶飲水太多','客戶環境嘈','客戶刻意誇大'],
+  tip:'夜醒多可能同血糖不穩、皮質醇高、或睡眠環境有關。'}},
+{id:'H03',layer:5,name:'D2睡眠時數',method:'睡眠問卷',std:'<6小時',code:'D2c',
+ detail:{prep:['詢問客戶睡眠時數'],
+  steps:['問客戶：「你每晚大概瞓幾多個鐘？」','正常：7-9小時','6-7小時：輕度不足','<6小時：明顯不足'],
+  judge:'<6小時 → 睡眠不足，影響修復、記憶、代謝',
+  errors:['客戶週末補眠','客戶刻意誇大','客戶睡眠質素差'],
+  tip:'睡眠不足會影響生長激素、皮質醇、胰島素敏感度。要優先處理。'}},
+{id:'H04',layer:5,name:'D2瞓醒狀態',method:'睡眠問卷',std:'仲攰過之前',code:'D2d',
+ detail:{prep:['詢問客戶起床狀態'],
+  steps:['問客戶：「你瞓醒之後，覺得精神定係攰？」','0=精神，1=一般，2=仲攰過之前'],
+  judge:'仲攰過之前 → 睡眠質素差、睡眠週期紊亂',
+  errors:['客戶起身太急','客戶睡眠環境差','客戶刻意否認'],
+  tip:'瞓醒仲攰可能同深層睡眠不足、睡眠呼吸中止、或皮質醇節律亂有關。'}},
+{id:'H05',layer:5,name:'D4焦慮',method:'情緒問卷',std:'經常',code:'D4a',
+ detail:{prep:['詢問客戶焦慮頻率'],
+  steps:['問客戶：「你係咪經常覺得焦慮、緊張？」','0=冇，1=間中，2=經常'],
+  judge:'經常 → 焦慮，HPA軸失調',
+  errors:['客戶當日壓力大','客戶刻意否認','客戶未確診'],
+  tip:'焦慮同皮質醇高、GABA不足有關。要處理壓力同營養。'}},
+{id:'H06',layer:5,name:'D4易忟',method:'情緒問卷',std:'經常',code:'D4b',
+ detail:{prep:['詢問客戶易忟頻率'],
+  steps:['問客戶：「你係咪容易忟、發脾氣？」','0=冇，1=間中，2=經常'],
+  judge:'經常 → 易忟，可能血糖不穩、壓力、或荷爾蒙失衡',
+  errors:['客戶當日壓力大','客戶刻意否認','客戶性格因素'],
+  tip:'易忟同血糖不穩、皮質醇高、或血清素不足有關。'}},
+{id:'H07',layer:5,name:'D4情緒波動',method:'情緒問卷',std:'經常',code:'D4c',
+ detail:{prep:['詢問客戶情緒波動'],
+  steps:['問客戶：「你嘅情緒係咪波動好大？」','0=穩定，1=間中，2=經常'],
+  judge:'經常 → 情緒波動，可能荷爾蒙失衡、血糖不穩',
+  errors:['客戶當日特殊','客戶刻意否認','客戶未確診'],
+  tip:'情緒波動同血糖、荷爾蒙、神經傳導物質有關。'}},
+{id:'H08',layer:5,name:'D4壓力大',method:'情緒問卷',std:'經常',code:'D4d',
+ detail:{prep:['詢問客戶壓力水平'],
+  steps:['問客戶：「你覺得自己壓力大唔大？」','0=細，1=中，2=大'],
+  judge:'經常 → 壓力大，皮質醇高，影響全身',
+  errors:['客戶刻意否認','客戶習慣高壓','客戶未意識到'],
+  tip:'壓力大係好多問題嘅根源。要處理壓力管理同營養消耗。'}},
+{id:'H09',layer:5,name:'日照',method:'每日戶外時間',std:'<15分鐘',code:'H9',
+ detail:{prep:['詢問客戶戶外時間'],
+  steps:['問客戶：「你每日大概有幾多時間喺戶外？」','正常：>30分鐘','15-30分鐘：輕度不足','<15分鐘：明顯不足'],
+  judge:'<15分鐘 → 維他命D不足風險，影響免疫、情緒、骨骼',
+  errors:['客戶週末補曬','客戶隔住玻璃','客戶刻意誇大'],
+  tip:'日照不足會令維他命D缺乏。要補充維他命D3。'}},
+{id:'H10',layer:5,name:'運動',method:'每週運動頻率',std:'<2次',code:'H10',
+ detail:{prep:['詢問客戶運動頻率'],
+  steps:['問客戶：「你每週運動幾多次？」','正常：每週3-5次','1-2次：不足','<2次：明顯不足'],
+  judge:'<2次 → 運動不足，影響代謝、肌肉、情緒',
+  errors:['客戶職業性活動','客戶刻意誇大','客戶定義不同'],
+  tip:'運動不足會影響胰島素敏感度、肌肉量、情緒。要循序漸進增加。'}},
+{id:'H11',layer:5,name:'飲水',method:'每日飲水量',std:'<1.5L',code:'H11',
+ detail:{prep:['詢問客戶飲水量'],
+  steps:['問客戶：「你每日大概飲幾多水？」','正常：1.5-2L','1-1.5L：輕度不足','<1.5L：明顯不足'],
+  judge:'<1.5L → 脫水，影響代謝、排便、皮膚',
+  errors:['客戶低估','客戶飲含糖飲品當水','客戶刻意誇大'],
+  tip:'水分不足會令便秘、疲勞、皮膚乾。要每日1.5-2L。'}},
+{id:'H12',layer:5,name:'藥物',method:'長期用藥',std:'有',code:'H12',
+ detail:{prep:['詢問客戶用藥史'],
+  steps:['問客戶：「你有冇長期食藥？」','記錄藥物種類','記錄劑量同時間'],
+  judge:'有 → 藥物可能影響營養吸收、代謝、肝腎功能',
+  errors:['客戶漏報','客戶隱瞞','客戶不清楚藥物名稱'],
+  tip:'長期用藥會影響營養狀態。要同醫生協調，唔好自行停藥。'}},
+{id:'H13',layer:5,name:'環境',method:'居住 / 工作環境',std:'高壓 / 污染',code:'H13',
+ detail:{prep:['詢問客戶環境'],
+  steps:['問客戶：「你嘅居住或工作環境係點？」','記錄壓力、污染、噪音、霉菌','0=良好，1=一般，2=高壓/污染'],
+  judge:'高壓/污染 → 環境因素影響健康',
+  errors:['客戶習慣','客戶未意識到','客戶刻意否認'],
+  tip:'環境因素會影響壓力、睡眠、免疫。要盡量改善。'}}
+];
+
+/* ============================================================
+   39 項產品（同上一版）
+   ============================================================ */
+const PRODUCTS = [
+{id:'P01',name:'F1 營養蛋白素',cat:'base',catName:'基礎營養',thresholds:['D1','C5','C6','E10G','E3'],dosage:'每日1-2次，每次1份(25g)',timing:'早餐 / 午餐',contra:'持續水腫需查腎功能',referral:'持續水腫查腎功能、血清白蛋白',review:'2週D1、水腫、3日飲食',stop:'水腫持續或加重'},
+{id:'P02',name:'F1 Select 精選配方',cat:'base',catName:'基礎營養',thresholds:['D1','C5','C6','E10G','G4'],dosage:'每日1-2次，每次1份',timing:'早餐 / 午餐',contra:'純素者適用；大豆/麩質敏感者注意',referral:'持續水腫查腎功能',review:'2週D1、水腫、飲食日記',stop:'水腫持續或加重'},
+{id:'P03',name:'F2 多種維他命',cat:'base',catName:'基礎營養',thresholds:['C1','C3','C4','D4a','C2','A9'],dosage:'每日1粒',timing:'早餐後',contra:'含碘鐵，甲狀腺問題需醫生指示',referral:'C1蒼白轉介CBC、鐵蛋白',review:'2週眼瞼、指甲、頭髮拉扯',stop:'出現不良反應'},
+{id:'P04',name:'佳能蛋白粉',cat:'base',catName:'基礎營養',thresholds:['C6','C5','C4','E10G','B6','E8'],dosage:'每日1-2次，每次1份(12g)',timing:'運動後 / 下午',contra:'腎功能問題需醫生指示',referral:'持續水腫查白蛋白、腎功能',review:'2週水腫、飲食蛋白、恢復時間',stop:'水腫持續或加重'},
+{id:'P05',name:'營養纖維粉',cat:'base',catName:'基礎營養',thresholds:['D3','C2','G2','E11G'],dosage:'每日1次，8g',timing:'餐前 / 空腹',contra:'嚴重便秘需先補水',referral:'嚴重SIBO轉介氫氣呼氣',review:'2週排便、腹脹、舌苔',stop:'腹脹加重'},
+{id:'P06',name:'蛋白棒',cat:'base',catName:'基礎營養',thresholds:['E12','E13','E14G'],dosage:'每日1條',timing:'下午茶 / 外出',contra:'對堅果敏感者注意',referral:'—',review:'2週零食頻率、能量',stop:'無'},
+{id:'P07',name:'H24 營養蛋白素24 (F1 Sport)',cat:'sport',catName:'運動營養',thresholds:['E9','E10','F3','E8'],dosage:'運動前後1份',timing:'運動前30分鐘 / 運動後',contra:'牛奶蛋白敏感者注意',referral:'—',review:'2週運動表現、恢復',stop:'腸胃不適'},
+{id:'P08',name:'H24 補水24 (Hydrate 24)',cat:'sport',catName:'運動營養',thresholds:['E6','F1','F3','E8','E9'],dosage:'運動中1包(4.5g)+500ml水',timing:'運動中 / 高溫流汗',contra:'心臟病、腎病、高血壓補鈉前需醫生意見',referral:'血壓≥140/90轉介',review:'2週抽筋頻率、運動後評分、靜息心率',stop:'水腫或血壓上升'},
+{id:'P09',name:'H24 健體24 (Rebuild 24)',cat:'sport',catName:'運動營養',thresholds:['E8','E9','S2','E10G'],dosage:'運動後1份(50.5g)',timing:'高強度重訓後',contra:'腎功能問題需醫生指示',referral:'—',review:'2週恢復時間、肌肉量',stop:'腸胃不適'},
+{id:'P10',name:'速避24 (Prepare 24)',cat:'sport',catName:'運動營養',thresholds:['E9','E10','F3'],dosage:'運動前1份',timing:'運動前30分鐘',contra:'咖啡因敏感者注意',referral:'—',review:'2週運動表現、專注力',stop:'心悸 / 失眠'},
+{id:'P11',name:'CR7 水健力',cat:'sport',catName:'運動營養',thresholds:['E6','F1','F3','E9'],dosage:'運動中1份',timing:'高強度運動中',contra:'糖尿病需注意碳水',referral:'—',review:'2週運動耐力、電解質',stop:'腸胃不適'},
+{id:'P12',name:'優質蛋白咖啡',cat:'sport',catName:'運動營養',thresholds:['E10','E14','E12'],dosage:'每日1包',timing:'早餐 / 下午',contra:'咖啡因敏感者注意',referral:'—',review:'2週精神狀態、零食頻率',stop:'失眠 / 心悸'},
+{id:'P13',name:'禦之寶 / 預支部 (Immunift)',cat:'immune',catName:'免疫腸道',thresholds:['A9','C2','I5','E6','C3','D1'],dosage:'每日1包(3.7g)',timing:'空腹 / 跟餐',contra:'含硒44mcg、鋅8mg，唔好同鋅維思同食',referral:'甲減需TSH、free T4',review:'2週感染頻率、嗅覺、指甲',stop:'硒/鋅過量症狀'},
+{id:'P14',name:'益生菌 (BC30)',cat:'immune',catName:'免疫腸道',thresholds:['D3','C2','G4','I5'],dosage:'每日1包(1.5g)',timing:'空腹 / 早餐前',contra:'嚴重免疫抑制者需醫生指示',referral:'嚴重SIBO轉介氫氣呼氣',review:'2週排便、腹脹、舌苔',stop:'腹脹加重'},
+{id:'P15',name:'濃縮蘆薈汁',cat:'immune',catName:'免疫腸道',thresholds:['D3','C2','G2','I7','G4'],dosage:'每日15ml',timing:'空腹 / 晚餐前',contra:'孕婦、哺乳期諮詢醫生',referral:'持續腹瀉查糞便鈣衛蛋白',review:'2週腸道症狀、皮膚',stop:'腹瀉加重'},
+{id:'P16',name:'香蒜片',cat:'immune',catName:'免疫腸道',thresholds:['I5','I6','E3','G5'],dosage:'每日1-2粒',timing:'跟餐',contra:'胃潰瘍、薄血藥者注意',referral:'血脂偏高轉介血脂四項',review:'2週感染頻率、血脂',stop:'胃部不適'},
+{id:'P17',name:'鋅維思 / 辛維斯',cat:'immune',catName:'免疫腸道',thresholds:['I5','C1','C3','I4','D4d','H12'],dosage:'每日1-2片',timing:'作感冒時 / 壓力大時',contra:'含鋅8mg，唔好同禦之寶同食',referral:'反覆感染查CBC',review:'2週指甲白點、傷口、症狀',stop:'鋅過量'},
+{id:'P18',name:'五味子精華',cat:'immune',catName:'免疫腸道',thresholds:['C7','C9','D2a','D2b'],dosage:'每日1-2粒',timing:'睡前 / 跟餐',contra:'肝病用藥者需醫生指示',referral:'C9鞏膜黃轉介肝功能',review:'2週睡眠、肝功能',stop:'肝功能異常'},
+{id:'P19',name:'21日健肝計劃',cat:'immune',catName:'免疫腸道',thresholds:['C7','C9','G5','E3'],dosage:'日夜配方，21日療程',timing:'日間 / 夜間',contra:'C9鞏膜黃必先轉介肝功能',referral:'C9鞏膜黃轉介肝功能、腹部超聲',review:'2週鞏膜、腰高比、生活習慣',stop:'肝功能異常'},
+{id:'P20',name:'南極磷蝦油',cat:'immune',catName:'免疫腸道',thresholds:['C10','A1','A2','I8','I7'],dosage:'每日1-2粒',timing:'跟餐',contra:'甲殼類過敏者注意；薄血藥者需醫生指示',referral:'—',review:'2週舌下靜脈、關節、皮膚',stop:'過敏反應'},
+{id:'P21',name:'複合鈣片',cat:'bone',catName:'骨骼關節睡眠',thresholds:['A1','A5','A10','A11','B2','D2a','D2b','E6'],dosage:'睡前1片',timing:'睡前30-60分鐘',contra:'腎功能問題需醫生指示',referral:'骨鬆風險轉介DEXA',review:'2週平衡、漱口、胸椎、睡眠、抽筋',stop:'便秘 / 腎功能異常'},
+{id:'P22',name:'關節寶',cat:'bone',catName:'骨骼關節睡眠',thresholds:['B2','B4','B8','I8','E8'],dosage:'每日2粒',timing:'跟餐',contra:'甲殼類過敏者注意',referral:'嚴重關節痛轉介X光',review:'2週坐姿旋轉、體前彎、單腳蹲',stop:'腸胃不適'},
+{id:'P23',name:'夜寧新 (Niteworks)',cat:'bone',catName:'骨骼關節睡眠',thresholds:['C10','F1','E6','E7','E8'],dosage:'睡前1杯',timing:'睡前',contra:'血壓≥140/90需轉介；薄血藥者注意',referral:'血壓≥140/90轉介',review:'2週舌下靜脈、血壓、抽筋',stop:'血壓上升'},
+{id:'P24',name:'藏紅甜睡 (Night Mode)',cat:'bone',catName:'骨骼關節睡眠',thresholds:['D2a','D2b','D2d','D4a','A9','D4d'],dosage:'睡前1小時，6g+150ml水',timing:'睡前1小時',contra:'孕婦、哺乳期諮詢醫生',referral:'嚴重皮質醇問題轉介',review:'2週睡眠問卷、D4',stop:'日間嗜睡'},
+{id:'P25',name:'放鬆茶',cat:'bone',catName:'骨骼關節睡眠',thresholds:['D2a','D4a','D4b','F1'],dosage:'睡前1杯',timing:'睡前30分鐘',contra:'草本敏感者注意',referral:'—',review:'2週入睡時間、焦慮',stop:'無'},
+{id:'P26',name:'醒腦靈 (Cogniprotect)',cat:'bone',catName:'骨骼關節睡眠',thresholds:['A2','A8','D1','E10','D4c'],dosage:'每日3粒',timing:'早餐後 / 用腦前',contra:'—',referral:'記憶力差查B12、葉酸、同型半胱氨酸',review:'2週記憶、專注',stop:'無'},
+{id:'P27',name:'膠原蛋白美肌飲料',cat:'beauty',catName:'抗衰美容',thresholds:['C5','B5','B4','I7'],dosage:'每日1包(50ml)',timing:'空腹 / 睡前',contra:'魚類過敏者注意',referral:'—',review:'2週皮膚彈性、關節',stop:'過敏'},
+{id:'P28',name:'梅子寶 / 莓子寶',cat:'beauty',catName:'抗衰美容',thresholds:['I10','I9','C7'],dosage:'每日1-2粒',timing:'跟餐',contra:'—',referral:'反覆尿道炎查尿液分析',review:'2週皮膚、尿道炎症狀',stop:'無'},
+{id:'P29',name:'露絲抗氧化精華',cat:'beauty',catName:'抗衰美容',thresholds:['C7','C10','H13','G7'],dosage:'每日1-2粒',timing:'跟餐',contra:'—',referral:'C7持續偏黃查肝功能',review:'2週膚色、舌下靜脈',stop:'無'},
+{id:'P30',name:'女士之選',cat:'beauty',catName:'抗衰美容',thresholds:['D4c','E7','I8'],dosage:'每日1-2粒',timing:'跟餐',contra:'荷爾蒙相關疾病需醫生指示',referral:'—',review:'2週情緒、體重',stop:'不良反應'},
+{id:'P31',name:'抗脂片',cat:'special',catName:'特殊補充',thresholds:['E3','E12','E14G'],dosage:'餐前1-2粒',timing:'餐前30分鐘',contra:'—',referral:'—',review:'2週飽足感、飲食',stop:'腸胃不適'},
+{id:'P32',name:'美纖片',cat:'special',catName:'特殊補充',thresholds:['E2','E13','E7','E3'],dosage:'餐前1粒',timing:'餐前',contra:'糖尿病用藥者需醫生指示',referral:'血糖問題轉介空腹血糖、HbA1c',review:'2週飯後精神、甜食渴望',stop:'低血糖症狀'},
+{id:'P33',name:'甲殼纖維素',cat:'special',catName:'特殊補充',thresholds:['E14G','G3','E3'],dosage:'餐前1-2粒',timing:'高脂餐前',contra:'甲殼類過敏者注意',referral:'血脂偏高轉介血脂四項',review:'2週餐後腹脹、血脂',stop:'過敏'},
+{id:'P34',name:'燒脂片',cat:'special',catName:'特殊補充',thresholds:['E7','E6','E3'],dosage:'每日1-2粒',timing:'運動前 / 早上',contra:'高血壓、心臟病者注意',referral:'血壓偏高轉介',review:'2週水腫、體重',stop:'心悸 / 血壓上升'},
+{id:'P35',name:'即溶草本飲品',cat:'special',catName:'特殊補充',thresholds:['E10','E14','E9'],dosage:'每日1杯',timing:'早上 / 下午',contra:'咖啡因敏感者注意',referral:'—',review:'2週精神、代謝',stop:'失眠'},
+{id:'P36',name:'F1 Sport 運動配方',cat:'special',catName:'特殊補充',thresholds:['E9','E8','F3'],dosage:'運動前後1份',timing:'運動前 / 後',contra:'牛奶蛋白敏感者注意',referral:'—',review:'2週運動表現',stop:'腸胃不適'},
+{id:'P37',name:'甲殼纖維素 (LipoSan)',cat:'special',catName:'特殊補充',thresholds:['E14G','E3','G3'],dosage:'餐前1-2粒',timing:'高脂餐前',contra:'甲殼類過敏者注意',referral:'血脂偏高轉介',review:'2週餐後腹脹、血脂',stop:'過敏'},
+{id:'P38',name:'H24 補水24 (重複校驗)',cat:'special',catName:'特殊補充',thresholds:['E6','F1','F3'],dosage:'運動中1包',timing:'運動中',contra:'心腎高血壓補鈉前醫生',referral:'血壓≥140/90轉介',review:'2週抽筋、運動後',stop:'水腫'},
+{id:'P39',name:'F1 Select 精選配方 (重複校驗)',cat:'special',catName:'特殊補充',thresholds:['D1','C5','G4'],dosage:'每日1-2次',timing:'早餐 / 午餐',contra:'純素適用',referral:'—',review:'2週D1、飲食',stop:'過敏'}
+];
+
+/* ============================================================
+   狀態
+   ============================================================ */
+const state = {checked:new Set(), redFlags:new Set(), filter:'all', products:[]};
+
+/* ============================================================
+   渲染 80 項評估
+   ============================================================ */
+function renderAssess(){
+  const wrap = document.getElementById('assessWrap');
+  let html = '';
+  for(let l=1;l<=5;l++){
+    const items = ASSESS.filter(a=>a.layer===l);
+    html += `<div class="layer">
+      <div class="layer-head" onclick="toggleLayer(${l})">
+        <span>${LAYERS[l].name}</span>
+        <span class="badge" id="badge-${l}">0 / ${items.length}</span>
+      </div>
+      <div class="layer-body ${l===1?'open':''}" id="layer-${l}">`;
+    items.forEach(a=>{
+      html += `<div class="item" id="item-${a.id}">
+        <div class="id">${a.id}</div>
+        <div class="name">${a.name}<small>${a.method}</small></div>
+        <div class="standard">異常：${a.std}</div>
+        <input type="checkbox" onchange="toggleItem('${a.id}')" data-id="${a.id}">
+        <button class="info-btn" onclick="showDetail('${a.id}')" title="詳細操作">ⓘ</button>
+      </div>`;
+    });
+    html += `</div></div>`;
+  }
+  wrap.innerHTML = html;
+}
+
+function toggleLayer(l){
+  document.getElementById('layer-'+l).classList.toggle('open');
+}
+
+function toggleItem(id){
+  const cb = document.querySelector(`input[data-id="${id}"]`);
+  if(cb.checked) state.checked.add(id); else state.checked.delete(id);
+  document.getElementById('item-'+id).classList.toggle('abnormal', cb.checked);
+  updateAll();
+}
+
+/* ============================================================
+   詳細操作彈窗
+   ============================================================ */
+function showDetail(id){
+  const a = ASSESS.find(x=>x.id===id);
+  if(!a || !a.detail) return;
+  const d = a.detail;
+  document.getElementById('modalTitle').textContent = a.name;
+  document.getElementById('modalSub').textContent = `${a.id} · 評估方法：${a.method} · 異常標準：${a.std}`;
+
+  let html = '';
+  html += `<div class="modal-section"><h4><span class="ico">🧰</span>準備物品</h4><ul>`;
+  d.prep.forEach(p=>html+=`<li>${p}</li>`);
+  html += `</ul></div>`;
+
+  html += `<div class="modal-section"><h4><span class="ico">📋</span>具體操作步驟</h4><ul>`;
+  d.steps.forEach((s,i)=>html+=`<li><b>${i+1}.</b> ${s}</li>`);
+  html += `</ul></div>`;
+
+  html += `<div class="modal-section"><h4><span class="ico">📊</span>判讀標準</h4><div class="std-box">${d.judge}</div></div>`;
+
+  if(d.errors && d.errors.length){
+    html += `<div class="modal-section"><h4><span class="ico">⚠️</span>常見錯誤</h4><ul>`;
+    d.errors.forEach(e=>html+=`<li>${e}</li>`);
+    html += `</ul></div>`;
+  }
+
+  if(d.tip){
+    html += `<div class="modal-section"><h4><span class="ico">💡</span>教練提示</h4><div class="tip-box">${d.tip}</div></div>`;
+  }
+
+  html += `<div class="modal-meta">
+    <span>編碼：${a.code}</span>
+    <span>層次：${LAYERS[a.layer].name}</span>
+    <span>異常標準：${a.std}</span>
+  </div>`;
+
+  document.getElementById('modalBody').innerHTML = html;
+  document.getElementById('modalOverlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(){
+  document.getElementById('modalOverlay').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') closeModal(); });
+
+/* ============================================================
+   紅色警號
+   ============================================================ */
+document.querySelectorAll('.rf').forEach(cb=>{
+  cb.addEventListener('change', ()=>{
+    if(cb.checked) state.redFlags.add(cb.dataset.rf); else state.redFlags.delete(cb.dataset.rf);
+    updateAll();
+  });
+});
+
+/* ============================================================
+   評分 + 分級
+   ============================================================ */
+function getGrade(n, red){
+  if(red) return {g:'red', label:'🔴 紅 — 暫停訓練，轉介', cls:'red'};
+  if(n<=7) return {g:'green', label:'🟢 綠 — 訓練＋基礎營養', cls:'green'};
+  if(n<=17) return {g:'yellow', label:'🟡 黃 — 訓練＋針對性營養，2週覆查', cls:'yellow'};
+  if(n<=27) return {g:'orange', label:'🟠 橙 — 先2-4週消炎飲食，暫停高強度', cls:'orange'};
+  return {g:'red', label:'🔴 紅 — 暫停訓練，轉介', cls:'red'};
+}
+
+function updateAll(){
+  const total = state.checked.size;
+  const red = state.redFlags.size > 0;
+  const grade = getGrade(total, red);
+
+  document.getElementById('sideScore').innerHTML = total + '<small> / 80</small>';
+  const gEl = document.getElementById('sideGrade');
+  gEl.textContent = grade.label;
+  gEl.className = 'grade ' + grade.cls;
+  const pct = Math.round(total/80*100);
+  const bar = document.getElementById('sideBar');
+  bar.style.width = pct + '%';
+  bar.style.background = grade.g==='green'?'var(--green)':grade.g==='yellow'?'var(--yellow)':grade.g==='orange'?'var(--orange)':'var(--red)';
+
+  let ls = '';
+  for(let l=1;l<=5;l++){
+    const items = ASSESS.filter(a=>a.layer===l);
+    const cnt = items.filter(a=>state.checked.has(a.id)).length;
+    ls += `<div class="layer-stat"><span>${LAYERS[l].short}</span><span><b>${cnt}</b> / ${items.length}</span></div>`;
+    const badge = document.getElementById('badge-'+l);
+    if(badge) badge.textContent = cnt + ' / ' + items.length;
+  }
+  document.getElementById('sideLayers').innerHTML = ls;
+
+  const rfEl = document.getElementById('sideRed');
+  rfEl.innerHTML = red
+    ? '<span style="color:var(--red);font-weight:700">⚠️ ' + [...state.redFlags].join('、') + '</span>'
+    : '<span style="color:var(--muted)">未發現</span>';
+
+  document.getElementById('gradeWrap').innerHTML = `
+    <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+      <div><span class="score-big">${total}</span><small style="color:var(--muted);font-size:14px"> / 80 項異常</small></div>
+      <div class="grade ${grade.cls}" style="font-size:15px;padding:8px 20px">${grade.label}</div>
+    </div>
+    <p style="margin-top:10px;font-size:13px;color:var(--text2)">
+      ${red?'<b style="color:var(--red)">已發現紅色警號 — 暫停產品建議，先轉介醫生／營養師。</b>':'按六步閉環 SOP：異常編碼 → 分級 → 聚類 → 產品門檻 → 建議卡 → 復評。'}
+    </p>`;
+
+  matchProducts();
+  renderProducts();
+
+  const rev = new Date(); rev.setDate(rev.getDate()+14);
+  document.getElementById('sideReview').textContent = rev.toISOString().slice(0,10) + '（2週後）';
+}
+
+/* ============================================================
+   產品匹配
+   ============================================================ */
+function getCheckedCodes(){
+  const codes = new Set();
+  ASSESS.forEach(a=>{ if(state.checked.has(a.id)) codes.add(a.code); });
+  return codes;
+}
+
+function matchProducts(){
+  const codes = getCheckedCodes();
+  state.products = PRODUCTS.map(p=>{
+    const hits = p.thresholds.filter(t=>codes.has(t));
+    return {...p, hits, score: hits.length, recommended: hits.length>0};
+  }).sort((a,b)=>b.score-a.score);
+  document.getElementById('sideProducts').innerHTML = state.products.filter(p=>p.recommended).length
+    ? state.products.filter(p=>p.recommended).slice(0,6).map(p=>`<div style="padding:4px 0;border-bottom:1px solid #F0F5EC">✅ ${p.name} <small style="color:var(--muted)">(${p.hits.join(',')})</small></div>`).join('')
+    : '<span style="color:var(--muted)">未有匹配</span>';
+}
+
+/* ============================================================
+   渲染產品
+   ============================================================ */
+function renderProducts(){
+  const wrap = document.getElementById('productWrap');
+  const f = state.filter;
+  let list = state.products;
+  if(f==='rec') list = list.filter(p=>p.recommended);
+  else if(f!=='all') list = list.filter(p=>p.cat===f);
+
+  if(!list.length){ wrap.innerHTML = '<div class="empty">此分類暫無匹配產品</div>'; return; }
+
+  wrap.innerHTML = list.map(p=>`
+    <div class="product-card ${p.recommended?'recommended':''}">
+      ${p.recommended?'<span class="rec-badge">✅ 推薦</span>':''}
+      <h4>${p.name}<span class="cat">${p.catName}</span></h4>
+      <div class="row"><span class="k">門檻</span><span class="v">${p.thresholds.join('、')}</span></div>
+      ${p.hits.length?`<div class="match">命中：${p.hits.join('、')}</div>`:''}
+      <div class="row"><span class="k">劑量</span><span class="v">${p.dosage}</span></div>
+      <div class="row"><span class="k">時間</span><span class="v">${p.timing}</span></div>
+      <div class="row"><span class="k">禁忌</span><span class="v warn">${p.contra}</span></div>
+      <div class="row"><span class="k">轉介</span><span class="v">${p.referral}</span></div>
+      <div class="row"><span class="k">復評</span><span class="v">${p.review}</span></div>
+      <div class="row"><span class="k">停用</span><span class="v">${p.stop}</span></div>
+    </div>`).join('');
+}
+
+document.querySelectorAll('.filter-btn').forEach(b=>{
+  b.addEventListener('click',()=>{
+    document.querySelectorAll('.filter-btn').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    state.filter = b.dataset.f;
+    renderProducts();
+  });
+});
+
+/* ============================================================
+   異常聚類
+   ============================================================ */
+function renderCluster(){
+  const total = state.checked.size;
+  if(total===0){
+    document.getElementById('clusterWrap').innerHTML = '<div class="empty">完成評估後，系統會自動聚類</div>';
+    return;
+  }
+  const layers = {};
+  for(let l=1;l<=5;l++){
+    layers[l] = ASSESS.filter(a=>a.layer===l && state.checked.has(a.id));
+  }
+  const sorted = Object.entries(layers).sort((a,b)=>b[1].length-a[1].length);
+
+  let html = '<table class="card-table"><thead><tr><th>層次</th><th>異常數</th><th>異常項目</th><th>處理優先</th></tr></thead><tbody>';
+  sorted.forEach(([l,items])=>{
+    if(!items.length) return;
+    const priority = l==4?'🥇 先處理（腸道吸收）':l==3?'🥈 次處理（發炎）':l==5?'🥉 生活調整':l==2?'能量代謝':'結構功能';
+    html += `<tr><td>${LAYERS[l].name}</td><td><b>${items.length}</b></td>
+      <td>${items.map(a=>a.name).join('、')}</td><td>${priority}</td></tr>`;
+  });
+  html += '</tbody></table>';
+
+  html += `<div style="margin-top:14px;padding:12px;background:#F0F5EC;border-radius:10px">
+    <strong style="font-size:13px">🎯 主問題建議</strong>
+    <p style="font-size:13px;margin-top:6px;color:var(--text2)">
+    按 SOP：<b>同層多異常 → 選一個核心產品＋一個輔助；跨層異常 → 先處理第四層腸道吸收、第三層發炎，再處理能量／結構。</b>
+    主訴匹配優先：客戶最想解決嘅問題，對應客觀異常優先。</p>
+  </div>`;
+
+  document.getElementById('clusterWrap').innerHTML = html;
+}
+
+/* ============================================================
+   產品建議卡
+   ============================================================ */
+function generateCard(){
+  const total = state.checked.size;
+  const red = state.redFlags.size>0;
+  const grade = getGrade(total, red);
+  const name = document.getElementById('cName').value || '客戶';
+  const date = document.getElementById('cDate').value || new Date().toISOString().slice(0,10);
+  const chief = document.getElementById('cChief').value || '—';
+  const rev = new Date(); rev.setDate(rev.getDate()+14);
+
+  const recs = state.products.filter(p=>p.recommended).slice(0, red?2:5);
+
+  let rows = '';
+  if(red){
+    rows = `<tr><td colspan="6" style="color:var(--red);font-weight:700;text-align:center">
+      🚨 已發現紅色警號：${[...state.redFlags].join('、')} — 暫停產品建議，先轉介醫生／營養師。</td></tr>`;
+  } else if(!recs.length){
+    rows = `<tr><td colspan="6" style="text-align:center;color:var(--muted)">未有匹配產品（異常 < 8 項，建議基礎營養）</td></tr>`;
+  } else {
+    recs.forEach(p=>{
+      rows += `<tr>
+        <td>${p.hits.join(',')}</td>
+        <td>${p.name}</td>
+        <td>${p.thresholds.join('、')}</td>
+        <td>${p.dosage}<br><small>${p.timing}</small></td>
+        <td>${p.contra}<br><small style="color:var(--red)">${p.referral}</small></td>
+        <td>${p.review}</td>
+      </tr>`;
+    });
+  }
+
+  document.getElementById('cardWrap').innerHTML = `
+    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:12px">
+      <div><strong>客戶：</strong>${name}　<strong>日期：</strong>${date}</div>
+      <div><strong>主訴：</strong>${chief}　<strong>分級：</strong><span class="grade ${grade.cls}">${grade.label}</span></div>
+    </div>
+    <p style="font-size:13px;margin-bottom:10px"><strong>總異常：</strong>${total} / 80 項</p>
+    <table class="card-table">
+      <thead><tr><th>異常編碼</th><th>產品</th><th>門檻對應</th><th>用法</th><th>禁忌／轉介</th><th>復評指標</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div style="margin-top:12px;padding:12px;background:#FFF9C4;border-radius:10px;font-size:13px">
+      <strong>📅 復評日期：</strong>${rev.toISOString().slice(0,10)}（2週後）<br>
+      <strong>⚠️ 教練話術：</strong>「你的評估顯示…建議先…2週復評…如持續／加重轉介。」唔用「你係缺鐵／甲減」。
+    </div>`;
+
+  showToast('✅ 建議卡已生成');
+}
+
+/* ============================================================
+   重置
+   ============================================================ */
+function resetAll(){
+  if(!confirm('確定重置所有評估？')) return;
+  state.checked.clear(); state.redFlags.clear();
+  document.querySelectorAll('input[type=checkbox]').forEach(c=>c.checked=false);
+  document.querySelectorAll('.item').forEach(i=>i.classList.remove('abnormal'));
+  ['cName','cDate','cAge','cH','cW','cWaist','cHx','rfOther'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value='';
+  });
+  document.getElementById('cSex').value='';
+  document.getElementById('cChief').value='';
+  document.getElementById('cardWrap').innerHTML='<div class="empty">完成評估後，系統會自動生成產品建議卡</div>';
+  updateAll();
+  showToast('🔄 已重置');
+}
+
+/* ============================================================
+   Toast
+   ============================================================ */
+function showToast(msg){
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2000);
+}
+
+/* ============================================================
+   初始化
+   ============================================================ */
+renderAssess();
+updateAll();
+
+const origUpdate = updateAll;
+updateAll = function(){
+  origUpdate();
+  renderCluster();
+};
+</script>
+</body>
+</html>
